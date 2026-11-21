@@ -241,7 +241,8 @@ def write_summary(rows: list[dict], output_dir: Path, dataset: str = "unspecifie
 
 def run(cases_path: Path, vault_path: Path, output_dir: Path,
         system: bool = False, workers: int = 6, agent_verify: bool = False,
-        rerun: bool = False, max_api_calls: int = 97) -> dict:
+        rerun: bool = False, max_api_calls: int = 97,
+        system_only: bool = False) -> dict:
     cases = load_jsonl(cases_path)
     if not cases:
         raise ValueError(f"No cases in {cases_path}; run python -m eval.build_heldout first")
@@ -264,7 +265,7 @@ def run(cases_path: Path, vault_path: Path, output_dir: Path,
               r.get("fingerprint") == fingerprints[r["case_id"]]}
     rows = list(latest.values())
     done = set() if rerun else {(r["case_id"], r["method"]) for r in rows if r["status"] == "ok"}
-    methods = ["baseline", "system"] if system else ["baseline"]
+    methods = ["system"] if system_only else (["baseline", "system"] if system else ["baseline"])
     tasks = [(case, method) for case in cases for method in methods
              if (case["case_id"], method) not in done]
     with ThreadPoolExecutor(max_workers=workers) as pool:
@@ -289,6 +290,7 @@ def main() -> None:
     ap.add_argument("--vault", type=Path, default=ROOT / "work/vault")
     ap.add_argument("--results", type=Path, default=ROOT / "results")
     ap.add_argument("--system", action="store_true", help="include the Lane A pipeline")
+    ap.add_argument("--system-only", action="store_true", help="run only the pipeline, preserving baseline results")
     ap.add_argument("--agent-verify", action="store_true")
     ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--rerun", action="store_true", help="rerun completed cases after a prompt change")
@@ -297,7 +299,7 @@ def main() -> None:
     args = ap.parse_args()
     print(json.dumps(run(args.cases, args.vault, args.results,
                          args.system, args.workers, args.agent_verify, args.rerun,
-                         args.max_api_calls), indent=2))
+                         args.max_api_calls, args.system_only), indent=2))
 
 
 if __name__ == "__main__":
