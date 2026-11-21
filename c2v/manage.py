@@ -24,7 +24,7 @@ from .config import MODEL_IDS
 from .route import NEW, OTHER, folder_guide
 from .schemas import Capture, MediaKind, NoteDraft, RoutingDecision, VerifyReport
 from .vault import Vault
-from .verify import ALLOWED_TYPES
+from .verify import ALLOWED_TYPES, has_escaped_newlines
 
 ATTACH_DIR = "_attachments"
 MAX_TIMELINE = 15  # long videos: Neon groups segments into at most this many chapters
@@ -51,7 +51,7 @@ DRAFT_SCHEMA = {
             },
             "required": ["type", "created", "source", "tags"],
         },
-        "body": {"type": "string", "description": "Markdown body. No frontmatter, no Related section."},
+        "body": {"type": "string", "description": "Markdown body with real line breaks. No frontmatter, no Related section."},
         "links": {"type": "array", "items": {"type": "string"},
                   "description": "Exact titles of EXISTING notes to link; never invent titles"},
         "merge_into": {"type": "string", "description": "Existing note title to append to, or empty for a new note"},
@@ -204,9 +204,18 @@ def vault_map(vault: Vault) -> str:
                      if not line.startswith(f"- {ATTACH_DIR}"))
 
 
+def unescape_body(text: str) -> str:
+    """Undo a double-escaped body (literal \\n, \\t, \\" from the model's JSON). No-op on normal text."""
+    if not has_escaped_newlines(text):
+        return text
+    return text.replace("\\r\\n", "\n").replace("\\n", "\n").replace("\\t", "\t").replace('\\"', '"')
+
+
 def parse_draft(raw: str) -> NoteDraft:
     data = json.loads(raw)
     data["merge_into"] = data.get("merge_into") or None
+    if isinstance(data.get("body"), str):
+        data["body"] = unescape_body(data["body"])
     return NoteDraft(**data)
 
 
@@ -301,6 +310,7 @@ def repair_prompt(draft: NoteDraft, report: VerifyReport, vault: Vault, chained:
 def mechanical_fix(draft: NoteDraft, vault: Vault) -> NoteDraft:
     """Deterministic last resort: drop what can't be fixed, fill what's missing."""
     d = draft.model_copy(deep=True)
+    d.body = unescape_body(d.body)
     if d.merge_into and vault.resolve(d.merge_into) is None:
         d.merge_into = None
     if d.folder not in vault.folders:

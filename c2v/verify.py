@@ -18,6 +18,12 @@ REQUIRED_FRONTMATTER = ("type", "created")
 ALLOWED_TYPES = {"idea", "task", "meeting", "class", "project-update", "reference", "journal", "other"}
 
 
+def has_escaped_newlines(text: str) -> bool:
+    """Body double-escaped by the model: literal backslash-n outnumbers real newlines.
+    (A normal note quoting code like printf("x\\n") has far more real newlines, so it passes.)"""
+    return "\\n" in text and text.count("\\n") > text.count("\n")
+
+
 def verify_draft(draft: NoteDraft, vault: Vault) -> VerifyReport:
     issues: list[VerifyIssue] = []
 
@@ -43,6 +49,9 @@ def verify_draft(draft: NoteDraft, vault: Vault) -> VerifyReport:
 
     if len(draft.body.strip()) < 20:
         issues.append(VerifyIssue(code="empty_body", detail="body is empty or too short"))
+    if has_escaped_newlines(draft.body):
+        issues.append(VerifyIssue(code="escaped_newlines",
+                                  detail="body contains literal '\\n' sequences instead of line breaks"))
 
     return VerifyReport(ok=not issues, issues=issues)
 

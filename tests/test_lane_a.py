@@ -477,3 +477,38 @@ def test_empty_course_folder_still_described(tmp_path):
     d = folder_descriptions(Vault(tmp_path / "v"))["10 Learning and Teaching/11 Academic/PHYS 230 Electromagnetics"]
     assert d.startswith("Folder for PHYS 230 Electromagnetics (no notes inside yet)")
     assert "2026-11-11 PHYS 230 - Smith chart practice set" in d
+
+
+# --- escaped newlines (lead bug: Neon double-escaped the body) -------------------------------
+BAD_BODY = ("# Plant Watering Bot — ESP32 Architecture\\n\\n## Pipeline\\nSoil probe → ESP32 ADC → MQTT → Valve"
+            "\\n\\n## Next Steps\\n- [ ] Calibrate dry vs saturated")
+
+
+def test_verify_flags_escaped_newlines(vault):
+    bad = NoteDraft(title="ESP32 Architecture", folder="", frontmatter={"type": "reference", "created": "2026-11-21"},
+                    body=BAD_BODY)
+    rep = verify_draft(bad, vault)
+    assert [i.code for i in rep.issues] == ["escaped_newlines"]
+    code_note = bad.model_copy(update={"body": 'Line one\nLine two\n\n```c\nprintf("x\\n");\n```\nDone.'})
+    assert verify_draft(code_note, vault).ok  # a real \n inside code is fine
+
+
+def test_parse_draft_unescapes_double_escaped_body(vault, image):
+    neon_out = {"title": "ESP32 Architecture", "folder": "", "links": ["Gradient Descent Notes"], "merge_into": "",
+                "frontmatter": {"type": "reference", "created": "2026-11-21", "source": "image", "tags": []},
+                "body": BAD_BODY}
+    raw = json.dumps(neon_out)
+    assert "\\\\n" in raw  # exactly what the model sent: backslash-n inside the JSON string
+    d = manage.parse_draft(raw)
+    assert "\\n" not in d.body and d.body.splitlines()[2] == "## Pipeline" and verify_draft(d, vault).ok
+    # end to end through the escalated path: the written file has real line breaks
+    beta = fake_beta(note_type=("idea", 0.4), folder=("10 Learning/EECE 448", 0.6), merge_target=(NEW, 0.5))
+    res = file_capture(image, vault, client=fake_client(CAPTURE_JSON, neon_out), beta_client=beta)
+    text = Path(res.written_path).read_text()
+    assert res.verify.ok and "\\n" not in text and "\n## Pipeline\n" in text
+
+
+def test_mechanical_fix_unescapes(vault):
+    bad = NoteDraft(title="ESP32 Architecture", folder="", frontmatter={"type": "reference", "created": "x"},
+                    body=BAD_BODY)
+    assert verify_draft(mechanical_fix(bad, vault), vault).ok
