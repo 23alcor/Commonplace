@@ -15,6 +15,7 @@ from c2v.config import MODEL_IDS
 from c2v.vault import split_frontmatter
 
 KINDS = ("screenshot", "handwritten", "scanned_pdf")
+DIFFICULTIES = ("clean", "noisy", "hard")
 
 
 def capture_text(markdown: str) -> str:
@@ -23,6 +24,23 @@ def capture_text(markdown: str) -> str:
     body = re.sub(r"\[\[[^\]]+\]\]", "", body)
     body = re.sub(r"(?m)^\s*#{1,6}\s+.*$", "", body)
     return re.sub(r"\n{3,}", "\n\n", body).strip()
+
+
+def prepare_text(markdown: str, difficulty: str, distractor: str = "") -> tuple[str, dict]:
+    if difficulty not in DIFFICULTIES:
+        raise ValueError(f"unknown difficulty: {difficulty}")
+    text = capture_text(markdown)
+    knobs = {"difficulty": difficulty, "partial_fraction": 1.0, "ambiguous_topic": False}
+    if difficulty == "hard":
+        cut = max(40, int(len(text) * 0.68))
+        text = text[:cut].rsplit(" ", 1)[0].rstrip(" .,") + "... [rest obscured]"
+        knobs["partial_fraction"] = 0.68
+        extra = capture_text(distractor) if distractor else ""
+        if extra:
+            sentence = re.split(r"(?<=[.!?])\s+", extra)[0]
+            text += "\n\nAlso on my mind: " + sentence[:150]
+            knobs["ambiguous_topic"] = True
+    return text, knobs
 
 
 def _font(size: int, handwriting: bool = False):
@@ -50,11 +68,12 @@ def _wrap(draw, text: str, font, width: int) -> list[str]:
     return lines
 
 
-def render_image(markdown: str, out: Path, kind: str, seed: int = 42) -> dict:
+def render_image(markdown: str, out: Path, kind: str, seed: int = 42,
+                 difficulty: str = "noisy", distractor: str = "") -> dict:
     if kind not in KINDS:
         raise ValueError(f"unsupported local visual kind: {kind}")
     rng = random.Random(seed)
-    text = capture_text(markdown)
+    text, knobs = prepare_text(markdown, difficulty, distractor)
     if not text:
         raise ValueError("capture has no prose after removing title and links")
     handwritten = kind == "handwritten"
@@ -78,8 +97,12 @@ def render_image(markdown: str, out: Path, kind: str, seed: int = 42) -> dict:
         jitter = rng.randint(-5, 5) if handwritten else 0
         draw.text((margin + jitter, margin + i * line_height), line, font=font,
                   fill=(44, 48, 71) if handwritten else (32, 32, 32))
-    rotation = rng.uniform(-5, 5)
-    blur = round(rng.uniform(0.4, 1.6), 2)
+    settings = {"clean": (0.5, 0.1, 0.25, 95, 0),
+                "noisy": (5, 1.0, 2.0, 35, 8),
+                "hard": (8, 2.8, 3.8, 20, 25)}
+    max_rotate, min_blur, max_blur, jpeg_quality, pixel_noise = settings[difficulty]
+    rotation = rng.uniform(-max_rotate, max_rotate)
+    blur = round(rng.uniform(min_blur, max_blur), 2)
     image = image.rotate(rotation, resample=Image.Resampling.BICUBIC, expand=True,
                          fillcolor=background)
     if handwritten:
@@ -91,22 +114,28 @@ def render_image(markdown: str, out: Path, kind: str, seed: int = 42) -> dict:
         ImageDraw.Draw(shadow).rectangle((0, 0, w, h), outline=(30, 30, 30, 45), width=24)
         image = Image.alpha_composite(image.convert("RGBA"), shadow.filter(ImageFilter.GaussianBlur(22))).convert("RGB")
     image = image.filter(ImageFilter.GaussianBlur(blur))
+    if pixel_noise:
+        arr = np.asarray(image).astype(np.int16)
+        arr += np.random.default_rng(seed).normal(0, pixel_noise, arr.shape).astype(np.int16)
+        image = Image.fromarray(np.uint8(np.clip(arr, 0, 255)), "RGB")
     out.parent.mkdir(parents=True, exist_ok=True)
     if kind == "scanned_pdf":
         image.save(out, "PDF", resolution=150.0)
     else:
         buffer = io.BytesIO()
-        image.save(buffer, "JPEG", quality=35)
+        image.save(buffer, "JPEG", quality=jpeg_quality)
         Image.open(buffer).convert("RGB").save(out, "PNG")
-    return {"rotation_deg": round(rotation, 2), "blur_px": blur,
-            "jpeg_quality": 35 if kind != "scanned_pdf" else None}
+    return {**knobs, "rotation_deg": round(rotation, 2), "blur_px": blur,
+            "pixel_noise_sd": pixel_noise,
+            "jpeg_quality": jpeg_quality if kind != "scanned_pdf" else None}
 
 
-def render_voice(markdown: str, out: Path, seed: int = 42, client=None) -> dict:
+def render_voice(markdown: str, out: Path, seed: int = 42, client=None,
+                 difficulty: str = "noisy", distractor: str = "") -> dict:
     """Speak the substance conversationally, then mix reproducible room noise."""
     from google import genai
 
-    text = capture_text(markdown)
+    text, knobs = prepare_text(markdown, difficulty, distractor)
     if not text:
         raise ValueError("capture has no prose")
     # Let the TTS model retell the substance instead of reading note prose verbatim.
@@ -128,7 +157,8 @@ def render_voice(markdown: str, out: Path, seed: int = 42, client=None) -> dict:
             raise ValueError(f"TTS returned unsupported sample width: {width}")
         samples = np.frombuffer(source.readframes(source.getnframes()), dtype="<i2").astype(np.float32)
     rng = np.random.default_rng(seed)
-    snr_db = random.Random(seed).uniform(5, 15)
+    snr_ranges = {"clean": (20, 25), "noisy": (8, 13), "hard": (2, 5)}
+    snr_db = random.Random(seed).uniform(*snr_ranges[difficulty])
     clean_rms = float(np.sqrt(np.mean(samples ** 2)))
     noise = rng.normal(0, 1, size=samples.shape).astype(np.float32)
     # Add low-frequency hum and a slow change in level for realistic room sound.
@@ -143,4 +173,4 @@ def render_voice(markdown: str, out: Path, seed: int = 42, client=None) -> dict:
         target.setsampwidth(width)
         target.setframerate(rate)
         target.writeframes(mixed.tobytes())
-    return {"snr_db": round(snr_db, 2)}
+    return {**knobs, "snr_db": round(snr_db, 2)}
