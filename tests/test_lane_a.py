@@ -425,3 +425,55 @@ def test_attachment_name_does_not_double_the_date(vault, image):
     assert manage.attachment_path(capture(source_path=str(image)), d, vault) == f"_attachments/{today} Saturday Session.png"
     d2 = d.model_copy(update={"title": "Saturday Session"})
     assert manage.attachment_path(capture(source_path=str(image)), d2, vault) == f"_attachments/{today} Saturday Session.png"
+
+
+# --- folder descriptions (scripts/tasks/a-folder-fix.md) -----------------------------------
+MOCK = Path(__file__).resolve().parent.parent / "mock_vault"
+
+
+def test_folder_descriptions_on_mock_vault():
+    from c2v.route import folder_descriptions, folder_options
+
+    v = Vault(MOCK)
+    d = folder_descriptions(v)
+    phys = d["10 Learning and Teaching/11 Academic/PHYS 230 Electromagnetics"]
+    assert phys.startswith("Course folder for PHYS 230 Electromagnetics") and "Smith chart" in phys
+    academic = d["10 Learning and Teaching/11 Academic"]
+    assert "PHYS 230 Electromagnetics" in academic and "choose that subfolder" in academic
+    plant = d["30 Project and Hobby/31 Pet Projects/Plant Watering Bot"]
+    assert plant.startswith("Project folder for Plant Watering Bot") and "ESP32" in plant
+    assert d["40 Knowledge/Concepts"].startswith("One note per reusable concept")
+    assert d["Sessions/2026-11"].startswith("Dated session logs")
+    assert all(0 < len(x) <= 320 for x in d.values())
+    # deterministic + cached per vault load, recomputed when the vault changes
+    assert folder_descriptions(v) is d and folder_descriptions(Vault(MOCK)) == d
+    # the router and Neon both get them
+    cap = capture(summary="PHYS 230 memo on Smith charts", key_terms=["PHYS 230"])
+    opts = folder_options(cap, v)
+    assert opts["10 Learning and Teaching/11 Academic/PHYS 230 Electromagnetics"] == phys
+    q = build_questions(cap, v)["folder"]["instructions"]
+    assert "MOST SPECIFIC" in q
+    prompt = manage.build_prompt(cap, routing(folder="10 Learning and Teaching/11 Academic"), v)
+    assert "FOLDER GUIDE" in prompt and phys in prompt
+
+
+def test_folder_descriptions_cache_invalidates(vault):
+    from c2v.route import folder_descriptions
+
+    before = folder_descriptions(vault)
+    (vault.root / "New Area").mkdir()
+    vault.reload()
+    after = folder_descriptions(vault)
+    assert "New Area" in after and "New Area" not in before
+
+
+def test_empty_course_folder_still_described(tmp_path):
+    """Eval held-out case: the course hub note is removed, so its folder is empty."""
+    from c2v.route import folder_descriptions
+
+    shutil.copytree(MOCK, tmp_path / "v")
+    phys = tmp_path / "v/10 Learning and Teaching/11 Academic/PHYS 230 Electromagnetics"
+    (phys / "PHYS 230 Electromagnetics.md").unlink()
+    d = folder_descriptions(Vault(tmp_path / "v"))["10 Learning and Teaching/11 Academic/PHYS 230 Electromagnetics"]
+    assert d.startswith("Folder for PHYS 230 Electromagnetics (no notes inside yet)")
+    assert "2026-11-11 PHYS 230 - Smith chart practice set" in d
