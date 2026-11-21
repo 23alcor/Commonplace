@@ -8,7 +8,7 @@ import shutil
 from collections import defaultdict
 from pathlib import Path
 
-from c2v.config import VAULT_PATH
+from c2v.config import REPO_ROOT, VAULT_PATH
 from c2v.vault import Vault
 from eval.render_media import KINDS, render_image, render_voice
 
@@ -62,6 +62,7 @@ def build(vault_path: Path = VAULT_PATH, count: int = 30, seed: int = 42,
     if work_dir.resolve().is_relative_to(vault_path):
         raise ValueError("eval/work is inside VAULT_PATH; point --vault at a vault directory")
     vault = Vault(vault_path)
+    dataset = "synthetic demo vault" if vault_path == (REPO_ROOT / "demo_vault").resolve() else "private vault copy"
     selected = select_notes(vault, count, seed)
     if not selected:
         raise ValueError("no eligible notes in vault")
@@ -86,7 +87,7 @@ def build(vault_path: Path = VAULT_PATH, count: int = 30, seed: int = 42,
         links = sorted({title for link in note.links if (title := vault.resolve(link)) and title != note.title})
         cases.append({"case_id": case_id, "title": note.title, "folder": note.folder,
                       "links": links, "media_kind": kind, "media_path": str(media_path.resolve()),
-                      "difficulty": knobs})
+                      "difficulty": knobs, "dataset": dataset})
     with (cases_dir / "cases.jsonl").open("w", encoding="utf-8") as stream:
         for case in cases:
             stream.write(json.dumps(case, ensure_ascii=False) + "\n")

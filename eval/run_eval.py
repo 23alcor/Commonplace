@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
 import statistics
 import threading
 import time
@@ -26,10 +28,19 @@ def load_jsonl(path: Path) -> list[dict]:
         return [json.loads(line) for line in stream if line.strip()]
 
 
+def _fingerprint(case: dict) -> str:
+    digest = hashlib.sha256()
+    digest.update(Path(case["media_path"]).read_bytes())
+    digest.update(json.dumps({key: case[key] for key in ("folder", "links")},
+                             sort_keys=True).encode())
+    return digest.hexdigest()[:16]
+
+
 def run_one(case: dict, method: str, vault_path: Path, agent_verify: bool = False) -> dict:
     start = time.monotonic()
     row = {"case_id": case["case_id"], "method": method,
-           "media_kind": case["media_kind"], "difficulty": case.get("difficulty", {})}
+           "media_kind": case["media_kind"], "difficulty": case.get("difficulty", {}),
+           "fingerprint": case["fingerprint"]}
     try:
         vault = Vault(vault_path)
         if method == "baseline":
@@ -77,6 +88,9 @@ def _reason(row: dict) -> str:
 
 
 def _chart(rows: list[dict], output: Path) -> None:
+    cache = ROOT / "work" / "matplotlib"
+    cache.mkdir(parents=True, exist_ok=True)
+    os.environ.setdefault("MPLCONFIGDIR", str(cache))
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -112,13 +126,14 @@ def _chart(rows: list[dict], output: Path) -> None:
     plt.close(fig)
 
 
-def write_summary(rows: list[dict], output_dir: Path) -> dict:
+def write_summary(rows: list[dict], output_dir: Path, dataset: str = "unspecified") -> dict:
     output_dir.mkdir(parents=True, exist_ok=True)
     methods = sorted({row["method"] for row in rows})
     summary = {method: _aggregate([r for r in rows if r["method"] == method])
                for method in methods}
     (output_dir / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
-    lines = ["# Held-out evaluation", "", "Scores include completed cases only; errors are reported separately.", "",
+    lines = ["# Held-out evaluation", "", f"Dataset: {dataset}. "
+             "Scores include completed cases only; errors are reported separately.", "",
              "| Method | Done / attempted | Folder acc | Link P | Link R | Link F1 | Verify pass | Median latency |",
              "|---|---:|---:|---:|---:|---:|---:|---:|"]
     for method in methods:
@@ -167,19 +182,24 @@ def write_summary(rows: list[dict], output_dir: Path) -> dict:
 
 
 def run(cases_path: Path, vault_path: Path, output_dir: Path,
-        system: bool = False, workers: int = 6, agent_verify: bool = False) -> dict:
+        system: bool = False, workers: int = 6, agent_verify: bool = False,
+        rerun: bool = False) -> dict:
     cases = load_jsonl(cases_path)
     if not cases:
         raise ValueError(f"No cases in {cases_path}; run python -m eval.build_heldout first")
     if not vault_path.is_dir():
         raise FileNotFoundError(vault_path)
+    for case in cases:
+        case["fingerprint"] = _fingerprint(case)
     output_dir.mkdir(parents=True, exist_ok=True)
     result_path = output_dir / "results.jsonl"
     existing = load_jsonl(result_path)
-    valid_ids = {case["case_id"] for case in cases}
-    latest = {(r["case_id"], r["method"]): r for r in existing if r["case_id"] in valid_ids}
+    fingerprints = {case["case_id"]: case["fingerprint"] for case in cases}
+    latest = {(r["case_id"], r["method"]): r for r in existing
+              if r["case_id"] in fingerprints and
+              r.get("fingerprint") == fingerprints[r["case_id"]]}
     rows = list(latest.values())
-    done = {(r["case_id"], r["method"]) for r in rows if r["status"] == "ok"}
+    done = set() if rerun else {(r["case_id"], r["method"]) for r in rows if r["status"] == "ok"}
     methods = ["baseline", "system"] if system else ["baseline"]
     tasks = [(case, method) for case in cases for method in methods
              if (case["case_id"], method) not in done]
@@ -194,7 +214,7 @@ def run(cases_path: Path, vault_path: Path, output_dir: Path,
                     (row["case_id"], row["method"])]
             rows.append(row)
             print(f"{row['case_id']} {row['method']}: {row['status']}", flush=True)
-    return write_summary(rows, output_dir)
+    return write_summary(rows, output_dir, cases[0].get("dataset", "unspecified"))
 
 
 def main() -> None:
@@ -205,9 +225,10 @@ def main() -> None:
     ap.add_argument("--system", action="store_true", help="include the Lane A pipeline")
     ap.add_argument("--agent-verify", action="store_true")
     ap.add_argument("--workers", type=int, default=6)
+    ap.add_argument("--rerun", action="store_true", help="rerun completed cases after a prompt change")
     args = ap.parse_args()
     print(json.dumps(run(args.cases, args.vault, args.results,
-                         args.system, args.workers, args.agent_verify), indent=2))
+                         args.system, args.workers, args.agent_verify, args.rerun), indent=2))
 
 
 if __name__ == "__main__":

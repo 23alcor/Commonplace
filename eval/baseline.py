@@ -25,7 +25,8 @@ def run_baseline(path: str | Path, vault: Vault, client=None) -> NoteDraft:
     prompt = ("Write one Obsidian note for this capture. Choose its title and a folder from "
               "the vault map, and link relevant existing notes by exact title. "
               "Return title, folder, frontmatter, body, links, and merge_into. "
-              "Frontmatter needs type and created (today's ISO date). "
+              "Frontmatter needs created (today's ISO date) and type, chosen from: "
+              "idea, task, meeting, class, project-update, reference, journal, other. "
               "Do not invent notes or folders.\n\n" + vault.describe())
     response = client.interactions.create(
         model=MODEL_IDS["transcriber"],

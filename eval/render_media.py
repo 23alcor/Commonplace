@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import io
+import base64
 import random
 import re
 import wave
@@ -104,7 +105,6 @@ def render_image(markdown: str, out: Path, kind: str, seed: int = 42) -> dict:
 def render_voice(markdown: str, out: Path, seed: int = 42, client=None) -> dict:
     """Speak the substance conversationally, then mix reproducible room noise."""
     from google import genai
-    from google.genai import types
 
     text = capture_text(markdown)
     if not text:
@@ -113,14 +113,15 @@ def render_voice(markdown: str, out: Path, seed: int = 42, client=None) -> dict:
     speech = ("Speak an informal first-person voice memo that paraphrases these points. "
               "Do not read them verbatim or mention a note title: " +
               re.sub(r"(?m)^[-*]\s*", "", text).replace("\n", ". "))
-    response = (client or genai.Client()).models.generate_content(
-        model=MODEL_IDS["tts"], contents=speech,
-        config=types.GenerateContentConfig(
-            response_modalities=["AUDIO"],
-            speech_config=types.SpeechConfig(
-                voice_config=types.VoiceConfig(
-                    prebuilt_voice_config=types.PrebuiltVoiceConfig(voice_name="Puck")))))
-    payload = response.candidates[0].content.parts[0].inline_data.data
+    client = client or genai.Client(http_options={"api_version": "v1beta"})
+    response = client.interactions.create(
+        model=MODEL_IDS["tts"], input=speech,
+        response_format={"type": "audio"},
+        generation_config={"speech_config": [{"voice": "Puck"}]})
+    audio = response.output_audio
+    if audio is None or audio.data is None:
+        raise ValueError("TTS returned no audio")
+    payload = base64.b64decode(audio.data) if isinstance(audio.data, str) else audio.data
     with wave.open(io.BytesIO(payload), "rb") as source:
         rate, channels, width = source.getframerate(), source.getnchannels(), source.getsampwidth()
         if width != 2:

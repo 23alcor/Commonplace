@@ -1,0 +1,14 @@
+{
+  "baseline": {
+    "n": 4,
+    "folder_accuracy": 1.0,
+    "link_precision": 1.0,
+    "link_recall": 0.875,
+    "link_f1": 0.9166666666666666,
+    "verify_pass_rate": 1.0,
+    "attempted": 4,
+    "completed": 4,
+    "errors": 0,
+    "median_latency_s": 5.361
+  }
+}
