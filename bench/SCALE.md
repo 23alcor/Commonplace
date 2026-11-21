@@ -99,5 +99,5 @@ one dimension.
 **Precision is low for every system** because all three fill the 4,000-token budget. Read it as how
 much noise is in the context, not as a ranking score.
 
-**`get_context` latency grows with vault size** (375 ms at 5K notes, likely from rebuilding
-backlinks on every call). That is worth caching before the demo.
+**`get_context` latency grows with vault size** (375 ms at 5K notes, `c2v/context.py:84` rebuilds
+the backlink index on every call). That is worth caching before the demo.
