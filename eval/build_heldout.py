@@ -10,7 +10,7 @@ from pathlib import Path
 
 from c2v.config import VAULT_PATH
 from c2v.vault import Vault
-from eval.render_media import KINDS, render_image
+from eval.render_media import KINDS, render_image, render_voice
 
 ROOT = Path(__file__).resolve().parent
 
@@ -54,7 +54,8 @@ def select_notes(vault: Vault, count: int, seed: int) -> list:
 
 
 def build(vault_path: Path = VAULT_PATH, count: int = 30, seed: int = 42,
-          cases_dir: Path = ROOT / "cases", work_dir: Path = ROOT / "work") -> list[dict]:
+          cases_dir: Path = ROOT / "cases", work_dir: Path = ROOT / "work",
+          voice: bool = False) -> list[dict]:
     vault_path = vault_path.expanduser().resolve()
     if not vault_path.is_dir():
         raise FileNotFoundError(vault_path)
@@ -75,11 +76,12 @@ def build(vault_path: Path = VAULT_PATH, count: int = 30, seed: int = 42,
     cases = []
     for index, note in enumerate(selected):
         case_id = f"h{index + 1:03d}"
-        kind = KINDS[index % len(KINDS)]
-        extension = ".pdf" if kind == "scanned_pdf" else ".png"
+        kind = "voice_memo" if voice and index % 4 == 3 else KINDS[index % len(KINDS)]
+        extension = ".wav" if kind == "voice_memo" else ".pdf" if kind == "scanned_pdf" else ".png"
         media_path = media_dir / f"{case_id}{extension}"
         markdown = (vault_path / note.path).read_text(encoding="utf-8", errors="replace")
-        knobs = render_image(markdown, media_path, kind, seed + index)
+        knobs = (render_voice(markdown, media_path, seed + index) if kind == "voice_memo"
+                 else render_image(markdown, media_path, kind, seed + index))
         (copy_path / note.path).unlink()
         links = sorted({title for link in note.links if (title := vault.resolve(link)) and title != note.title})
         cases.append({"case_id": case_id, "title": note.title, "folder": note.folder,
@@ -96,8 +98,9 @@ def main() -> None:
     ap.add_argument("--vault", type=Path, default=VAULT_PATH)
     ap.add_argument("--count", type=int, default=30)
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--voice", action="store_true", help="use Gemini TTS for every fourth case")
     args = ap.parse_args()
-    cases = build(args.vault, args.count, args.seed)
+    cases = build(args.vault, args.count, args.seed, voice=args.voice)
     print(f"Built {len(cases)} held-out cases in {ROOT / 'cases'}")
 
 

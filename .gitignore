@@ -8,6 +8,7 @@ __pycache__/
 eval/work/
 eval/cases/
 eval/media/
+eval/real/
 # commit only aggregate results
 eval/results/*.jsonl
 private_vault/

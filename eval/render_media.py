@@ -4,10 +4,13 @@ from __future__ import annotations
 import io
 import random
 import re
+import wave
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
+import numpy as np
 
+from c2v.config import MODEL_IDS
 from c2v.vault import split_frontmatter
 
 KINDS = ("screenshot", "handwritten", "scanned_pdf")
@@ -96,3 +99,47 @@ def render_image(markdown: str, out: Path, kind: str, seed: int = 42) -> dict:
         Image.open(buffer).convert("RGB").save(out, "PNG")
     return {"rotation_deg": round(rotation, 2), "blur_px": blur,
             "jpeg_quality": 35 if kind != "scanned_pdf" else None}
+
+
+def render_voice(markdown: str, out: Path, seed: int = 42, client=None) -> dict:
+    """Speak the substance conversationally, then mix reproducible room noise."""
+    from google import genai
+    from google.genai import types
+
+    text = capture_text(markdown)
+    if not text:
+        raise ValueError("capture has no prose")
+    # Let the TTS model retell the substance instead of reading note prose verbatim.
+    speech = ("Speak an informal first-person voice memo that paraphrases these points. "
+              "Do not read them verbatim or mention a note title: " +
+              re.sub(r"(?m)^[-*]\s*", "", text).replace("\n", ". "))
+    response = (client or genai.Client()).models.generate_content(
+        model=MODEL_IDS["tts"], contents=speech,
+        config=types.GenerateContentConfig(
+            response_modalities=["AUDIO"],
+            speech_config=types.SpeechConfig(
+                voice_config=types.VoiceConfig(
+                    prebuilt_voice_config=types.PrebuiltVoiceConfig(voice_name="Puck")))))
+    payload = response.candidates[0].content.parts[0].inline_data.data
+    with wave.open(io.BytesIO(payload), "rb") as source:
+        rate, channels, width = source.getframerate(), source.getnchannels(), source.getsampwidth()
+        if width != 2:
+            raise ValueError(f"TTS returned unsupported sample width: {width}")
+        samples = np.frombuffer(source.readframes(source.getnframes()), dtype="<i2").astype(np.float32)
+    rng = np.random.default_rng(seed)
+    snr_db = random.Random(seed).uniform(5, 15)
+    clean_rms = float(np.sqrt(np.mean(samples ** 2)))
+    noise = rng.normal(0, 1, size=samples.shape).astype(np.float32)
+    # Add low-frequency hum and a slow change in level for realistic room sound.
+    t = np.arange(samples.size, dtype=np.float32) / (rate * channels)
+    noise += 0.3 * np.sin(2 * np.pi * 60 * t)
+    noise *= (0.7 + 0.3 * np.sin(2 * np.pi * 0.13 * t))
+    noise *= clean_rms / (10 ** (snr_db / 20) * float(np.sqrt(np.mean(noise ** 2))))
+    mixed = np.clip(samples + noise, -32768, 32767).astype("<i2")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with wave.open(str(out), "wb") as target:
+        target.setnchannels(channels)
+        target.setsampwidth(width)
+        target.setframerate(rate)
+        target.writeframes(mixed.tobytes())
+    return {"snr_db": round(snr_db, 2)}
