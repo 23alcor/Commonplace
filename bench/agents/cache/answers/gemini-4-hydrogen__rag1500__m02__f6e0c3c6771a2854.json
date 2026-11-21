@@ -1,0 +1,42 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "rag",
+  "qid": "m02",
+  "question": "Which of my projects uses MQTT, and what does it publish over MQTT?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2
+ },
+ "tool_calls": [],
+ "notes_seen": [
+  "Plant Watering Bot",
+  "MQTT",
+  "Projects",
+  "2026-11-12 Plant Watering Bot - Calibrated soil sensor",
+  "Recipe Scraper",
+  "ESP32",
+  "Homelab Server",
+  "Solar Microgrid Capstone",
+  "2026-11-18 Capstone - Inverter fault sim results",
+  "Job Search",
+  "2026-11-14 Homelab - Moved cron jobs off laptop",
+  "Soil moisture sensing",
+  "About Me",
+  "2026-11-20 Homelab - Tailscale ACL cleanup",
+  "2026-11-16 Recipe Scraper - Dedupe recipes by URL",
+  "2026-11-12 Capstone - Agreed on relay baseline",
+  "Home",
+  "2026-11-18",
+  "EECE 410 Capstone Design"
+ ],
+ "context_tokens": 1490,
+ "error": null,
+ "answer": "Your **Plant Watering Bot** project uses MQTT, and it publishes the dry/wet status over MQTT.",
+ "usage": {
+  "input": 2230,
+  "output": 26,
+  "thought": 256
+ },
+ "latency_s": 3.527
+}

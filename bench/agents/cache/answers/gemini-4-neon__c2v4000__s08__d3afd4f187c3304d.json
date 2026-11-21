@@ -1,0 +1,46 @@
+{
+ "key": {
+  "model": "gemini-4-neon",
+  "arm": "c2v",
+  "qid": "s08",
+  "question": "What was my Nov 19 mock interview about?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 4000,
+  "v": 2
+ },
+ "tool_calls": [
+  {
+   "args": {
+    "max_tokens": 2000,
+    "query": "Nov 19 mock interview"
+   },
+   "notes": [
+    "2026-11-19 Career - Mock interview, system design",
+    "2026-11-19",
+    "Interview Prep",
+    "Job Search",
+    "Career",
+    "Informational interviews",
+    "System design interviews"
+   ]
+  }
+ ],
+ "notes_seen": [
+  "2026-11-19 Career - Mock interview, system design",
+  "2026-11-19",
+  "Interview Prep",
+  "Job Search",
+  "Career",
+  "Informational interviews",
+  "System design interviews"
+ ],
+ "context_tokens": 526,
+ "error": null,
+ "answer": "Your November 19 mock interview was a **system design** session focused on **rate limiter design**.\n\nSpecifically, your notes cover:\n- **Algorithms:** Token bucket vs. leaky bucket\n- **Storage:** Redis counters per API key\n- **Architecture:** Edge vs. central enforcement\n\nYou also noted action items to tie these notes into **Interview Prep** and prepare for your **ChipCo** screen on Thursday.",
+ "usage": {
+  "input": 1449,
+  "output": 126,
+  "thought": 131
+ },
+ "latency_s": 7.147
+}

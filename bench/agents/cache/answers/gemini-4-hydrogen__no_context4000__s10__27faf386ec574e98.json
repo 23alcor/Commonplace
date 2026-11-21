@@ -1,0 +1,22 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "no_context",
+  "qid": "s10",
+  "question": "Which ECON 205 lecture did I log, and on what date?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 0,
+  "v": 2
+ },
+ "tool_calls": [],
+ "notes_seen": [],
+ "context_tokens": 0,
+ "error": null,
+ "answer": "I don't know. I don't have access to your notes or lecture logs.",
+ "usage": {
+  "input": 125,
+  "output": 23,
+  "thought": 76
+ },
+ "latency_s": 2.765
+}

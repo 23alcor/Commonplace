@@ -1,0 +1,92 @@
+{
+ "key": {
+  "judge": "gemini-4-neon",
+  "qid": "f01",
+  "gold": "Air/dry 820, damp 540, saturated 310",
+  "answers": {
+   "A": "From your **Plant Watering Bot** soil sensor calibration note (`2026-11-12 Plant Watering Bot - Calibrated soil sensor`, updated 2026-11-21), the ESP32 ADC readings you recorded are:\n\n- **Air/dry:** 820\n- **Damp:** 540\n- **Saturated:** 310\n\nYou also noted a draft watering threshold of **below 480**.",
+   "B": "You recorded ADC readings of 820 for air/dry, 540 for damp, and 310 for saturated.",
+   "C": "I don't know. I don't have access to your notes or calibration records for the plant bot's soil sensor.",
+   "D": "You recorded ADC readings of 820 for air/dry, 540 for damp, and 310 for saturated.",
+   "E": "According to your **2026-11-12 Plant Watering Bot - Calibrated soil sensor** note (updated 2026-11-21), the ESP32 ADC calibration readings you recorded are:\n\n- **Dry (air/dry):** 820\n- **Damp:** 540\n- **Saturated:** 310",
+   "F": "I don't know; I don't have access to your notes or calibration records for the plant bot's soil sensor.",
+   "G": "According to your **2026-11-12 Plant Watering Bot - Calibrated soil sensor** note (updated 2026-11-21), the ESP32 ADC calibration points you recorded are:\n\n- **Air / dry:** 820\n- **Damp:** 540\n- **Saturated:** 310",
+   "H": "You recorded an ESP32 ADC reading of 820 for air/dry, 540 for damp, and 310 for saturated.",
+   "I": "You recorded ESP32 ADC readings of `820` for air/dry, `540` for damp, and `310` for saturated."
+  },
+  "v": 2,
+  "vault": "ec7da3651072"
+ },
+ "labels": {
+  "A": "gemini-4-neon|c2v|4000",
+  "B": "gemini-4-hydrogen|rag|1500",
+  "C": "gemini-4-hydrogen|no_context|4000",
+  "D": "gemini-4-hydrogen|rag|4000",
+  "E": "gemini-4-hydrogen|c2v|1500",
+  "F": "gemini-4-neon|no_context|4000",
+  "G": "gemini-4-hydrogen|c2v|4000",
+  "H": "gemini-4-hydrogen|context_file|4000",
+  "I": "gemini-4-hydrogen|context_file|1500"
+ },
+ "grades": [
+  {
+   "label": "A",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states all three ADC readings (air/dry 820, damp 540, saturated 310) and accurately cites the note, update date, and draft watering threshold."
+  },
+  {
+   "label": "B",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states all three ADC readings: 820 for air/dry, 540 for damp, and 310 for saturated."
+  },
+  {
+   "label": "C",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States that it does not know and does not answer the question."
+  },
+  {
+   "label": "D",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states all three ADC readings: 820 for air/dry, 540 for damp, and 310 for saturated."
+  },
+  {
+   "label": "E",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states all three ADC readings (dry/air 820, damp 540, saturated 310) and accurately cites the note and update date."
+  },
+  {
+   "label": "F",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States that it does not know and does not answer the question."
+  },
+  {
+   "label": "G",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states all three ADC readings (air/dry 820, damp 540, saturated 310) and accurately cites the note and update date."
+  },
+  {
+   "label": "H",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states all three ESP32 ADC readings: 820 for air/dry, 540 for damp, and 310 for saturated."
+  },
+  {
+   "label": "I",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states all three ESP32 ADC readings: 820 for air/dry, 540 for damp, and 310 for saturated."
+  }
+ ],
+ "usage": {
+  "input": 6848,
+  "output": 646,
+  "thought": 522
+ }
+}

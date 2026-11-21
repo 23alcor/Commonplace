@@ -1,0 +1,23 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "context_file",
+  "qid": "m03",
+  "question": "Which concept came up in both of my logged capstone sessions?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 4000,
+  "v": 2,
+  "ctx": "0c4ea23a7e7d"
+ },
+ "tool_calls": [],
+ "notes_seen": [],
+ "context_tokens": 1079,
+ "error": null,
+ "answer": "I don't know\u2014the notes list \"relay baseline\" for the 2026-11-12 session and \"Inverter fault simulation results\" for the 2026-11-18 session, without stating a single concept that came up in both.",
+ "usage": {
+  "input": 1427,
+  "output": 65,
+  "thought": 290
+ },
+ "latency_s": 3.113
+}

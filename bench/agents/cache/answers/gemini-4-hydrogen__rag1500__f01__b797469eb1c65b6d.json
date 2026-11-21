@@ -1,0 +1,40 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "rag",
+  "qid": "f01",
+  "question": "What ADC readings did I record when calibrating the plant bot's soil sensor (dry, damp, saturated)?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2
+ },
+ "tool_calls": [],
+ "notes_seen": [
+  "2026-11-12 Plant Watering Bot - Calibrated soil sensor",
+  "Plant Watering Bot",
+  "Soil moisture sensing",
+  "ESP32",
+  "Projects",
+  "2026-11-18 Capstone - Inverter fault sim results",
+  "EECE 448 Machine Learning",
+  "2026-11-18",
+  "Solar Microgrid Capstone",
+  "2026-11-12 Capstone - Agreed on relay baseline",
+  "School",
+  "Recipe Scraper",
+  "2026-11-17 EECE 448 - Bias-variance office hours",
+  "PHYS 230 Electromagnetics",
+  "2026-11-13 ECON 205 - Anchoring lecture",
+  "2026-11-11 PHYS 230 - Smith chart practice set",
+  "Home"
+ ],
+ "context_tokens": 1481,
+ "error": null,
+ "answer": "You recorded ADC readings of 820 for air/dry, 540 for damp, and 310 for saturated.",
+ "usage": {
+  "input": 2266,
+  "output": 33,
+  "thought": 227
+ },
+ "latency_s": 2.526
+}

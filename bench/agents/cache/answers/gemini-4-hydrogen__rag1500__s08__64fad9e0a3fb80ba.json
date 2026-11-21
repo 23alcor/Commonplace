@@ -1,0 +1,41 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "rag",
+  "qid": "s08",
+  "question": "What was my Nov 19 mock interview about?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2
+ },
+ "tool_calls": [],
+ "notes_seen": [
+  "2026-11-19",
+  "2026-11-19 Career - Mock interview, system design",
+  "2026-11-15 Career - Weekly application review",
+  "Interview Prep",
+  "Job Search",
+  "System design interviews",
+  "Informational interviews",
+  "2026-11-18 Capstone - Inverter fault sim results",
+  "2026-11-17 EECE 448 - Bias-variance office hours",
+  "2026-11-12 Capstone - Agreed on relay baseline",
+  "2026-11-18",
+  "2026-11-11 PHYS 230 - Smith chart practice set",
+  "2026-11-13 ECON 205 - Anchoring lecture",
+  "About Me",
+  "Career",
+  "EECE 448 Machine Learning",
+  "Solar Microgrid Capstone",
+  "2026-11-20"
+ ],
+ "context_tokens": 1492,
+ "error": null,
+ "answer": "Your November 19 mock interview was about system design, specifically designing a rate limiter (covering token bucket vs. leaky bucket, Redis counters per API key, and edge vs. central enforcement).",
+ "usage": {
+  "input": 2220,
+  "output": 43,
+  "thought": 116
+ },
+ "latency_s": 1.624
+}

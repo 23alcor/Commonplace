@@ -1,0 +1,23 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "context_file",
+  "qid": "s05",
+  "question": "What did I work on in my Nov 16 Recipe Scraper session?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2,
+  "ctx": "afb4999980f9"
+ },
+ "tool_calls": [],
+ "notes_seen": [],
+ "context_tokens": 836,
+ "error": null,
+ "answer": "On November 16, 2026, you implemented URL-based recipe deduplication for the Recipe Scraper project.",
+ "usage": {
+  "input": 1182,
+  "output": 30,
+  "thought": 73
+ },
+ "latency_s": 1.633
+}

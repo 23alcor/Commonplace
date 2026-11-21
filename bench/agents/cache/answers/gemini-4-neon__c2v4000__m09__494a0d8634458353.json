@@ -1,0 +1,44 @@
+{
+ "key": {
+  "model": "gemini-4-neon",
+  "arm": "c2v",
+  "qid": "m09",
+  "question": "Besides anchoring, what concept did my Nov 13 ECON 205 lecture cover, and how do my notes define it?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 4000,
+  "v": 2
+ },
+ "tool_calls": [
+  {
+   "args": {
+    "max_tokens": 2000,
+    "query": "ECON 205 Nov 13 anchoring"
+   },
+   "notes": [
+    "Anchoring",
+    "2026-11-13 ECON 205 - Anchoring lecture",
+    "ECON 205 Behavioral Economics",
+    "School",
+    "Loss aversion",
+    "Nudges"
+   ]
+  }
+ ],
+ "notes_seen": [
+  "Anchoring",
+  "2026-11-13 ECON 205 - Anchoring lecture",
+  "ECON 205 Behavioral Economics",
+  "School",
+  "Loss aversion",
+  "Nudges"
+ ],
+ "context_tokens": 284,
+ "error": null,
+ "answer": "Besides anchoring, your November 13 ECON 205 lecture covered **Loss aversion**.\n\nYour notes define it as:\n> \"Losses feel about twice as bad as equal gains feel good.\"",
+ "usage": {
+  "input": 1181,
+  "output": 86,
+  "thought": 151
+ },
+ "latency_s": 8.903
+}

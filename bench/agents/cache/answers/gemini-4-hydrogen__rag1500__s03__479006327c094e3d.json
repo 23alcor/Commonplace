@@ -1,0 +1,40 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "rag",
+  "qid": "s03",
+  "question": "On what date did my capstone team agree on the relay baseline?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2
+ },
+ "tool_calls": [],
+ "notes_seen": [
+  "2026-11-12 Capstone - Agreed on relay baseline",
+  "Solar Microgrid Capstone",
+  "Relay baseline",
+  "2026-11-18 Capstone - Inverter fault sim results",
+  "EECE 410 Capstone Design",
+  "2026-11-18",
+  "2026-11-12 Plant Watering Bot - Calibrated soil sensor",
+  "2026-11-19 Career - Mock interview, system design",
+  "2026-11-13 ECON 205 - Anchoring lecture",
+  "2026-11-14 Homelab - Moved cron jobs off laptop",
+  "2026-11-15 Career - Weekly application review",
+  "2026-11-17 EECE 448 - Bias-variance office hours",
+  "2026-11-20 Homelab - Tailscale ACL cleanup",
+  "EECE 448 Machine Learning",
+  "2026-11-16 Recipe Scraper - Dedupe recipes by URL",
+  "Plant Watering Bot",
+  "School"
+ ],
+ "context_tokens": 1496,
+ "error": null,
+ "answer": "Your capstone team agreed on the relay baseline on November 12, 2026 (2026-11-12).",
+ "usage": {
+  "input": 2297,
+  "output": 35,
+  "thought": 113
+ },
+ "latency_s": 2.016
+}

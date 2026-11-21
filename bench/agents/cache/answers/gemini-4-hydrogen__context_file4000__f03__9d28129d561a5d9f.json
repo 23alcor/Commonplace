@@ -1,0 +1,23 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "context_file",
+  "qid": "f03",
+  "question": "Which company in my job pipeline is at the Technical stage, and for what role?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 4000,
+  "v": 2,
+  "ctx": "5914ff65802d"
+ },
+ "tool_calls": [],
+ "notes_seen": [],
+ "context_tokens": 1079,
+ "error": null,
+ "answer": "**GPU Labs** is at the **Technical** stage for the **On-device inference** role.",
+ "usage": {
+  "input": 1432,
+  "output": 25,
+  "thought": 99
+ },
+ "latency_s": 2.0
+}

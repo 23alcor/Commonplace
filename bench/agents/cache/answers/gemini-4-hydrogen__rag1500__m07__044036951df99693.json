@@ -1,0 +1,40 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "rag",
+  "qid": "m07",
+  "question": "Which of my courses covers the Smith chart, and when did I do a Smith chart practice set?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2
+ },
+ "tool_calls": [],
+ "notes_seen": [
+  "2026-11-11 PHYS 230 - Smith chart practice set",
+  "PHYS 230 Electromagnetics",
+  "Smith chart",
+  "School",
+  "EECE 448 Machine Learning",
+  "2026-11-18 Capstone - Inverter fault sim results",
+  "Solar Microgrid Capstone",
+  "2026-11-18",
+  "ECON 205 Behavioral Economics",
+  "2026-11-10 EECE 448 - Ridge vs lasso on housing data",
+  "Transmission lines",
+  "EECE 410 Capstone Design",
+  "2026-11-19 Career - Mock interview, system design",
+  "2026-11-17 EECE 448 - Bias-variance office hours",
+  "2026-11-13 ECON 205 - Anchoring lecture",
+  "About Me",
+  "2026-11-15 Career - Weekly application review"
+ ],
+ "context_tokens": 1498,
+ "error": null,
+ "answer": "Your **PHYS 230 Electromagnetics** course covers the Smith chart. You did a Smith chart practice set on **November 11, 2026**.",
+ "usage": {
+  "input": 2271,
+  "output": 41,
+  "thought": 176
+ },
+ "latency_s": 1.944
+}

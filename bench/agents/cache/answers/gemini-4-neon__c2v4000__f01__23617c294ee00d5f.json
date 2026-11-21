@@ -1,0 +1,43 @@
+{
+ "key": {
+  "model": "gemini-4-neon",
+  "arm": "c2v",
+  "qid": "f01",
+  "question": "What ADC readings did I record when calibrating the plant bot's soil sensor (dry, damp, saturated)?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 4000,
+  "v": 2
+ },
+ "tool_calls": [
+  {
+   "args": {
+    "query": "plant bot soil sensor ADC calibration"
+   },
+   "notes": [
+    "2026-11-12 Plant Watering Bot - Calibrated soil sensor",
+    "Plant Watering Bot",
+    "Soil moisture sensing",
+    "Projects",
+    "ESP32",
+    "MQTT"
+   ]
+  }
+ ],
+ "notes_seen": [
+  "2026-11-12 Plant Watering Bot - Calibrated soil sensor",
+  "Plant Watering Bot",
+  "Soil moisture sensing",
+  "Projects",
+  "ESP32",
+  "MQTT"
+ ],
+ "context_tokens": 463,
+ "error": null,
+ "answer": "From your **Plant Watering Bot** soil sensor calibration note (`2026-11-12 Plant Watering Bot - Calibrated soil sensor`, updated 2026-11-21), the ESP32 ADC readings you recorded are:\n\n- **Air/dry:** 820\n- **Damp:** 540\n- **Saturated:** 310\n\nYou also noted a draft watering threshold of **below 480**.",
+ "usage": {
+  "input": 1391,
+  "output": 134,
+  "thought": 148
+ },
+ "latency_s": 5.881
+}

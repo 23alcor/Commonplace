@@ -1,0 +1,22 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "no_context",
+  "qid": "m08",
+  "question": "What did I work on on Thursday Nov 19, which project was it part of, and what hub does that project sit under?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 0,
+  "v": 2
+ },
+ "tool_calls": [],
+ "notes_seen": [],
+ "context_tokens": 0,
+ "error": null,
+ "answer": "I don't know. I don't have access to your notes, calendar, or project records.",
+ "usage": {
+  "input": 137,
+  "output": 26,
+  "thought": 118
+ },
+ "latency_s": 2.26
+}

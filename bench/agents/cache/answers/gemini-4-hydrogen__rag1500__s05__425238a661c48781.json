@@ -1,0 +1,40 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "rag",
+  "qid": "s05",
+  "question": "What did I work on in my Nov 16 Recipe Scraper session?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2
+ },
+ "tool_calls": [],
+ "notes_seen": [
+  "2026-11-16 Recipe Scraper - Dedupe recipes by URL",
+  "Recipe Scraper",
+  "2026-11-19 Career - Mock interview, system design",
+  "2026-11-14 Homelab - Moved cron jobs off laptop",
+  "2026-11-15 Career - Weekly application review",
+  "2026-11-20 Homelab - Tailscale ACL cleanup",
+  "2026-11-18 Capstone - Inverter fault sim results",
+  "2026-11-12 Plant Watering Bot - Calibrated soil sensor",
+  "2026-11-19",
+  "2026-11-18",
+  "2026-11-10 EECE 448 - Ridge vs lasso on housing data",
+  "Projects",
+  "2026-11-20",
+  "2026-11-17 EECE 448 - Bias-variance office hours",
+  "Homelab Server",
+  "Job Search",
+  "Web scraping"
+ ],
+ "context_tokens": 1499,
+ "error": null,
+ "answer": "In your November 16, 2026 Recipe Scraper session, you worked on deduping recipes by URL.",
+ "usage": {
+  "input": 2294,
+  "output": 30,
+  "thought": 79
+ },
+ "latency_s": 2.185
+}

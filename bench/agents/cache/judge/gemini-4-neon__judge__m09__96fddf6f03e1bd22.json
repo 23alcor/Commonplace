@@ -1,0 +1,91 @@
+{
+ "key": {
+  "judge": "gemini-4-neon",
+  "qid": "m09",
+  "gold": "Loss aversion: losses feel about twice as bad as equal gains feel good.",
+  "answers": {
+   "A": "Besides anchoring, your November 13 ECON 205 lecture covered **Loss aversion**.\n\nYour notes define it as:\n> \"Losses feel about twice as bad as equal gains feel good.\"",
+   "B": "Besides **Anchoring**, your Nov 13 ECON 205 lecture (`2026-11-13 ECON 205 - Anchoring lecture`) covered **Loss aversion**.\n\nYour `Loss aversion` note defines it as:\n> Losses feel about twice as bad as equal gains feel good.",
+   "C": "Your November 13 ECON 205 lecture also covered **Loss aversion**, which your notes define as: \"Losses feel about twice as bad as equal gains feel good.\"",
+   "D": "I don't know, as I don't have access to your ECON 205 lecture notes.",
+   "E": "I don't know, as I don't have access to your Nov 13 ECON 205 lecture notes.",
+   "F": "Besides **Anchoring**, your November 13 ECON 205 lecture (`2026-11-13 ECON 205 - Anchoring lecture`) covered **Loss aversion**.\n\nYour `Loss aversion` note defines it as:\n> Losses feel about twice as bad as equal gains feel good.",
+   "G": "I don't know; your notes only list \"Anchoring lecture\" for the `2026-11-13` session and do not mention any other concept covered in that lecture.",
+   "H": "I don't know. Your notes only mention that the November 13 ECON 205 lecture was on anchoring, without listing any other concepts covered or their definitions.",
+   "I": "Besides anchoring, your Nov 13 ECON 205 lecture covered **loss aversion**, which your notes define as: \"Losses feel about twice as bad as equal gains feel good.\""
+  },
+  "v": 1
+ },
+ "labels": {
+  "A": "gemini-4-neon|c2v|4000",
+  "B": "gemini-4-hydrogen|c2v|1500",
+  "C": "gemini-4-hydrogen|rag|1500",
+  "D": "gemini-4-neon|no_context|4000",
+  "E": "gemini-4-hydrogen|no_context|4000",
+  "F": "gemini-4-hydrogen|c2v|4000",
+  "G": "gemini-4-hydrogen|context_file|4000",
+  "H": "gemini-4-hydrogen|context_file|1500",
+  "I": "gemini-4-hydrogen|rag|4000"
+ },
+ "grades": [
+  {
+   "label": "A",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies loss aversion and provides the exact definition from the notes."
+  },
+  {
+   "label": "B",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies loss aversion, accurately cites the note titles, and provides the exact definition."
+  },
+  {
+   "label": "C",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies loss aversion and provides the exact definition from the notes."
+  },
+  {
+   "label": "D",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States it does not know and lacks access to the notes."
+  },
+  {
+   "label": "E",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States it does not know and lacks access to the notes."
+  },
+  {
+   "label": "F",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies loss aversion, accurately cites the note titles, and provides the exact definition."
+  },
+  {
+   "label": "G",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States it does not know and fails to find the other concept in the notes."
+  },
+  {
+   "label": "H",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States it does not know and fails to find the other concept in the notes."
+  },
+  {
+   "label": "I",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies loss aversion and provides the exact definition from the notes."
+  }
+ ],
+ "usage": {
+  "input": 1150,
+  "output": 370,
+  "thought": 395
+ }
+}

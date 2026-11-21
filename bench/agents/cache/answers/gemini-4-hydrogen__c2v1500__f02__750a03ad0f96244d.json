@@ -1,0 +1,44 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "c2v",
+  "qid": "f02",
+  "question": "What's the draft watering threshold for the Plant Watering Bot?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2
+ },
+ "tool_calls": [
+  {
+   "args": {
+    "max_tokens": 1500,
+    "query": "Plant Watering Bot"
+   },
+   "notes": [
+    "Plant Watering Bot",
+    "Projects",
+    "2026-11-12 Plant Watering Bot - Calibrated soil sensor",
+    "ESP32",
+    "MQTT",
+    "Soil moisture sensing"
+   ]
+  }
+ ],
+ "notes_seen": [
+  "Plant Watering Bot",
+  "Projects",
+  "2026-11-12 Plant Watering Bot - Calibrated soil sensor",
+  "ESP32",
+  "MQTT",
+  "Soil moisture sensing"
+ ],
+ "context_tokens": 463,
+ "error": null,
+ "answer": "The draft watering threshold for the Plant Watering Bot is **below 480** (based on the ESP32 ADC calibration points: Air/dry = 820, Damp = 540, Saturated = 310), as recorded in `2026-11-12 Plant Watering Bot - Calibrated soil sensor`.",
+ "usage": {
+  "input": 1363,
+  "output": 114,
+  "thought": 81
+ },
+ "latency_s": 4.804
+}

@@ -1,0 +1,58 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "c2v",
+  "qid": "m08",
+  "question": "What did I work on on Thursday Nov 19, which project was it part of, and what hub does that project sit under?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 4000,
+  "v": 2
+ },
+ "tool_calls": [
+  {
+   "args": {
+    "max_tokens": 2000,
+    "query": "Nov 19"
+   },
+   "notes": [
+    "2026-11-19",
+    "2026-11-19 Career - Mock interview, system design",
+    "2026-11-12 Plant Watering Bot - Calibrated soil sensor",
+    "Plant Watering Bot",
+    "Job Search",
+    "ESP32",
+    "Interview Prep",
+    "Soil moisture sensing",
+    "System design interviews",
+    "Career",
+    "Projects",
+    "2026-11-15 Career - Weekly application review",
+    "Informational interviews"
+   ]
+  }
+ ],
+ "notes_seen": [
+  "2026-11-19",
+  "2026-11-19 Career - Mock interview, system design",
+  "2026-11-12 Plant Watering Bot - Calibrated soil sensor",
+  "Plant Watering Bot",
+  "Job Search",
+  "ESP32",
+  "Interview Prep",
+  "Soil moisture sensing",
+  "System design interviews",
+  "Career",
+  "Projects",
+  "2026-11-15 Career - Weekly application review",
+  "Informational interviews"
+ ],
+ "context_tokens": 1039,
+ "error": null,
+ "answer": "On **Thursday, November 19, 2026**, you worked on:\n\n* **Activity:** Mock interview, system design (covering rate limiter design)\n* **Project:** [[Job Search]]\n* **Hub:** [[Career]]",
+ "usage": {
+  "input": 2415,
+  "output": 90,
+  "thought": 200
+ },
+ "latency_s": 5.088
+}

@@ -1,0 +1,40 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "rag",
+  "qid": "s04",
+  "question": "When did I move my cron jobs off my laptop?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2
+ },
+ "tool_calls": [],
+ "notes_seen": [
+  "2026-11-14 Homelab - Moved cron jobs off laptop",
+  "Homelab Server",
+  "Homelab Runbook",
+  "Cron jobs",
+  "2026-11-20 Homelab - Tailscale ACL cleanup",
+  "2026-11-20",
+  "2026-11-16 Recipe Scraper - Dedupe recipes by URL",
+  "Projects",
+  "2026-11-10 EECE 448 - Ridge vs lasso on housing data",
+  "Recipe Scraper",
+  "2026-11-12 Plant Watering Bot - Calibrated soil sensor",
+  "2026-11-15 Career - Weekly application review",
+  "2026-11-12 Capstone - Agreed on relay baseline",
+  "Home",
+  "2026-11-18 Capstone - Inverter fault sim results",
+  "Solar Microgrid Capstone",
+  "EECE 448 Machine Learning"
+ ],
+ "context_tokens": 1493,
+ "error": null,
+ "answer": "You moved your cron jobs off your laptop on November 14, 2026.",
+ "usage": {
+  "input": 2309,
+  "output": 24,
+  "thought": 102
+ },
+ "latency_s": 1.78
+}

@@ -1,0 +1,91 @@
+{
+ "key": {
+  "judge": "gemini-4-neon",
+  "qid": "s08",
+  "gold": "System design (a system design mock interview)",
+  "answers": {
+   "A": "Your November 19 mock interview was on system design, specifically designing a rate limiter.",
+   "B": "Your November 19, 2026 mock interview was on **system design**\u2014specifically designing a **rate limiter** (part of your `[[Job Search]]` / `[[Interview Prep]]`).\n\nKey topics covered in your notes (`2026-11-19 Career - Mock interview, system design`):\n- **Algorithms:** Token bucket vs. leaky bucket\n- **Implementation:** Redis counters per API key\n- **Architecture:** Edge vs. central enforcement\n\nAction items noted afterward:\n- Follow up next session\n- Tie notes to `[[Interview Prep]]`\n- Job Search: ChipCo screen on Thursday",
+   "C": "Your Nov 19 system design mock interview was about designing a **Rate Limiter**, covering token bucket vs. leaky bucket algorithms, Redis counters per API key, and edge vs. central enforcement.",
+   "D": "Your November 19 system design mock interview was about designing a Rate Limiter, covering topics like token bucket vs. leaky bucket, Redis counters per API key, and edge vs. central enforcement.",
+   "E": "Your November 19 mock interview was a **system design** session focused on **rate limiter design**.\n\nSpecifically, your notes cover:\n- **Algorithms:** Token bucket vs. leaky bucket\n- **Storage:** Redis counters per API key\n- **Architecture:** Edge vs. central enforcement\n\nYou also noted action items to tie these notes into **Interview Prep** and prepare for your **ChipCo** screen on Thursday.",
+   "F": "I don't know. I don't have access to your notes or schedule to see what your Nov 19 mock interview was about.",
+   "G": "Your November 19 mock interview was about system design, specifically designing a rate limiter (covering token bucket vs. leaky bucket, Redis counters per API key, and edge vs. central enforcement).",
+   "H": "I don't know. I don't have any information about your Nov 19 mock interview.",
+   "I": "Your November 19, 2026 mock interview was a **system design** session focused on designing a **rate limiter** (part of your [[Job Search]] / [[Interview Prep]]).\n\nKey topics covered in the notes:\n- **Algorithms:** Token bucket vs. leaky bucket\n- **Implementation:** Redis counters per API key\n- **Architecture:** Edge vs. central enforcement\n\n**Action items noted:**\n- Tie notes to [[Interview Prep]]\n- Follow up next session\n- Job Search: ChipCo screen on Thursday"
+  },
+  "v": 1
+ },
+ "labels": {
+  "A": "gemini-4-hydrogen|rag|4000",
+  "B": "gemini-4-hydrogen|c2v|4000",
+  "C": "gemini-4-hydrogen|context_file|4000",
+  "D": "gemini-4-hydrogen|context_file|1500",
+  "E": "gemini-4-neon|c2v|4000",
+  "F": "gemini-4-hydrogen|no_context|4000",
+  "G": "gemini-4-hydrogen|rag|1500",
+  "H": "gemini-4-neon|no_context|4000",
+  "I": "gemini-4-hydrogen|c2v|1500"
+ },
+ "grades": [
+  {
+   "label": "A",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the mock interview as system design (specifically designing a rate limiter), supported by the gold notes."
+  },
+  {
+   "label": "B",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies system design and accurately summarizes the rate limiter topics and action items from the gold notes."
+  },
+  {
+   "label": "C",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies system design and accurately lists the rate limiter details from the gold notes."
+  },
+  {
+   "label": "D",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies system design and accurately lists the rate limiter details from the gold notes."
+  },
+  {
+   "label": "E",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies system design and accurately summarizes the rate limiter details and action items from the gold notes."
+  },
+  {
+   "label": "F",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States that it does not know the answer."
+  },
+  {
+   "label": "G",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies system design and accurately lists the rate limiter details from the gold notes."
+  },
+  {
+   "label": "H",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States that it does not know the answer."
+  },
+  {
+   "label": "I",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies system design and accurately summarizes the rate limiter topics and action items from the gold notes."
+  }
+ ],
+ "usage": {
+  "input": 1320,
+  "output": 521,
+  "thought": 319
+ }
+}
