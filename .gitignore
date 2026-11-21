@@ -1,0 +1,13 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+# eval artifacts built from a private vault: never commit
+eval/work/
+eval/cases/
+eval/media/
+# commit only aggregate results
+eval/results/*.jsonl
+private_vault/
