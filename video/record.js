@@ -1,5 +1,5 @@
 // Records /stage while one capture runs through the live pipeline; logs when each step lights up.
-const {chromium} = require('/tmp/claude-1000/-home-ralph/61860cab-5b32-54bb-9cfa-abd6409b4040/scratchpad/node_modules/playwright');
+const {chromium} = require('playwright');
 const fs = require('fs'), path = require('path');
 const [,, file, name] = process.argv, V = path.dirname(__filename), BASE = 'http://127.0.0.1:8010';
 (async () => {

@@ -16,3 +16,7 @@ eval/results/real/
 private_vault/
 # managed-agent turn logs (may include note titles)
 runs/
+video/raw/
+video/vo/
+video/*.mp4
+video/cards2_built.html

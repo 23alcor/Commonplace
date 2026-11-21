@@ -1,6 +1,6 @@
 """Assemble the 1-minute demo video from live recordings, animated cards and voice-over."""
 import json, subprocess, sys
-V = "/home/ralph/Code/demo-video"
+import os; V = os.path.dirname(os.path.abspath(__file__))
 W, H, X = 1920, 1080, 0.6          # frame size, crossfade length (s)
 
 def ease(z0, z1, ta, tb):
@@ -22,17 +22,17 @@ def zoom(z0, z1, c0, c1, ta, tb):
 MID = (W/2, H/2)
 ROUTE = (1690, 330)      # right-panel Route card
 PANEL = (1690, 420)
-VERIFY = (1690, 600)
+VERIFY = (1690, 540)
 # (source, start, end, output duration, zoom filter, voice line, transition into next)
 SCENES = [
     ("raw/card_hook.webm",    0.3,  7.3, 7.0, None,                                          "h1", "fade"),
     ("raw/card_lossy.webm",   0.3,  7.8, 7.5, None,                                          "h2", "fadeblack"),
     ("raw/card_title.webm",   0.3,  6.3, 6.0, None,                                          "h3", "fade"),
-    ("raw/confident.webm",    6.5, 15.5, 6.0, zoom(1, 1.15, MID, (1250, 450), 0, 6),          "h4", "slideleft"),
-    ("raw/ambiguous.webm",   17.0, 33.0, 8.0, zoom(2.1, 1, ROUTE, MID, 2.6, 5.0),             "h5", "fade"),
-    ("raw/ambiguous.webm",   31.5, 36.6, 4.5, zoom(1, 1.9, MID, VERIFY, 0.2, 2.2),            "h6", "fadeblack"),
+    ("raw/confident.webm",    0.5, 13.5, 6.0, zoom(1, 1.15, MID, (1250, 450), 0, 6),          "h4", "slideleft"),
+    ("raw/ambiguous.webm",    7.0, 25.0, 8.0, zoom(2.1, 1, ROUTE, MID, 1.2, 3.5),             "h5", "fade"),
+    ("raw/ambiguous.webm",   25.0, 30.0, 4.5, zoom(1, 1.9, MID, VERIFY, 0.2, 2.2),            "h6", "fadeblack"),
     ("raw/card_twoai.webm",   0.3,  9.3, 9.0, None,                                          "h7", "fade"),
-    ("raw/card_results.webm", 0.3, 11.8, 11.5, None,                                         "h8", "fade"),
+    ("raw/card_results.webm", 0.3, 13.3, 13.0, None,                                         "h8", "fade"),
     ("raw/card_end.webm",     0.3,  5.3, 5.0, None,                                          "h9", None),
 ]
 args, fc, starts, t = [], [], [], 0.0
