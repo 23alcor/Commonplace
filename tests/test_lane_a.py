@@ -331,3 +331,77 @@ def test_audio_source_embeds_player_and_text_has_no_embed():
     assert "![[_attachments/memo.m4a]]" in a
     t = manage.source_section(capture(media_kind=MediaKind.text), "_attachments/note.txt")
     assert "![[" not in t and "> [!quote]- Transcript" in t
+
+
+# --- video step 2: linked timeline ----------------------------------------------------------
+NEON_VIDEO = {
+    "title": "Momentum and Plant Bot Walkthrough", "folder": "10 Learning/EECE 448",
+    "frontmatter": {"type": "reference", "created": "2026-11-21", "source": "video", "tags": ["video"]},
+    "body": "Two-part walkthrough: momentum recap, then the plant bot soil sensor.\n\n- [ ] order capacitive sensor",
+    "links": ["EECE 448 Machine Learning"], "merge_into": "",
+    "timeline": [
+        {"at": "0:00", "text": "Momentum update rule recap", "links": ["Gradient Descent Notes", "eece448"]},
+        {"at": "42", "text": "ESP32 soil sensor wiring", "links": ["Plant Watering Bot"]},  # invented
+    ],
+}
+
+
+def video_capture(tmp_path):
+    vid = tmp_path / "clip.mp4"
+    vid.write_bytes(b"\x00" * 64)
+    return transcribe(vid, client=fake_client(VIDEO_JSON)), vid
+
+
+def test_video_routes_to_neon_without_resending_video(vault, tmp_path):
+    cap, _ = video_capture(tmp_path)
+    beta = _fast_beta()  # router fully confident...
+    d = route(cap, vault, beta_client=beta)
+    assert d.escalate and "timeline" in d.reason  # ...but video still goes to Neon
+    assert all(p["type"] == "text" for p in beta.decisions.calls[0]["input"])
+
+
+def test_neon_video_timeline_links_resolve(vault, tmp_path):
+    cap, _ = video_capture(tmp_path)
+    c = fake_client(NEON_VIDEO)
+    d = draft_note(cap, routing(conf=0.5, escalate=True), vault, client=c)
+    kw = c.interactions.calls[0]
+    assert "timeline" in kw["response_format"]["schema"]["required"] and "SEGMENTS:" in kw["input"]
+    tl = d.body.split("## Timeline\n", 1)[1].split("\n\n")[0].splitlines()
+    assert tl[0] == "- [00:00] Momentum update rule recap → [[Gradient Descent Notes]], [[EECE 448 Machine Learning]]"
+    assert tl[1] == "- [00:42] ESP32 soil sensor wiring"  # invented link dropped, not rendered
+    assert "- [01:10] **Decision:** use GPIO 34 for the soil sensor" in d.body
+    assert d.links == ["EECE 448 Machine Learning", "Gradient Descent Notes"]
+    assert d.body.startswith("Two-part walkthrough") and verify_draft(d, vault).ok
+
+
+def test_repair_keeps_timeline(vault, tmp_path):
+    cap, _ = video_capture(tmp_path)
+    bad = {**NEON_VIDEO, "folder": "Nowhere"}
+    fixed_out = {k: v for k, v in NEON_VIDEO.items() if k != "timeline"}
+    fixed_out["body"] = "Fixed hub body, long enough to pass."
+    c = fake_client(bad, fixed_out)
+    d = draft_note(cap, routing(conf=0.5, escalate=True), vault, client=c)
+    rep = verify_draft(d, vault)
+    assert not rep.ok
+    f = repair(d, rep, vault, client=c)
+    assert "## Timeline" not in c.interactions.calls[1]["input"]  # Neon never sees the owned sections
+    assert f.body.startswith("Fixed hub body") and f.body.count("## Timeline") == 1
+    assert "[[Gradient Descent Notes]]" in f.body and verify_draft(f, vault).ok
+
+
+def test_video_pipeline_writes_hub_note(vault, tmp_path):
+    _, vid = video_capture(tmp_path)
+    res = file_capture(vid, vault, client=fake_client(VIDEO_JSON, NEON_VIDEO), beta_client=_fast_beta())
+    assert res.verify.ok and res.path_taken == "escalated"
+    text = Path(res.written_path).read_text()
+    order = [text.index(h) for h in ("Two-part walkthrough", "## Timeline", "## Key moments", "## Source", "## Related")]
+    assert order == sorted(order)
+    assert "> [00:42] (Plant bot wiring) Next, the ESP32 soil sensor." in text
+    assert "![[_attachments/" in text and text.count("## Timeline") == 1
+
+
+def test_fast_draft_video_gets_unlinked_timeline(vault, tmp_path):
+    cap, _ = video_capture(tmp_path)
+    d = fast_draft(cap, routing(), vault)
+    assert "- [00:00] Momentum recap" in d.body and "- [00:42] Plant bot wiring" in d.body
+    assert verify_draft(d, vault).ok

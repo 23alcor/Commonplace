@@ -6,6 +6,9 @@ One job: turn a routed capture into a vault-correct note. Two paths:
     the full text of the top candidates, and answers with a structured NoteDraft.
 repair(): Neon gets verify.py's issues and fixes the draft, chained with previous_interaction_id
 when the draft came from Neon. If Neon is unreachable, a deterministic fix keeps the pipeline alive.
+Video: Neon also returns a timeline (one entry per segment/chapter, each linked to the existing notes it
+is about). Lane A renders it as "## Timeline" with [mm:ss] bullets, keeping only links that resolve,
+plus "## Key moments" from the transcriber. A long video becomes one hub note linking out.
 finalize_note(): after verification, append the full transcript under "## Source" and point
 frontmatter `source:` at the original file copied into `_attachments/`, so the vault keeps the details.
 """
@@ -24,6 +27,8 @@ from .vault import Vault
 from .verify import ALLOWED_TYPES
 
 ATTACH_DIR = "_attachments"
+MAX_TIMELINE = 15  # long videos: Neon groups segments into at most this many chapters
+OWNED_SECTIONS = ("## Timeline", "## Key moments", "## Source")  # rendered by lane A, not Neon
 FAST_LINKS = 3
 CANDIDATES = 6
 BAD_TITLE_CHARS = re.compile(r'[\\/:*?"<>|#^\[\]]')
@@ -53,6 +58,30 @@ DRAFT_SCHEMA = {
     },
     "required": ["title", "folder", "frontmatter", "body", "links", "merge_into"],
 }
+
+TIMELINE_SCHEMA = {
+    **DRAFT_SCHEMA,
+    "properties": {**DRAFT_SCHEMA["properties"], "timeline": {
+        "type": "array", "maxItems": MAX_TIMELINE,
+        "items": {"type": "object",
+                  "properties": {"at": {"type": "string", "description": "mm:ss start of the segment/chapter"},
+                                 "text": {"type": "string", "description": "What happens here, one sentence"},
+                                 "links": {"type": "array", "items": {"type": "string"},
+                                           "description": "Exact titles of existing notes this part is about"}},
+                  "required": ["at", "text", "links"]}}},
+    "required": [*DRAFT_SCHEMA["required"], "timeline"],
+}
+
+VIDEO_INSTRUCTIONS = f"""This capture is a VIDEO. Write a HUB note:
+- body: what the video covers and why it matters, the decisions made and the action items as
+  "- [ ]" checkboxes. Short. Do NOT include a timeline, key moments or the transcript in the body;
+  those sections are added automatically from your timeline field and the transcriber's output.
+- timeline: one entry per segment in order (merge adjacent segments on the same topic; at most
+  {MAX_TIMELINE} entries for long videos). For each, links = the existing notes THAT PART is about,
+  copied exactly from CANDIDATES or NOTES. Different parts of a video can link to different notes.
+  Empty links when no existing note fits; never invent a title.
+- links: every note linked anywhere in the timeline, plus any note related to the video as a whole.
+- merge_into: "" unless the entire video is an update to one existing note."""
 
 SYSTEM = """You are the vault manager for an Obsidian vault. You turn one transcribed capture into
 one clean note that fits the vault. Rules:
@@ -116,7 +145,7 @@ def fast_draft(capture: Capture, routing: RoutingDecision, vault: Vault) -> Note
     if capture.action_items:
         body += ["", "## Action items", *[f"- [ ] {a}" for a in capture.action_items]]
 
-    return NoteDraft(
+    draft = NoteDraft(
         title=merge or clean_title(_title_from_capture(capture), vault),
         folder=vault.notes[merge].folder if merge else folder,
         frontmatter={"type": ntype, "created": _today(), "source": capture.media_kind.value,
@@ -125,6 +154,7 @@ def fast_draft(capture: Capture, routing: RoutingDecision, vault: Vault) -> Note
         links=links,
         merge_into=merge,
     )
+    return with_timeline(draft, capture, [], vault) if capture.segments else draft
 
 
 # --- Neon path ------------------------------------------------------------------------------
@@ -149,11 +179,18 @@ def build_prompt(capture: Capture, routing: RoutingDecision, vault: Vault) -> st
         f"SUMMARY: {capture.summary}\nKEY TERMS: {', '.join(capture.key_terms)}\n"
         f"ACTION ITEMS: {json.dumps(capture.action_items)}\nTRANSCRIBER NOTES: {capture.notes or '-'}\n"
         f"TRANSCRIPT:\n{capture.transcript}",
+        *([video_context(capture)] if capture.segments else []),
         f"ROUTER (calibrated probabilities):\n{_routing_context(routing)}",
         f"VAULT MAP:\n{vault_map(vault)}",
         f"CANDIDATES (full text of the most related notes):\n{cand_text or '(none)'}",
         "Write the NoteDraft.",
     ])
+
+
+def video_context(capture: Capture) -> str:
+    segs = "\n".join(f"- [{s.start}-{s.end or ''}] {s.topic}" for s in capture.segments)
+    moments = "\n".join(f"- [{k.at}] {k.kind}: {k.text}" for k in capture.key_moments) or "(none)"
+    return f"{VIDEO_INSTRUCTIONS}\n\nSEGMENTS:\n{segs}\n\nKEY MOMENTS:\n{moments}"
 
 
 def vault_map(vault: Vault) -> str:
@@ -168,24 +205,75 @@ def parse_draft(raw: str) -> NoteDraft:
     return NoteDraft(**data)
 
 
-def _neon(input_, client, previous_id: str | None = None):
+def _neon(input_, client, previous_id: str | None = None, schema: dict = DRAFT_SCHEMA):
     kw = dict(
         model=MODEL_IDS["manager"],
         input=input_,
         system_instruction=SYSTEM,
         generation_config={"thinking_level": "low"},
-        response_format={"type": "text", "mime_type": "application/json", "schema": DRAFT_SCHEMA},
+        response_format={"type": "text", "mime_type": "application/json", "schema": schema},
     )
     if previous_id:
         kw["previous_interaction_id"] = previous_id
     r = client.interactions.create(**kw)
-    draft = parse_draft(r.output_text)
+    data = json.loads(r.output_text)
+    timeline = data.pop("timeline", None)
+    draft = parse_draft(json.dumps(data))
     _INTERACTIONS[id(draft)] = r.id
-    return draft
+    return (draft, timeline) if schema is TIMELINE_SCHEMA else draft
 
 
 def neon_draft(capture: Capture, routing: RoutingDecision, vault: Vault, client=None) -> NoteDraft:
-    return _neon(build_prompt(capture, routing, vault), client or _default_client())
+    prompt, client = build_prompt(capture, routing, vault), client or _default_client()
+    if not capture.segments:
+        return _neon(prompt, client)
+    draft, timeline = _neon(prompt, client, schema=TIMELINE_SCHEMA)
+    return with_timeline(draft, capture, timeline or [], vault)
+
+
+# --- video: timeline + key moments ----------------------------------------------------------
+def render_timeline(entries: list[dict], vault: Vault) -> tuple[str, list[str]]:
+    """'- [mm:ss] text → [[A]], [[B]]' bullets with only resolvable links. Returns (markdown, links)."""
+    from .transcribe import fmt_ts
+
+    lines, used = ["## Timeline"], []
+    for e in entries:
+        resolved = list(dict.fromkeys(t for t in (vault.resolve(x) for x in e.get("links", [])) if t))
+        used += resolved
+        arrow = (" → " + ", ".join(f"[[{t}]]" for t in resolved)) if resolved else ""
+        lines.append(f"- [{fmt_ts(e.get('at', 0))}] {' '.join(str(e.get('text', '')).split())}{arrow}")
+    return "\n".join(lines), list(dict.fromkeys(used))
+
+
+def key_moments_section(capture: Capture) -> str:
+    if not capture.key_moments:
+        return ""
+    icon = {"decision": "Decision", "action": "Action", "diagram": "Diagram", "code": "Code", "fact": "Fact"}
+    return "\n".join(["## Key moments"] + [f"- [{k.at}] **{icon.get(k.kind, k.kind.title())}:** {k.text}"
+                                            for k in capture.key_moments])
+
+
+def strip_owned(body: str) -> str:
+    """Body without the sections lane A renders (so repairs and re-renders never duplicate them)."""
+    cut = min([i for i in (body.find("\n" + h) for h in OWNED_SECTIONS) if i >= 0] + [len(body)])
+    if body.startswith(OWNED_SECTIONS):
+        cut = 0
+    return body[:cut].rstrip()
+
+
+def owned_tail(body: str) -> str:
+    core = strip_owned(body)
+    return body[len(core):].strip()
+
+
+def with_timeline(draft: NoteDraft, capture: Capture, entries: list[dict], vault: Vault) -> NoteDraft:
+    if not entries:  # Neon skipped it (or fast path): fall back to the transcriber's segments, unlinked
+        entries = [{"at": s.start, "text": s.topic or s.text[:120], "links": []} for s in capture.segments]
+    timeline, links = render_timeline(entries, vault)
+    d = draft.model_copy(deep=True)
+    d.body = "\n\n".join(x for x in (strip_owned(d.body), timeline, key_moments_section(capture)) if x)
+    d.links = list(dict.fromkeys([*(t for t in (vault.resolve(x) for x in d.links) if t), *links]))
+    return d
 
 
 def draft_note(capture: Capture, routing: RoutingDecision, vault: Vault, client=None) -> NoteDraft:
@@ -226,11 +314,20 @@ def mechanical_fix(draft: NoteDraft, vault: Vault) -> NoteDraft:
 
 
 def repair(draft: NoteDraft, report: VerifyReport, vault: Vault, client=None) -> NoteDraft:
+    """Neon fixes the issues on the draft's core body; lane-A-rendered sections are carried over."""
     prev = _INTERACTIONS.get(id(draft))
+    tail = owned_tail(draft.body)
+    core = draft.model_copy(update={"body": strip_owned(draft.body)})
     try:
-        return _neon(repair_prompt(draft, report, vault, chained=bool(prev)), client or _default_client(), prev)
+        fixed = _neon(repair_prompt(core, report, vault, chained=bool(prev)), client or _default_client(), prev)
     except Exception:  # noqa: BLE001 - network/model failure must not lose the capture
-        return mechanical_fix(draft, vault)
+        fixed = mechanical_fix(core, vault)
+    if tail:
+        new_id = _INTERACTIONS.pop(id(fixed), None)
+        fixed = fixed.model_copy(update={"body": f"{strip_owned(fixed.body)}\n\n{tail}"})
+        if new_id:
+            _INTERACTIONS[id(fixed)] = new_id
+    return fixed
 
 
 # --- keep the source ------------------------------------------------------------------------
