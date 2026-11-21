@@ -1,0 +1,191 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>cards</title>
+<style>
+:root{--bg:#0b0d12;--panel:#141821;--line:#262c3a;--ink:#e8ebf2;--dim:#8a93a6;
+--hy:#4fc3f7;--de:#ffb74d;--ne:#ba68c8;--ag:#81c784;--new:#fff176;--bad:#ef5350;--claude:#d97757}
+html,body{margin:0;width:1920px;height:1080px;background:var(--bg);color:var(--ink);overflow:hidden;
+font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+.card{position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column}
+.on{display:flex}
+@keyframes up{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes out{to{opacity:.12;filter:blur(2px)}}
+@keyframes strike{from{width:0}to{width:100%}}
+@keyframes grow{from{transform:scaleX(0)}}
+@keyframes pop{0%{transform:scale(0)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes fly{0%{opacity:0;transform:translate(var(--fx),var(--fy)) rotate(var(--r)) scale(.9)}
+ 15%{opacity:1}75%{opacity:1;transform:translate(0,0) rotate(0) scale(.25)}100%{opacity:0;transform:scale(.05)}}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace}
+h1{font-size:120px;letter-spacing:-.04em;margin:0;font-weight:800}
+.h2{font-size:64px;font-weight:800;letter-spacing:-.03em;animation:up .7s both}
+.dim{color:var(--dim)}
+
+/* hook: three agents */
+.panes{display:grid;grid-template-columns:repeat(3,560px);gap:28px}
+.pane{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;animation:up .6s both}
+.pane .bar{padding:14px 20px;font-weight:700;font-size:26px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}
+.pane .bar small{font-weight:500;color:var(--dim);font-size:20px}
+.pane pre{margin:0;padding:22px;font-size:21px;line-height:1.55;color:#c9cfdb;white-space:pre-wrap;height:400px}
+.pane pre b{color:var(--new);font-weight:600}
+.type{display:inline-block;overflow:hidden;white-space:nowrap;vertical-align:bottom;animation:typing 1.6s steps(40) both}
+@keyframes typing{from{width:0}to{width:100%}}
+.caption{margin-top:44px;font-size:40px;font-weight:700;animation:up .7s 2.2s both}
+
+/* lossy context file */
+.file{width:980px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:30px 40px;font-size:25px;line-height:1.75}
+.file .l{position:relative}
+.file .l.cut{animation:out .6s both}
+.file .l.cut::after{content:"";position:absolute;left:0;top:50%;height:3px;background:var(--bad);animation:strike .5s both;animation-delay:inherit}
+.tags{display:flex;gap:22px;margin-top:40px;font-size:32px}
+.tags span{padding:10px 22px;border-radius:999px;background:#2a1719;color:#ef9a9a;animation:pop .45s both}
+
+/* title */
+#title h1 span{color:var(--new)}
+.tag{font-size:46px;margin-top:22px;animation:up .8s 3.4s both}
+.thumb{position:absolute;left:50%;top:50%;width:300px;margin:-110px 0 0 -150px;border-radius:14px;box-shadow:0 20px 60px #000a;animation:fly 3s cubic-bezier(.5,0,.2,1) both}
+.core{position:absolute;left:50%;top:50%;width:40px;height:40px;margin:-20px;border-radius:50%;background:var(--new);box-shadow:0 0 80px 20px #fff17655;animation:pop .6s 2.4s both,fade .4s 2.9s reverse forwards}
+#title .t{animation:up .9s 2.9s cubic-bezier(.2,.8,.2,1) both}
+
+/* two AIs */
+.two{display:grid;grid-template-columns:900px 900px;gap:32px}
+.ai{background:var(--panel);border:2px solid var(--c);border-radius:18px;padding:26px 30px;height:720px;box-sizing:border-box;animation:up .6s both}
+.ai .who{font-size:34px;font-weight:800;color:var(--c)}
+.ai .q{margin:16px 0;font-size:22px;color:var(--dim)}
+.ai .call{font-size:20px;color:var(--new);background:#1d2230;border-radius:10px;padding:10px 14px;animation:fade .3s both}
+.ai .call span{color:var(--dim)}
+.ai .ans{margin-top:16px;font-size:24px;line-height:1.5}
+.ai .ans div{animation:up .45s both}
+.ai .ans b{color:#fff}
+.src{font-size:20px;color:var(--ag);margin-top:14px;animation:fade .4s both}
+
+/* results */
+.grid{display:grid;grid-template-columns:860px 760px;gap:70px;margin-top:40px;align-items:start}
+.panel h3{margin:0 0 20px;font-size:30px;color:var(--dim);font-weight:600}
+.row{display:grid;grid-template-columns:250px 1fr 120px;align-items:center;gap:16px;margin:16px 0;font-size:27px}
+.row .b{height:34px;border-radius:8px;background:var(--c);transform-origin:left;animation:grow 1s cubic-bezier(.2,.8,.2,1) both}
+.row .v{font-weight:800;font-variant-numeric:tabular-nums}
+.row.us{color:var(--new);font-weight:700}
+.stat{font-size:28px;margin:16px 0;animation:up .6s both}
+.stat b{font-size:48px;color:var(--new);margin-right:12px}
+.foot{margin-top:40px;font-size:22px;color:var(--dim);animation:fade .8s 2s both}
+
+/* end */
+.roles{display:grid;grid-template-columns:repeat(4,auto);gap:16px 60px;margin-top:56px;font-size:34px}
+.roles div{animation:up .6s both}.roles b{display:block;font-size:24px;color:var(--dim);font-weight:500}
+.url{margin-top:64px;font-size:34px;color:var(--dim);animation:fade 1s 1.4s both}
+</style></head>
+<body>
+
+<div class="card" id="hook">
+  <div class="panes mono">
+    <div class="pane" style="animation-delay:0s"><div class="bar" style="color:var(--claude)">Claude Code<small>CLAUDE.md</small></div>
+      <pre><span class="type" style="animation-delay:.3s">› explain the project again…</span>
+<b># capture-to-vault</b>
+pipeline: transcribe → route →
+manage → verify. vault is
+mock_vault/, schemas are the
+contract, never commit .env…</pre></div>
+    <div class="pane" style="animation-delay:.25s"><div class="bar" style="color:#10a37f">Codex<small>AGENTS.md</small></div>
+      <pre><span class="type" style="animation-delay:.7s">› explain the project again…</span>
+<b>## Lane B: eval</b>
+held-out notes, baseline is
+one Hydrogen call, score
+folder accuracy, link F1…</pre></div>
+    <div class="pane" style="animation-delay:.5s"><div class="bar" style="color:#9b8cff">Cursor<small>lane-d.md</small></div>
+      <pre><span class="type" style="animation-delay:1.1s">› explain the project again…</span>
+<b>demo inputs + submission</b>
+synthetic captures only,
+match mock_vault topics,
+3-minute demo script…</pre></div>
+  </div>
+  <div class="caption">Same project. Three AIs. Explained three times.</div>
+</div>
+
+<div class="card" id="lossy">
+  <div class="file mono">
+    <div class="l" style="color:var(--claude);font-weight:700">CLAUDE.md</div>
+    <div class="l">• Project: capture-to-vault, Gemini hackathon</div>
+    <div class="l cut" style="animation-delay:1.0s">• Router escalated 15/15 cases on hard inputs</div>
+    <div class="l">• Pipeline: transcribe → route → manage → verify</div>
+    <div class="l cut" style="animation-delay:1.4s">• Neon at thinking low: 18.4 s → 11.3 s, same quality</div>
+    <div class="l cut" style="animation-delay:1.8s">• Agentic video mode dropped speech in 1 of 7 runs</div>
+    <div class="l">• Don't commit .env</div>
+    <div class="l cut" style="animation-delay:2.2s">• Prof. Okafor wants the comparison by Dec 3</div>
+  </div>
+  <div class="tags"><span style="animation-delay:2.7s">written by hand</span><span style="animation-delay:3.0s">one tool only</span><span style="animation-delay:3.3s">details lost</span></div>
+</div>
+
+<div class="card" id="title">
+  <img class="thumb" src="t1.jpg" style="--fx:-760px;--fy:-330px;--r:-12deg;animation-delay:0s">
+  <img class="thumb" src="t2.jpg" style="--fx:700px;--fy:-300px;--r:10deg;animation-delay:.3s">
+  <img class="thumb" src="t3.jpg" style="--fx:-700px;--fy:320px;--r:8deg;animation-delay:.6s">
+  <img class="thumb" src="t4.jpg" style="--fx:740px;--fy:330px;--r:-9deg;animation-delay:.9s">
+  <div class="core"></div>
+  <div class="t" style="display:flex;flex-direction:column;align-items:center">
+    <h1>capture <span>→</span> vault</h1>
+    <div class="dim" style="font-size:36px;margin-top:10px">a context manager for every AI you use</div>
+  </div>
+  <div class="tag">Explain your project once. <b style="color:var(--new)">Every AI gets it.</b></div>
+</div>
+
+<div class="card" id="twoai">
+  <div class="dim" style="font-size:28px;margin-bottom:24px;animation:fade .5s both">Same question, two different AIs, one tool</div>
+  <div class="two">
+    <div class="ai" style="--c:var(--claude)">
+      <div class="who">Claude</div>
+      <div class="q">“For my ML role job search: what did I note about salary negotiation, and what should I check on the take-home?”</div>
+      <div class="call mono" style="animation-delay:.8s">→ get_context<span>("ML role job search salary negotiation…")</span></div>
+      <div class="ans">
+        <div style="animation-delay:1.6s">• The first offer number <b>anchors the whole negotiation</b>: anchoring, from ECON 205.</div>
+        <div style="animation-delay:2.1s">• A recruiter's stated “range” <b>felt like a nudge</b>.</div>
+        <div style="animation-delay:2.6s">• Take-home: check whether the model is <b>overfitting the practice set</b> (bias-variance, EECE 448).</div>
+      </div>
+      <div class="src" style="animation-delay:3.2s">from: ML Role Salary Anchoring and Take-Home Thoughts, captured today</div>
+    </div>
+    <div class="ai" style="--c:var(--hy)">
+      <div class="who">Gemini 4 Neon</div>
+      <div class="q">“For my ML role job search: what did I note about salary negotiation, and what should I check on the take-home?”</div>
+      <div class="call mono" style="animation-delay:1.1s">→ get_context<span>("ML role job search salary negotiation take-home")</span></div>
+      <div class="ans">
+        <div style="animation-delay:1.9s">• <b>Anchoring (ECON 205):</b> the first offer number anchors the entire negotiation.</div>
+        <div style="animation-delay:2.4s">• <b>Nudges:</b> a recruiter's stated “range” feels like a nudge.</div>
+        <div style="animation-delay:2.9s">• <b>Check for overfitting</b> on the practice set (bias-variance tradeoff, EECE 448).</div>
+      </div>
+      <div class="src" style="animation-delay:3.4s">from: ML Role Salary Anchoring and Take-Home Thoughts, captured today</div>
+    </div>
+  </div>
+</div>
+
+<div class="card" id="results">
+  <div class="h2">Does it actually help?</div>
+  <div class="grid">
+    <div class="panel">
+      <h3>Agents answering 25 project questions</h3>
+      <div class="row" style="--c:#3a4256"><span>no context</span><div class="b" style="width:0%;animation-delay:.4s"></div><span class="v">0%</span></div>
+      <div class="row" style="--c:#8a6d5a"><span>CLAUDE.md file</span><div class="b" style="width:__CTX_MULTI__%;animation-delay:.6s"></div><span class="v">__CTX_MULTI__%</span></div>
+      <div class="row" style="--c:#4b6a8a"><span>RAG</span><div class="b" style="width:100%;animation-delay:.8s"></div><span class="v">100%</span></div>
+      <div class="row us" style="--c:var(--new)"><span>get_context</span><div class="b" style="width:100%;animation-delay:1s"></div><span class="v">100%</span></div>
+      <div class="dim" style="font-size:22px">questions that need connected notes · get_context used <b style="color:var(--new)">5.5× fewer tokens</b> than RAG</div>
+    </div>
+    <div class="panel">
+      <h3>At scale and on messy captures</h3>
+      <div class="stat" style="animation-delay:1.2s"><b>79%</b>of needed notes found at 5,000 notes (RAG: 52%)</div>
+      <div class="stat" style="animation-delay:1.5s"><b>__FOLDER__</b>notes filed in the right folder (one-call baseline: 40%)</div>
+      <div class="stat" style="animation-delay:1.8s"><b>100%</b>pass verification before they're saved</div>
+    </div>
+  </div>
+  <div class="foot">Synthetic vaults and held-out captures, live Gemini runs. Full numbers and failures in the README.</div>
+</div>
+
+<div class="card" id="end">
+  <div class="h2">Explain your project once. <span style="color:var(--new)">Every AI gets it.</span></div>
+  <div class="roles">
+    <div style="color:var(--hy);animation-delay:.3s"><b>transcriber</b>Hydrogen</div>
+    <div style="color:var(--de);animation-delay:.5s"><b>router</b>Decision 1</div>
+    <div style="color:var(--ne);animation-delay:.7s"><b>vault manager</b>Neon</div>
+    <div style="color:var(--ag);animation-delay:.9s"><b>verifier</b>Managed Agent</div>
+  </div>
+  <div class="url">github.com/23alcor/Commonplace</div>
+</div>
+<script>document.getElementById(location.hash.slice(1)||'title').classList.add('on')</script>
+</body></html>
