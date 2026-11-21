@@ -1,2 +1,4 @@
 cache/captures/
+cache/embeddings/
+cache/lane_c_context.py
 scale/vaults/
