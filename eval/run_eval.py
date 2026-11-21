@@ -108,12 +108,13 @@ def _chart(rows: list[dict], output: Path) -> None:
         buckets[(row["method"], bucket)].append(row["score"]["folder_correct"])
     if not buckets:
         return
-    labels = ["blur <1 px", "blur ≥1 px", "audio <10 dB", "audio ≥10 dB"]
+    labels = [label for label in ("blur <1 px", "blur ≥1 px", "audio <10 dB", "audio ≥10 dB")
+              if any((method, label) in buckets for method, _ in buckets)]
     methods = sorted({key[0] for key in buckets})
     fig, ax = plt.subplots(figsize=(8, 4.5))
     width = 0.35
     for i, method in enumerate(methods):
-        vals = [statistics.mean(buckets[(method, label)]) if buckets[(method, label)] else 0
+        vals = [statistics.mean(buckets[(method, label)]) if buckets[(method, label)] else float("nan")
                 for label in labels]
         ax.bar([x + i * width for x in range(len(labels))], vals, width, label=method)
     ax.set_xticks([x + width * (len(methods) - 1) / 2 for x in range(len(labels))], labels)

@@ -11,4 +11,5 @@ eval/media/
 eval/real/
 # commit only aggregate results
 eval/results/*.jsonl
+eval/results/real/
 private_vault/
