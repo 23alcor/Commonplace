@@ -210,3 +210,18 @@ def test_pipeline_escalated_path(vault, image):
     res = file_capture(image, vault, client=fake_client(CAPTURE_JSON, neon_out), beta_client=beta)
     assert res.verify.ok and res.path_taken == "escalated" and res.written_path
     manage._INTERACTIONS.clear()
+
+
+def test_video_prompt_asks_for_both_channels(tmp_path):
+    vid = tmp_path / "clip.mp4"
+    vid.write_bytes(b"\x00" * 64)
+    c = fake_client(CAPTURE_JSON)
+    transcribe(vid, client=c)
+    kw = c.interactions.calls[0]
+    assert "ON SCREEN" in kw["input"][0]["text"]
+    assert kw["input"][1]["type"] == "video" and kw["input"][1]["processing"] == "agentic"
+    c2 = fake_client(CAPTURE_JSON)
+    img = tmp_path / "b.png"
+    img.write_bytes(PNG)
+    transcribe(img, client=c2)
+    assert "ON SCREEN" not in c2.interactions.calls[0]["input"][0]["text"]

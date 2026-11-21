@@ -38,6 +38,11 @@ Return: transcript, summary (1-3 sentences), key_terms, action_items, legibility
 legibility is your honest read of input quality: 1.0 = crisp and complete, 0.5 = you guessed at a
 lot, below 0.3 = mostly unreadable or inaudible."""
 
+VIDEO_ADDENDUM = """This is a VIDEO: capture BOTH channels. Transcribe the speech, AND transcribe any text,
+equations, diagrams or whiteboard content visible on screen, even if the speaker never mentions it.
+Lay the transcript out as "SPOKEN:" lines then "ON SCREEN:" lines. If the two are about different
+topics, say so in notes and cover both in the summary and key_terms."""
+
 # Hand-written (not model_json_schema()) so it stays inside the structured-output schema subset.
 CAPTURE_SCHEMA = {
     "type": "object",
@@ -102,7 +107,8 @@ def transcribe(path: str | Path, client=None) -> Capture:
     client = client or _default_clients()[0]
     r = client.interactions.create(
         model=MODEL_IDS["transcriber"],
-        input=[{"type": "text", "text": PROMPT}, media_part(path, client)],
+        input=[{"type": "text", "text": PROMPT + ("\n\n" + VIDEO_ADDENDUM if kind is MediaKind.video else "")},
+               media_part(path, client)],
         generation_config={"thinking_level": "low"},
         response_format={"type": "text", "mime_type": "application/json", "schema": CAPTURE_SCHEMA},
     )
