@@ -164,7 +164,7 @@ def _neon(input_, client, previous_id: str | None = None):
         model=MODEL_IDS["manager"],
         input=input_,
         system_instruction=SYSTEM,
-        generation_config={"thinking_level": "medium"},
+        generation_config={"thinking_level": "low"},
         response_format={"type": "text", "mime_type": "application/json", "schema": DRAFT_SCHEMA},
     )
     if previous_id:
