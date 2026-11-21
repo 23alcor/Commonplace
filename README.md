@@ -65,13 +65,16 @@ same media and remaining vault. Link F1 is the mean of per-case F1 scores.
 | Method | Completed | Folder accuracy | Link F1 | Verify pass | Escalation | Median latency |
 |---|---:|---:|---:|---:|---:|---:|
 | One-call Hydrogen baseline | 15/15 | 40.0% | 29.0% | 93.3% | — | 6.08s |
-| capture-to-vault pipeline | 15/15 | 60.0% | 33.7% | 100.0% | 100.0% | 19.36s |
+| Pipeline, initial | 15/15 | 60.0% | 33.7% | 100.0% | 100.0% | 19.36s |
+| Pipeline, after folder descriptions | 15/15 | 46.7% | 28.0% | 100.0% | 100.0% | 18.16s |
 
-The pipeline improved folder accuracy by 20 percentage points and link F1 by 4.7 points, at
-about 3.2 times the median latency. Every case escalated to Neon; this run therefore does not
-demonstrate a fast router-only path. The local verifier and repair loop were included, but the
-remote Managed Agent verifier was outside this capped comparison. The run used 61 API calls,
-plus three calls to synthesize the voice memos. See [detailed results](eval/results/summary.md).
+The initial pipeline improved folder accuracy over the baseline by 20 percentage points and
+link F1 by 4.7 points, at about 3.2 times the median latency. The later folder-description
+change regressed both scores; its link F1 was slightly below the baseline. Every case escalated
+to Neon in both runs, so neither run demonstrates a fast router-only path. The local verifier
+and repair loop were included, but the remote Managed Agent verifier was outside this capped
+comparison. The initial run used 61 API calls, the rerun used 45, and voice synthesis used three.
+See [detailed initial results](eval/results/summary.md) and [rerun metrics](eval/results/rerun.json).
 
 ### Where it still fails
 
@@ -82,6 +85,28 @@ plus three calls to synthesize the voice memos. See [detailed results](eval/resu
   note had none.
 - The noisy `Plant Watering Bot` handwritten capture went to `Sessions/2026-11` instead of
   its project folder, with none of its four expected links. Both methods made the same error.
+
+### What we changed after seeing failures
+
+Lane A added descriptions of the vault folders to Decision 1's routing choices and Neon’s
+manager context. We reran only the pipeline on the exact same 15 media files and held-out vault;
+all 15 media and truth fingerprints matched the initial run. The baseline numbers above were
+kept fixed. Model outputs can vary between calls, so this small before and after comparison
+does not isolate the prompt change from run-to-run variation.
+
+| Metric | Before | After |
+|---|---:|---:|
+| Folder accuracy | 60.0% | 46.7% |
+| Link F1 | 33.7% | 28.0% |
+| Verify pass | 100.0% | 100.0% |
+| Escalation | 100.0% | 100.0% |
+| Median latency | 19.36s | 18.16s |
+
+None of the three failures above was fixed. PHYS 230 moved from the parent academic folder to
+`Sessions/2026-11`, still missing all four course links. `Fault detection` stayed in the EECE
+410 course folder, though its extra links dropped from four to two. `Plant Watering Bot` stayed
+in `Sessions/2026-11` with no expected links. Two previously correct folders also regressed:
+`Recipe Scraper` and `EECE 410 Capstone Design`.
 
 ## Run it
 ```bash
