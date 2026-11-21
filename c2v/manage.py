@@ -6,19 +6,24 @@ One job: turn a routed capture into a vault-correct note. Two paths:
     the full text of the top candidates, and answers with a structured NoteDraft.
 repair(): Neon gets verify.py's issues and fixes the draft, chained with previous_interaction_id
 when the draft came from Neon. If Neon is unreachable, a deterministic fix keeps the pipeline alive.
+finalize_note(): after verification, append the full transcript under "## Source" and point
+frontmatter `source:` at the original file copied into `_attachments/`, so the vault keeps the details.
 """
 from __future__ import annotations
 
 import datetime as dt
+import hashlib
 import json
 import re
+from pathlib import Path
 
 from .config import MODEL_IDS
 from .route import NEW, OTHER
-from .schemas import Capture, NoteDraft, RoutingDecision, VerifyReport
+from .schemas import Capture, MediaKind, NoteDraft, RoutingDecision, VerifyReport
 from .vault import Vault
 from .verify import ALLOWED_TYPES
 
+ATTACH_DIR = "_attachments"
 FAST_LINKS = 3
 CANDIDATES = 6
 BAD_TITLE_CHARS = re.compile(r'[\\/:*?"<>|#^\[\]]')
@@ -107,11 +112,9 @@ def fast_draft(capture: Capture, routing: RoutingDecision, vault: Vault) -> Note
     query = " ".join([capture.summary, *capture.key_terms])
     links = [n.title for n in vault.search(query, k=FAST_LINKS + 1) if n.title != merge][:FAST_LINKS]
 
-    body = [capture.summary.strip(), "", "## Transcript", capture.transcript.strip()]
+    body = [capture.summary.strip()]  # full transcript is appended under ## Source by finalize_note
     if capture.action_items:
         body += ["", "## Action items", *[f"- [ ] {a}" for a in capture.action_items]]
-    if capture.notes:
-        body += ["", f"> [!note] Transcriber: {capture.notes}"]
 
     return NoteDraft(
         title=merge or clean_title(_title_from_capture(capture), vault),
@@ -147,10 +150,16 @@ def build_prompt(capture: Capture, routing: RoutingDecision, vault: Vault) -> st
         f"ACTION ITEMS: {json.dumps(capture.action_items)}\nTRANSCRIBER NOTES: {capture.notes or '-'}\n"
         f"TRANSCRIPT:\n{capture.transcript}",
         f"ROUTER (calibrated probabilities):\n{_routing_context(routing)}",
-        f"VAULT MAP:\n{vault.describe()}",
+        f"VAULT MAP:\n{vault_map(vault)}",
         f"CANDIDATES (full text of the most related notes):\n{cand_text or '(none)'}",
         "Write the NoteDraft.",
     ])
+
+
+def vault_map(vault: Vault) -> str:
+    """vault.describe() minus the attachments folder, which is never a filing destination."""
+    return "\n".join(line for line in vault.describe().splitlines()
+                     if not line.startswith(f"- {ATTACH_DIR}"))
 
 
 def parse_draft(raw: str) -> NoteDraft:
@@ -192,7 +201,7 @@ def repair_prompt(draft: NoteDraft, report: VerifyReport, vault: Vault, chained:
              f"ISSUES:\n{issues}",
              f"DRAFT:\n{draft.model_dump_json(indent=1)}"]
     if not chained:  # fresh conversation: give Neon the vault map it would otherwise already have
-        parts.append(f"VAULT MAP:\n{vault.describe()}")
+        parts.append(f"VAULT MAP:\n{vault_map(vault)}")
     return "\n\n".join(parts)
 
 
@@ -222,3 +231,49 @@ def repair(draft: NoteDraft, report: VerifyReport, vault: Vault, client=None) ->
         return _neon(repair_prompt(draft, report, vault, chained=bool(prev)), client or _default_client(), prev)
     except Exception:  # noqa: BLE001 - network/model failure must not lose the capture
         return mechanical_fix(draft, vault)
+
+
+# --- keep the source ------------------------------------------------------------------------
+EMBEDDABLE = {MediaKind.image, MediaKind.pdf, MediaKind.audio, MediaKind.video}
+
+
+def _digest(p: Path) -> str:
+    return hashlib.sha256(p.read_bytes()).hexdigest()
+
+
+def attachment_path(capture: Capture, draft: NoteDraft, vault: Vault) -> str:
+    """Vault-relative path the original capture will live at: _attachments/<date> <title><ext>.
+    Reuses an identical file already there; otherwise picks a name that doesn't collide."""
+    src = Path(capture.source_path)
+    stem = BAD_TITLE_CHARS.sub(" ", f"{_today()} {draft.title}")
+    stem = " ".join(stem.split()) or src.stem
+    ext = src.suffix.lower()
+    digest = _digest(src) if src.exists() else None
+    for i in range(1, 100):
+        name = f"{stem}{'' if i == 1 else f' {i}'}{ext}"
+        target = vault.root / ATTACH_DIR / name
+        if not target.exists() or (digest and _digest(target) == digest):
+            return f"{ATTACH_DIR}/{name}"
+    return f"{ATTACH_DIR}/{stem} {dt.datetime.now():%H%M%S%f}{ext}"
+
+
+def source_section(capture: Capture, attachment: str | None) -> str:
+    lines = ["## Source"]
+    if attachment and capture.media_kind in EMBEDDABLE:
+        lines.append(f"![[{attachment}]]")
+    lines += ["", "> [!quote]- Transcript"]
+    lines += [f"> {ln}" if ln.strip() else ">" for ln in capture.transcript.strip().splitlines()] or ["> (empty)"]
+    if capture.notes:
+        lines += ["", f"> [!note] Transcriber: {capture.notes}"]
+    return "\n".join(lines)
+
+
+def finalize_note(draft: NoteDraft, capture: Capture, attachment: str | None) -> NoteDraft:
+    """Neon's summary stays on top; the full source goes underneath. Pure: copying the file is the
+    caller's job (pipeline.write_note), so dry runs never touch the vault."""
+    d = draft.model_copy(deep=True)
+    body = re.split(r"\n## Source\b", d.body, maxsplit=1)[0].rstrip()  # idempotent
+    d.body = f"{body}\n\n{source_section(capture, attachment)}"
+    d.frontmatter["source"] = attachment or Path(capture.source_path).name
+    d.frontmatter["media"] = capture.media_kind.value
+    return d

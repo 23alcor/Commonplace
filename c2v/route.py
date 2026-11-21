@@ -61,7 +61,7 @@ def _query(capture: Capture) -> str:
 
 def folder_options(capture: Capture, vault: Vault) -> dict[str, str]:
     """Folder option -> description (a few note titles in it, so the router knows what lives there)."""
-    folders = vault.folder_list()
+    folders = [f for f in vault.folder_list() if not f.startswith("_attachments")]
     if len(folders) + 1 > MAX_CHOICES:
         hits = vault.search(_query(capture), k=50)
         ranked = list(dict.fromkeys(n.folder for n in hits if n.folder))

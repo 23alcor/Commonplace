@@ -225,3 +225,66 @@ def test_video_prompt_asks_for_both_channels(tmp_path):
     img.write_bytes(PNG)
     transcribe(img, client=c2)
     assert "ON SCREEN" not in c2.interactions.calls[0]["input"][0]["text"]
+
+
+# --- keep the source (scripts/tasks/a-keep-source.md) -------------------------------------
+def _fast_beta(merge=NEW):
+    return fake_beta(note_type=("class", 0.92), folder=("10 Learning/EECE 448", 0.88), merge_target=(merge, 0.81))
+
+
+def test_written_note_keeps_full_source(vault, image):
+    cap_json = {**CAPTURE_JSON, "transcript": "line one of the board\nline two: v = beta*v + grad\n\nTODO HW3"}
+    res = file_capture(image, vault, client=fake_client(cap_json), beta_client=_fast_beta())
+    assert res.verify.ok and res.written_path
+    from c2v.vault import split_frontmatter
+
+    fm, body = split_frontmatter(Path(res.written_path).read_text())
+    # (b) frontmatter source -> original file copied under _attachments/, byte-identical
+    assert fm["source"].startswith("_attachments/") and fm["media"] == "image"
+    copied = vault.root / fm["source"]
+    assert copied.read_bytes() == image.read_bytes()
+    # (a) full transcript under ## Source in a collapsed callout, embed for images; summary on top
+    assert body.lstrip().startswith(CAPTURE_JSON["summary"])
+    src = body.split("## Source", 1)[1]
+    assert f"![[{fm['source']}]]" in src and "> [!quote]- Transcript" in src
+    assert "> line two: v = beta*v + grad\n>\n> TODO HW3" in src
+    # the vault still indexes fine and the attachments folder is never offered as a destination
+    vault.reload()
+    assert verify_draft(NoteDraft(**{**res.draft.model_dump(), "title": "Another One"}), vault).ok
+    assert "_attachments" not in build_questions(capture(), vault)["folder"]["criteria"]
+    assert "_attachments" not in manage.vault_map(vault)
+
+
+def test_dry_run_shows_source_but_touches_nothing(vault, image):
+    res = file_capture(image, vault, dry_run=True, client=fake_client(CAPTURE_JSON), beta_client=_fast_beta())
+    assert "## Source" in res.draft.body and res.draft.frontmatter["source"].startswith("_attachments/")
+    assert not (vault.root / "_attachments").exists() and res.written_path is None
+
+
+def test_merge_appends_source(vault, image):
+    res = file_capture(image, vault, client=fake_client(CAPTURE_JSON), beta_client=_fast_beta("Gradient Descent Notes"))
+    text = Path(res.written_path).read_text()
+    assert res.written_path.endswith("Gradient Descent Notes.md")
+    assert "## Update" in text and "> [!quote]- Transcript" in text and "![[_attachments/" in text
+
+
+def test_finalize_idempotent_and_attachment_names(vault, image):
+    from c2v.pipeline import write_note
+
+    d = fast_draft(capture(source_path=str(image)), routing(), vault)
+    _, final, rep = write_note(d, capture(source_path=str(image)), vault)
+    assert rep.ok and final.body.count("## Source") == 1
+    again = manage.finalize_note(final, capture(source_path=str(image)), final.frontmatter["source"])
+    assert again.body.count("## Source") == 1
+    # same bytes -> reuse the existing attachment; different bytes -> new name
+    assert manage.attachment_path(capture(source_path=str(image)), d, vault) == final.frontmatter["source"]
+    other = image.with_name("other.png")
+    other.write_bytes(PNG + b"x")
+    assert manage.attachment_path(capture(source_path=str(other)), d, vault) != final.frontmatter["source"]
+
+
+def test_audio_source_embeds_player_and_text_has_no_embed():
+    a = manage.source_section(capture(media_kind=MediaKind.audio), "_attachments/memo.m4a")
+    assert "![[_attachments/memo.m4a]]" in a
+    t = manage.source_section(capture(media_kind=MediaKind.text), "_attachments/note.txt")
+    assert "![[" not in t and "> [!quote]- Transcript" in t
