@@ -212,19 +212,62 @@ def test_pipeline_escalated_path(vault, image):
     manage._INTERACTIONS.clear()
 
 
-def test_video_prompt_asks_for_both_channels(tmp_path):
-    vid = tmp_path / "clip.mp4"
+VIDEO_JSON = {
+    "segments": [
+        {"start": "0:00", "end": "0:42", "topic": "Momentum recap", "text": "So momentum keeps a running average.",
+         "on_screen": "v = beta*v + grad\nw = w - lr*v"},
+        {"start": "42s", "end": "1:30", "topic": "Plant bot wiring", "text": "Next, the ESP32 soil sensor.",
+         "on_screen": ""},
+    ],
+    "key_moments": [{"at": "0:20", "kind": "diagram", "text": "momentum update equations"},
+                    {"at": "01:10", "kind": "decision", "text": "use GPIO 34 for the soil sensor"}],
+    "summary": "Momentum recap for EECE 448, then ESP32 soil sensor wiring for the plant bot.",
+    "key_terms": ["EECE 448", "ESP32"], "action_items": ["order capacitive sensor"], "legibility": 0.9,
+    "notes": "",
+}
+
+
+def test_video_transcribe_segments_and_key_moments(tmp_path):
+    vid = tmp_path / "clip.mov"
     vid.write_bytes(b"\x00" * 64)
-    c = fake_client(CAPTURE_JSON)
-    transcribe(vid, client=c)
+    c = fake_client(VIDEO_JSON)
+    cap = transcribe(vid, client=c)
     kw = c.interactions.calls[0]
-    assert "ON SCREEN" in kw["input"][0]["text"]
-    assert kw["input"][1]["type"] == "video" and kw["input"][1]["processing"] == "agentic"
+    assert kw["input"][1] == {**kw["input"][1], "type": "video", "mime_type": "video/mov", "processing": "agentic"}
+    assert "segments" in kw["response_format"]["schema"]["required"]
+    assert [s.start for s in cap.segments] == ["00:00", "00:42"] and cap.segments[1].end == "01:30"
+    assert cap.segments[1].on_screen is None
+    assert [(k.at, k.kind) for k in cap.key_moments] == [("00:20", "diagram"), ("01:10", "decision")]
+    lines = cap.transcript.splitlines()
+    assert lines[0] == "[00:00] (Momentum recap) So momentum keeps a running average."
+    assert lines[1] == "[00:00] ON SCREEN: v = beta*v + grad / w = w - lr*v"
+    assert lines[2].startswith("[00:42] (Plant bot wiring)")
+    # images keep the plain prompt and schema
     c2 = fake_client(CAPTURE_JSON)
     img = tmp_path / "b.png"
     img.write_bytes(PNG)
-    transcribe(img, client=c2)
-    assert "ON SCREEN" not in c2.interactions.calls[0]["input"][0]["text"]
+    cap2 = transcribe(img, client=c2)
+    assert "segments" not in c2.interactions.calls[0]["response_format"]["schema"]["properties"]
+    assert cap2.segments == [] and cap2.key_moments == []
+
+
+def test_big_video_goes_through_files_api_and_waits_for_active(tmp_path, monkeypatch):
+    from c2v import transcribe as tr
+
+    monkeypatch.setattr(tr, "INLINE_MAX_BYTES", 10)
+    vid = tmp_path / "long.mp4"
+    vid.write_bytes(b"\x00" * 64)
+    states = iter(["PROCESSING", "ACTIVE"])
+    files = SimpleNamespace(
+        upload=lambda file: SimpleNamespace(name="files/1", uri="gs://u", state=SimpleNamespace(name="PROCESSING")),
+        get=lambda name: SimpleNamespace(name=name, uri="gs://u", state=SimpleNamespace(name=next(states))))
+    client = SimpleNamespace(files=files)
+    monkeypatch.setattr(tr.time, "sleep", lambda s: None)
+    part = media_part(vid, client)
+    assert part["uri"] == "gs://u" and "data" not in part and part["processing"] == "agentic"
+    failed = SimpleNamespace(upload=lambda file: SimpleNamespace(name="f", uri="u", state="FAILED"))
+    with pytest.raises(RuntimeError):
+        media_part(vid, SimpleNamespace(files=failed))
 
 
 # --- keep the source (scripts/tasks/a-keep-source.md) -------------------------------------
