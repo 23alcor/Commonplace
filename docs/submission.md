@@ -3,13 +3,20 @@
 Hackathon: Gemini 4 NYC (Cerebral Valley + Google DeepMind), Sat Nov 21 2026.
 Problem Statement 1: **5 Sigma**. Deadline: **5:00 PM ET**.
 
+**Tagline:** Explain your project once. Every AI gets it.
+
 ## Project description (paste into the form)
 
-**capture-to-vault** turns messy personal captures — voice memos, whiteboard photos,
-handwritten pages, screenshots, scanned PDFs — into correctly filed, wikilinked Obsidian
-notes. Not a chat box: one upload, one note, self-checked.
+**capture-to-vault** is a **context manager for AI**. Developers use several AI stacks at once
+(we built this with Claude, Codex and Cursor in parallel) and still hand-write `AGENTS.md`,
+`CLAUDE.md` and per-agent prompts — lossy, per-tool, stale, and always fully loaded.
 
-Four Gemini pieces, each with one job:
+We turn messy media — voice memos, whiteboard photos, handwritten pages, screenshots, scanned
+PDFs — into a filed, wikilinked, **verified** Obsidian context vault. Any model then calls one
+`get_context` MCP tool for the right slice of that vault. Not a chatbot: we capture context in,
+and serve context out to agents.
+
+Four Gemini pieces write the vault; each has one job:
 
 - **Gemini 4 Hydrogen** transcribes media into a structured Capture.
 - **Gemini Decision 1** (Decisions API) routes note type, folder, and merge-or-new with
@@ -19,9 +26,11 @@ Four Gemini pieces, each with one job:
 - An **Antigravity Managed Agent** verifies the draft in a sandbox (`c2v.verify`) and fixes
   failures until checks pass — our “proof it works” loop and Managed Agents prize shot.
 
-We evaluate against a single-model Hydrogen baseline on held-out, re-rendered vault notes
-(noisy audio, blurred screenshots, scanned PDFs). Demo vault and `demo_captures/` are
-synthetic and public-safe; no personal notes or secrets in the repo.
+Retrieval is structure-aware `get_context` (seed note + links + backlinks + parent), not
+another RAG chat box. We eval filing against a single-model Hydrogen baseline on held-out
+messy re-captures, and scale retrieval vs RAG in `bench/SCALE.md` as vault size grows.
+`mock_vault/` and `demo_captures/` are synthetic and public-safe; no personal notes or secrets
+in the repo.
 
 Repo: _add public GitHub URL before submit_
 1-minute video: _add link before submit_
@@ -33,16 +42,16 @@ No face required — voiceover + screen is enough.
 
 | Time | Shot | Audio / VO |
 |---|---|---|
-| 0:00–0:08 | Title card: **capture-to-vault** + “messy media → filed Obsidian note” over a still of `demo_vault/00 Home/Home.md` | “Messy captures in. A clean, linked note out.” |
-| 0:08–0:18 | Capture page: drag `01_voice_gd_momentum.wav` | “Hydrogen transcribes.” |
-| 0:18–0:28 | Cut to router panel / logs: Decision 1 choice + confidence | “Decision 1 routes with confidence.” |
-| 0:28–0:38 | Neon draft preview: title, folder, `[[Gradient Descent Notes]]` | “Neon manages the vault — links that resolve.” |
-| 0:38–0:48 | Managed Agent / verify loop: fail → fix → `verify` pass | “Managed Agent verifies and repairs until green.” |
-| 0:48–0:55 | Split: Results table (baseline vs us) + honest-failure one-liner | “Beats a single-call baseline. We still miss sometimes — and we measure it.” |
+| 0:00–0:08 | Title: **capture-to-vault** + tagline over `/stage` vault graph | “Explain your project once. Every AI gets it.” |
+| 0:08–0:18 | Phone capture: `01_voice_eece448_ridge.wav`; `/stage` **① Transcribe** | “Hydrogen turns messy media into structured context.” |
+| 0:18–0:28 | **② Route** confidence bars; folder lands in EECE 448 | “Decision 1 routes with calibrated confidence.” |
+| 0:28–0:38 | **③ Manage** / **④ Verify** → new graph node + wikilinks | “Neon manages; a Managed Agent verifies until green.” |
+| 0:38–0:50 | Split terminals: Claude + Gemini both call `get_context` on the new note; same answer | “Two AIs. One tool. Same vault.” |
+| 0:50–0:55 | Not just RAG / Results or SCALE chart flash | “Filed and linked beats paste-and-pray RAG.” |
 | 0:55–1:00 | End card: repo URL + “Gemini 4 NYC / 5 Sigma” | Silence or soft stinger. |
 
-**B-roll reserve (if a live call flakes while recording):** pre-filed note open in Obsidian,
-`02_whiteboard_regularization.jpg` on the capture page, README Results table.
+**B-roll reserve:** pre-filed note on `/stage`, `09_ambiguous_salary_anchor.jpg` escalate-to-Neon,
+saved `docs/get-context-demo.md` transcript if live MCP flakes.
 
 **Export:** 1080p, H.264, under 100 MB if the form caps size. Filename:
 `capture-to-vault-1min.mp4` (do not commit the binary unless the form requires a repo path).
@@ -55,23 +64,25 @@ Do these in order. Stop if any box fails.
 
 - [ ] Repository is **public** on GitHub.
 - [ ] No `.env`, API keys, or credentials in any commit (`git log -p -- .env` is empty / file gitignored).
-- [ ] No real personal vault in git history (only `demo_vault/` synthetic notes).
+- [ ] No real personal vault in git history (only `mock_vault/` / synthetic notes).
 - [ ] `private_vault/`, `eval/work/`, `eval/cases/`, `eval/media/` are gitignored and untracked.
-- [ ] `git status` clean on `main` after final merge (`scripts/merge.sh`: A → C → B).
+- [ ] `git status` clean on `main` after final merge (`scripts/merge.sh`).
 
 ### Product + proof
 
-- [ ] End-to-end pipeline files at least one `demo_captures/` input into `demo_vault/`.
-- [ ] Capture page (`app/`) uploads and shows the resulting note.
+- [ ] End-to-end pipeline files at least one `demo_captures/` input into `mock_vault/`.
+- [ ] Capture page + `/stage` show the resulting note on the graph.
 - [ ] Managed Agent verify-fix path demonstrated once (or local `c2v.verify` fallback documented).
-- [ ] README **Results** table filled by Lane B (`eval/run_eval.py`) — folder accuracy, link F1,
-      verify pass, median latency for baseline vs capture-to-vault.
+- [ ] `get_context` MCP (or `GET /context`) answers a question only the new note can answer —
+      transcript in `docs/get-context-demo.md` when Lane C lands.
+- [ ] README **Results** table filled by Lane B; **Not just RAG** rows still mark Lane C in progress
+      until MCP merges; `bench/SCALE.md` filled or explicitly placeholder.
 - [ ] README “Where it still fails” is an honest sentence, not empty TBD.
-- [ ] `docs/demo-script.md` rehearsed once out loud (names all four model jobs).
+- [ ] `docs/demo-script.md` rehearsed once (four model jobs + two-AI `get_context` payoff).
 
 ### Submission form assets
 
-- [ ] Project description pasted (section above).
+- [ ] Project description pasted (section above) — includes tagline and context-manager angle.
 - [ ] Public repo URL confirmed.
 - [ ] 1-minute video uploaded; link works in an incognito window.
 - [ ] Team / lane credits accurate if the form asks.
@@ -79,6 +90,6 @@ Do these in order. Stop if any box fails.
 
 ### Final 10-minute gate
 
-- [ ] Projector / share screen shows capture page + vault, not a terminal full of secrets.
-- [ ] Fallback packet ready: one pre-filed note, Results table, `demo-script.md` fallback section.
+- [ ] Projector shows `/stage` + agent terminals, not a terminal full of secrets.
+- [ ] Fallback packet ready: pre-filed note, `get_context` JSON / demo transcript, Results table.
 - [ ] Someone other than the typer reads the README Results numbers aloud once.

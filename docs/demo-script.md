@@ -1,123 +1,115 @@
 # Live demo script (~3 minutes)
 
+**Pitch in one line:** *Explain your project once. Every AI gets it.* capture-to-vault is a
+**context manager** — messy media becomes a filed, linked, verified vault; any model calls one
+`get_context` tool instead of each stack keeping its own stale prompt file.
+
+**No audience involvement.** Time is short — you run the phone; judges only watch.
+
 **Two screens, one pipeline**
 
 | Device | URL | Audience sees |
 |---|---|---|
-| **Projector / laptop** | `http://<host>:8000/stage` | Live vault graph (`mock_vault`) + the four model steps lighting up as the pipeline runs |
-| **Phone** | `http://<host>:8000/` (capture page) | Upload / camera / mic only — you never type a note |
+| **Projector / laptop** | `http://<host>:8000/stage` | Live vault graph (`mock_vault`) + the four model steps |
+| **Phone** | `http://<host>:8000/` (capture page) | Camera / upload — you never type a note |
 
-**Before you start:** `/stage` fullscreen on the projector, capture page unlocked on the phone
-(Tailscale URL if judges are remote), `demo_captures/` on the phone or airdropped, one dry-run
-already filed today so the graph is warm. Results table (README) on a glance card if numbers exist.
-
-Say the product once: *messy media in, a clean Obsidian note out — filed, linked, and self-checked.*
+**Before you start:** `/stage` fullscreen on the projector (graph warm, [[Capture to Vault]] node
+visible under Projects). Capture page open on the phone. One agent CLI ready with `get_context`
+MCP (or `GET /context` backup). Pre-taken fallback photo of `/stage` already on the phone
+(see Fallbacks). Results glance card optional.
 
 ---
 
 ## 0:00–0:20 — Hook (projector)
 
-**Audience sees on `/stage`:** the vault graph — clusters for Learning (EECE / PHYS / ECON), Job
-Search, Plant Watering Bot, Homelab — before any new node appears.
+**Audience sees on `/stage`:** vault graph — Learning, Job Search, Plant Watering Bot, Homelab,
+and the **Capture to Vault** project node.
 
-> “Fifty-three notes in a synthetic vault shaped like a real one. Phone uploads junk; the projector
-> shows the graph and which model is working. Four models, four jobs.”
+> “We built this with Claude, Codex and Cursor in parallel and still wrote AGENTS.md by hand —
+> lossy, per-tool, always fully loaded. This vault is the shared context. Watch one unprepared
+> capture file itself, then an AI read it back.”
 
-Point at the empty step rail / idle state on `/stage`.
+Point at idle four-step rail. Do **not** pass the phone to the room.
 
 ---
 
-## 0:20–1:15 — Capture 1: high-confidence path
+## 0:20–1:40 — Live unprepared moment: photo of the app
 
-**Phone:** upload `demo_captures/01_voice_eece448_ridge.wav` (or hit Record and play it).
+This is the unrehearsed beat (no planted `demo_captures/` file).
 
-**Say each job as `/stage` advances — narrate what the room is looking at:**
+1. **Projector stays on `/stage`.** You hold the phone; point the camera at the projected app
+   (graph + step rail visible on screen).
+2. **Photo tip:** shoot at a **slight angle** (not dead-on perpendicular) so the projector pixels
+   don't moiré / rainbow against the phone sensor. Avoid standing in the beam (glare / your
+   shadow on the wall).
+3. **Phone:** Capture / upload that photo immediately.
+4. **Narrate the four jobs as `/stage` advances:**
 
 | Step | You say | Audience sees on `/stage` |
 |---|---|---|
-| 1 | **Hydrogen = transcriber** | Step 1 active; transcript / key terms for the EECE 448 ridge-vs-lasso memo |
-| 2 | **Decision 1 = router** | Step 2 active; folder toward EECE 448 / Sessions; confidences all high (≥ 0.75) |
-| 3 | **Neon = vault manager** | Step 3 may be brief or skipped if auto-file; else title + wikilinks drafting |
-| 4 | **Managed Agent = verifier** | Step 4 active; verify pass; new node appears on the graph linked to [[EECE 448 Machine Learning]] / [[Regularization]] / [[Gradient descent]] |
+| 1 | **Hydrogen = transcriber** | Reads the screen photo (UI chrome, “capture-to-vault”, graph labels) |
+| 2 | **Decision 1 = router** | Lands under `30 Project and Hobby/…/Capture to Vault/` (or merge into [[Capture to Vault]]) |
+| 3 | **Neon = vault manager** | Title / links if confidence dipped; else brief |
+| 4 | **Managed Agent = verifier** | Verify pass; new or updated node on the **Capture to Vault** project |
 
-> “No chat box. Phone sent audio; the graph grew a note.”
+> “Unprepared input: a photo of the running app. It filed itself into the Capture to Vault project.”
 
-Leave the new node highlighted.
+Leave that node highlighted.
 
----
+### Fallback if the live photo is glare-heavy / unreadable
 
-## 1:15–1:55 — Capture 2: merge into an existing note
+Do **not** retry more than once. Upload the **pre-taken photo of the app** already on the phone
+(shot earlier today at a slight angle under the same projector, or a clean laptop screenshot of
+`/stage` transferred to the phone). Say one line:
 
-**Phone:** upload `demo_captures/08_merge_soil_sensor_followup.jpg`.
+> “Projector glare — using a photo we took of the same screen a minute ago. Still unprepared
+> media, still the live pipeline.”
 
-**Audience sees:**
-
-1. Hydrogen pulls calibration numbers (dry 820 / wet 310) from the skewed page.
-2. Decision 1: **merge-yes** toward [[Plant Watering Bot]] or the Nov 12 soil-sensor session —
-   point at the confidence for merge.
-3. Neon (if needed) attaches body + links [[ESP32]], [[Soil moisture sensing]].
-4. Verifier green; **graph does not explode with a duplicate** — the existing Plant Watering Bot
-   node gains a link / the session updates.
-
-> “Same project, more data. Router chose merge instead of a second orphan note.”
+Then continue from Decision 1 / the filing result as usual.
 
 ---
 
-## 1:55–2:25 — Capture 3: ambiguous → escalate to Neon
+## 1:40–2:30 — Close: AI explains the project via `get_context`
 
-**Phone:** upload `demo_captures/09_ambiguous_salary_anchor.jpg`.
+Keep `/stage` on the filed Capture to Vault note. On the projector (second window or cut), run
+**one** agent — not two, time is short:
 
-**Audience sees on `/stage`:**
+```text
+get_context("capture to vault")
+```
 
-1. Hydrogen transcript: salary anchoring + Job Search + EECE bias-variance aside.
-2. Decision 1: **split probabilities** across Job Search / ECON 205 / maybe EECE — at least one
-   confidence **below** `ROUTE_CONFIDENCE_MIN` (default 0.75). Call it out:
-   > “Router is unsure. That is the feature — we escalate.”
-3. **Neon = vault manager** step lights and stays longer: picks a home, writes frontmatter, chooses
-   links ([[Anchoring]], [[Job Search]], …).
-4. Managed Agent verifies; a node appears where Neon landed.
+Ask it to explain the project from that context.
 
-> “Decision 1 routes when confident; Neon manages when it is not.”
+**Audience sees:** tool return packing [[Capture to Vault]] (+ linked notes), then a spoken/ typed
+summary grounded in the vault — including the note that just filed from the screen photo.
 
----
+> “One tool. The vault just learned from a photo of itself. Explain your project once — every AI
+> gets it.”
 
-## 2:25–2:45 — Proof: baseline comparison
-
-Keep `/stage` visible; glance or cut to README Results (Lane B).
-
-> “Baseline is one Hydrogen call on the same held-out messy inputs. We win on folder accuracy and
-> link F1; verify-pass is the Managed Agent loop you just watched.”
-
-If the table is still empty, show one scored case artifact — do not invent numbers.
+If MCP is flaky: `GET /context?q=capture%20to%20vault` in the browser and read the packed notes
+aloud while the agent (or you) summarizes.
 
 ---
 
-## 2:45–3:00 — Honest failure + close
+## 2:30–3:00 — Proof beat (optional if time) + honest failure
 
-Name one real miss (eval or a pre-run): wrong folder, bad merge, or a link the verifier had to fix.
+One sentence on Results / Not just RAG / `bench/SCALE.md` if numbers are up:
 
-> “Here is a failure we measured. We are not claiming five sigma — we are instrumenting toward it.”
+> “Filed and linked beats paste-and-pray RAG — [point at real numbers only].”
 
-Close on `/stage` with the three new/updated nodes visible:
-
-> “Phone captures. Projector shows the vault graph and four jobs: Hydrogen, Decision 1, Neon,
-> Managed Agent.”
-
-Stop talking.
+Name one measured miss if you still have ten seconds, then stop on `/stage` + the `get_context`
+answer. No Q&A phone pass.
 
 ---
 
-## Fallback if the network drops
+## Fallbacks (network / pipeline)
 
-Do **not** refresh both devices. Projector stays on `/stage` if it still has the last good graph;
-otherwise switch to a frozen screenshot of `/stage` + a pre-filed note.
+1. Keep `/stage` on the last good graph (or a screenshot).
+2. Live photo bad → pre-taken app photo (above). Pipeline down → walk a saved Capture →
+   RoutingDecision → NoteDraft that targeted [[Capture to Vault]].
+3. `get_context` down → open saved JSON / `docs/get-context-demo.md` for query
+   `capture to vault`.
+4. Managed Agent down → local `python -m c2v.verify` on a draft.
 
-1. Phone: open a photo of `01_voice_eece448_ridge.wav` / play the WAV locally so judges hear messy input.
-2. Walk the four jobs against a saved Capture → RoutingDecision → NoteDraft / `FilingResult`.
-3. For the ambiguous story, hold up `09_ambiguous_salary_anchor.jpg` and show a pre-captured
-   `/stage` frame where Decision 1 confidences were low and Neon was highlighted.
-4. Results table / eval charts substitute for a live API call.
-5. If only the Managed Agent sandbox is down: run `PYTHONPATH=. python -m c2v.verify` on a draft
-   and say the agent wraps that loop remotely.
-
-**Hard rule:** never open `.env` or paste an API key on the projector.
+**Hard rule:** never open `.env` or paste an API key on the projector. Never hand the phone to
+the audience.
