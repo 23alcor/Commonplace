@@ -20,12 +20,14 @@ from .verify import verify_draft, write_draft
 MAX_REPAIRS = 2
 
 
-def file_capture(path: str | Path, vault: Vault, dry_run: bool = False, agent_verify: bool = False) -> FilingResult:
+def file_capture(path: str | Path, vault: Vault, dry_run: bool = False, agent_verify: bool = False,
+                 client=None, beta_client=None) -> FilingResult:
+    """client/beta_client: inject fakes in tests; default to real Gemini clients."""
     t0 = time.time()
-    capture = transcribe(path)
-    routing = route(capture, vault)
+    capture = transcribe(path, client=client)
+    routing = route(capture, vault, beta_client=beta_client, client=client)
     routing.escalate = routing.escalate or needs_escalation(routing, capture)
-    draft = draft_note(capture, routing, vault)
+    draft = draft_note(capture, routing, vault, client=client)
     report = verify_draft(draft, vault)
     path_taken = "escalated" if routing.escalate else "auto"
 
@@ -38,7 +40,7 @@ def file_capture(path: str | Path, vault: Vault, dry_run: bool = False, agent_ve
             draft, report = agent_fix(draft, report, vault)
             path_taken = "agent_fixed"
         else:
-            draft = repair(draft, report, vault)
+            draft = repair(draft, report, vault, client=client)
             report = verify_draft(draft, vault)
 
     written = None
