@@ -41,7 +41,7 @@ def vault() -> Vault:
     return _vault
 
 
-@mcp.tool()
+@mcp.tool(structured_output=False)
 def get_context(query: str, max_tokens: int = 4000) -> str:
     """Get the right context from the user's vault for a project, conversation or topic.
 
@@ -58,7 +58,7 @@ def get_context(query: str, max_tokens: int = 4000) -> str:
     return "\n".join(parts)
 
 
-@mcp.tool()
+@mcp.tool(structured_output=False)
 def search_notes(query: str) -> str:
     """Keyword search over note titles, aliases and bodies. Returns matching titles and paths."""
     hits = vault().search(query, k=10)
@@ -67,7 +67,7 @@ def search_notes(query: str) -> str:
     return "\n".join(f"- {n.title}  ({n.path.as_posix()})" for n in hits)
 
 
-@mcp.tool()
+@mcp.tool(structured_output=False)
 def read_note(title: str) -> str:
     """Read one note in full by its title or alias (as in an Obsidian [[wikilink]])."""
     v = vault()
