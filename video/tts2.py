@@ -2,7 +2,7 @@ import base64, io, sys, wave
 from google import genai
 LINES = {
  "h1": "Today I built this project with three different AIs. And I had to explain the same project to every one of them.",
- "h2": "Context files help. But they're written by hand, they're tied to one tool, and whatever you leave out is gone.",
+ "h2": "Context files help. But every tool wants its own, they load everything every time, and whatever they leave out is gone.",
  "h3": "So I built a context manager.",
  "h4": "Throw it anything: a whiteboard, a voice memo, a video. Gemini 4 Hydrogen reads it.",
  "h5": "Decision 1 decides where it belongs. When it's unsure, Gemini 4 Neon files it and links it to the right notes.",
