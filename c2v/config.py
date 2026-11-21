@@ -29,7 +29,7 @@ MODEL_IDS = {
 }
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-VAULT_PATH = Path(os.environ.get("VAULT_PATH", REPO_ROOT / "demo_vault")).expanduser()
+VAULT_PATH = Path(os.environ.get("VAULT_PATH") or REPO_ROOT / "mock_vault").expanduser()
 ROUTE_CONFIDENCE_MIN = float(os.environ.get("ROUTE_CONFIDENCE_MIN", "0.75"))
 
 
