@@ -1,0 +1,47 @@
+{
+ "key": {
+  "model": "gemini-4-neon",
+  "arm": "c2v",
+  "qid": "s06",
+  "question": "What kinds of roles is my job search targeting?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 4000,
+  "v": 2
+ },
+ "tool_calls": [
+  {
+   "args": {
+    "query": "job search"
+   },
+   "notes": [
+    "Job Search",
+    "Career",
+    "2026-11-15 Career - Weekly application review",
+    "2026-11-19 Career - Mock interview, system design",
+    "Interview Prep",
+    "System design interviews",
+    "2026-11-19",
+    "Informational interviews"
+   ]
+  }
+ ],
+ "notes_seen": [
+  "Job Search",
+  "Career",
+  "2026-11-15 Career - Weekly application review",
+  "2026-11-19 Career - Mock interview, system design",
+  "Interview Prep",
+  "System design interviews",
+  "2026-11-19",
+  "Informational interviews"
+ ],
+ "context_tokens": 599,
+ "error": null,
+ "answer": "Your **Job Search** note states that you are targeting **embedded / ML roles**.\n\nSpecifically, your current application pipeline includes:\n- **Embedded ML** (ChipCo \u2014 Screen)\n- **Firmware intern** (EdgeNet \u2014 Applied)\n- **Systems SWE** (CloudForge \u2014 Found)\n- **On-device inference** (GPU Labs \u2014 Technical)",
+ "usage": {
+  "input": 1551,
+  "output": 103,
+  "thought": 148
+ },
+ "latency_s": 6.047
+}

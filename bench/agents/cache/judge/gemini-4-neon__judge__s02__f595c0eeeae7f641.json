@@ -1,0 +1,91 @@
+{
+ "key": {
+  "judge": "gemini-4-neon",
+  "qid": "s02",
+  "gold": "Conventional overcurrent relay logic used as the comparison for the ML fault detectors.",
+  "answers": {
+   "A": "In your capstone notes, the relay baseline is conventional overcurrent relay logic used as the comparison for ML detectors.",
+   "B": "In your **Solar Microgrid Capstone** notes (specifically the **Relay baseline** concept note), the relay baseline is **conventional overcurrent relay logic used as the comparison for ML detectors**.",
+   "C": "I don't know, as I don't have access to your capstone notes.",
+   "D": "In your capstone notes, the relay baseline is conventional overcurrent relay logic used as the comparison for ML detectors.",
+   "E": "In your Solar Microgrid Capstone (`EECE 410`), the conventional overcurrent relay baseline is used as a benchmark to evaluate your ML-based fault detection for grid-following inverters.",
+   "F": "In your EECE 410 Capstone Design notes, the relay baseline is conventional overcurrent relay logic used as a comparison for ML fault detectors.",
+   "G": "In your **Solar Microgrid Capstone** notes (specifically the **Relay baseline** concept note), the **relay baseline** is:\n\n> **Conventional overcurrent relay logic used as the comparison for ML detectors.**",
+   "H": "I don't know. I don't have access to your capstone notes to see what the \"relay baseline\" is used for.",
+   "I": "In your **Solar Microgrid Capstone** notes, the **relay baseline** is conventional overcurrent relay logic used as the comparison benchmark for ML fault detectors."
+  },
+  "v": 1
+ },
+ "labels": {
+  "A": "gemini-4-hydrogen|rag|4000",
+  "B": "gemini-4-neon|c2v|4000",
+  "C": "gemini-4-hydrogen|no_context|4000",
+  "D": "gemini-4-hydrogen|rag|1500",
+  "E": "gemini-4-hydrogen|context_file|1500",
+  "F": "gemini-4-hydrogen|context_file|4000",
+  "G": "gemini-4-hydrogen|c2v|1500",
+  "H": "gemini-4-neon|no_context|4000",
+  "I": "gemini-4-hydrogen|c2v|4000"
+ },
+ "grades": [
+  {
+   "label": "A",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately states the gold answer based on the gold notes."
+  },
+  {
+   "label": "B",
+   "verdict": "correct",
+   "hallucinated": true,
+   "reason": "Accurately states the gold answer, but adds 'Solar Microgrid Capstone' which is not supported by the gold notes."
+  },
+  {
+   "label": "C",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "Declines to answer by stating it does not have access to the notes."
+  },
+  {
+   "label": "D",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately states the gold answer based on the gold notes."
+  },
+  {
+   "label": "E",
+   "verdict": "correct",
+   "hallucinated": true,
+   "reason": "Correctly captures the key concept, but introduces unsupported specifics ('Solar Microgrid Capstone', 'EECE 410', 'grid-following inverters') not present in the gold notes."
+  },
+  {
+   "label": "F",
+   "verdict": "correct",
+   "hallucinated": true,
+   "reason": "Accurately states the gold answer, but adds 'EECE 410 Capstone Design' which is not supported by the gold notes."
+  },
+  {
+   "label": "G",
+   "verdict": "correct",
+   "hallucinated": true,
+   "reason": "Accurately quotes the gold notes, but adds 'Solar Microgrid Capstone' which is not supported by the gold notes."
+  },
+  {
+   "label": "H",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "Declines to answer by stating it does not have access to the notes."
+  },
+  {
+   "label": "I",
+   "verdict": "correct",
+   "hallucinated": true,
+   "reason": "Accurately states the gold answer, but adds 'Solar Microgrid Capstone' which is not supported by the gold notes."
+  }
+ ],
+ "usage": {
+  "input": 910,
+  "output": 434,
+  "thought": 797
+ }
+}

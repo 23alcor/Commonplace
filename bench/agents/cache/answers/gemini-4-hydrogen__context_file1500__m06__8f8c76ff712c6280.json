@@ -1,0 +1,23 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "context_file",
+  "qid": "m06",
+  "question": "What EECE 448 sessions have I logged, with dates?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2,
+  "ctx": "afb4999980f9"
+ },
+ "tool_calls": [],
+ "notes_seen": [],
+ "context_tokens": 836,
+ "error": null,
+ "answer": "You have logged two EECE 448 sessions: `2026-11-10` (updated `2026-11-21`) on Ridge vs. Lasso regularization on the housing dataset, and `2026-11-17` on bias-variance office hours.",
+ "usage": {
+  "input": 1182,
+  "output": 73,
+  "thought": 133
+ },
+ "latency_s": 3.405
+}

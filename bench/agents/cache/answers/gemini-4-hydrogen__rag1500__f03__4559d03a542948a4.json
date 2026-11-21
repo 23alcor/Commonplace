@@ -1,0 +1,42 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "rag",
+  "qid": "f03",
+  "question": "Which company in my job pipeline is at the Technical stage, and for what role?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2
+ },
+ "tool_calls": [],
+ "notes_seen": [
+  "Job Search",
+  "2026-11-15 Career - Weekly application review",
+  "2026-11-19 Career - Mock interview, system design",
+  "Interview Prep",
+  "Career",
+  "2026-11-19",
+  "About Me",
+  "Informational interviews",
+  "Projects",
+  "System design interviews",
+  "Solar Microgrid Capstone",
+  "Homelab Server",
+  "Tailscale",
+  "Recipe Scraper",
+  "2026-11-12 Capstone - Agreed on relay baseline",
+  "2026-11-20 Homelab - Tailscale ACL cleanup",
+  "2026-11-18 Capstone - Inverter fault sim results",
+  "Plant Watering Bot",
+  "2026-11-13 ECON 205 - Anchoring lecture"
+ ],
+ "context_tokens": 1493,
+ "error": null,
+ "answer": "GPU Labs is at the Technical stage for the On-device inference role.",
+ "usage": {
+  "input": 2167,
+  "output": 19,
+  "thought": 201
+ },
+ "latency_s": 2.881
+}

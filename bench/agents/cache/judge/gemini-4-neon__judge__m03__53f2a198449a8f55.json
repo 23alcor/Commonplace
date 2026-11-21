@@ -1,0 +1,91 @@
+{
+ "key": {
+  "judge": "gemini-4-neon",
+  "qid": "m03",
+  "gold": "Fault detection",
+  "answers": {
+   "A": "**Fault detection** came up in both of your logged capstone sessions:\n\n- **2026-11-12 \u2014 Agreed on relay baseline**: Relay baseline, **Fault detection**\n- **2026-11-18 \u2014 Inverter fault sim results**: Inverter control, **Fault detection**",
+   "B": "I don't know\u2014the provided log only lists \"relay baseline\" for the November 12 session and \"inverter fault simulation results\" for the November 18 session, without a shared concept mentioned in both.",
+   "C": "**Fault detection** came up in both of your logged capstone sessions:\n\n- **2026-11-12 (`Agreed on relay baseline`)**: `[[Relay baseline]]`, `[[Fault detection]]`\n- **2026-11-18 (`Inverter fault sim results`)**: `[[Inverter control]]`, `[[Fault detection]]`",
+   "D": "Fault detection came up in both of your logged capstone sessions (2026-11-12 and 2026-11-18).",
+   "E": "I don't know, as I don't have access to your logged capstone sessions.",
+   "F": "**Fault detection** came up in both of your logged capstone sessions:\n\n- **2026-11-12 Capstone - Agreed on relay baseline**: Relay baseline, **Fault detection**\n- **2026-11-18 Capstone - Inverter fault sim results**: Inverter control, **Fault detection**",
+   "G": "I don't know\u2014the notes list \"relay baseline\" for the 2026-11-12 session and \"Inverter fault simulation results\" for the 2026-11-18 session, without stating a single concept that came up in both.",
+   "H": "**Fault detection** came up in both of your logged capstone sessions (`2026-11-12` and `2026-11-18`).",
+   "I": "I don't know."
+  },
+  "v": 1
+ },
+ "labels": {
+  "A": "gemini-4-neon|c2v|4000",
+  "B": "gemini-4-hydrogen|context_file|1500",
+  "C": "gemini-4-hydrogen|c2v|4000",
+  "D": "gemini-4-hydrogen|rag|1500",
+  "E": "gemini-4-hydrogen|no_context|4000",
+  "F": "gemini-4-hydrogen|c2v|1500",
+  "G": "gemini-4-hydrogen|context_file|4000",
+  "H": "gemini-4-hydrogen|rag|4000",
+  "I": "gemini-4-neon|no_context|4000"
+ },
+ "grades": [
+  {
+   "label": "A",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies Fault detection and accurately references both sessions and their listed concepts."
+  },
+  {
+   "label": "B",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States it does not know and misses the shared concept listed in the notes, without inventing unsupported facts."
+  },
+  {
+   "label": "C",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies Fault detection and accurately references both sessions and their listed concepts."
+  },
+  {
+   "label": "D",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies Fault detection and accurately cites the dates of both sessions."
+  },
+  {
+   "label": "E",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "Says it does not know due to lack of access."
+  },
+  {
+   "label": "F",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies Fault detection and accurately references both sessions and their listed concepts."
+  },
+  {
+   "label": "G",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States it does not know and misses the shared concept listed in the notes, without inventing unsupported facts."
+  },
+  {
+   "label": "H",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies Fault detection and accurately cites the dates of both sessions."
+  },
+  {
+   "label": "I",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "Says it does not know."
+  }
+ ],
+ "usage": {
+  "input": 1233,
+  "output": 500,
+  "thought": 477
+ }
+}

@@ -1,0 +1,23 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "context_file",
+  "qid": "s07",
+  "question": "What did I do in my homelab session on Nov 20?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2,
+  "ctx": "8991b47a3001"
+ },
+ "tool_calls": [],
+ "notes_seen": [],
+ "context_tokens": 836,
+ "error": null,
+ "answer": "On November 20, you worked on Tailscale ACL cleanup for your homelab server.",
+ "usage": {
+  "input": 1182,
+  "output": 23,
+  "thought": 151
+ },
+ "latency_s": 3.356
+}

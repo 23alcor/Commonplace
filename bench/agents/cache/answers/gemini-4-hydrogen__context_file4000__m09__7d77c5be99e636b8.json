@@ -1,0 +1,23 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "context_file",
+  "qid": "m09",
+  "question": "Besides anchoring, what concept did my Nov 13 ECON 205 lecture cover, and how do my notes define it?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 4000,
+  "v": 2,
+  "ctx": "5914ff65802d"
+ },
+ "tool_calls": [],
+ "notes_seen": [],
+ "context_tokens": 1079,
+ "error": null,
+ "answer": "I don't know; your notes only list `2026-11-13` as \"Anchoring lecture\" and don't mention any other concept covered in that session.",
+ "usage": {
+  "input": 1442,
+  "output": 45,
+  "thought": 171
+ },
+ "latency_s": 2.366
+}

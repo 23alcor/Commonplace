@@ -1,0 +1,91 @@
+{
+ "key": {
+  "judge": "gemini-4-neon",
+  "qid": "m05",
+  "gold": "Homelab Server, Plant Watering Bot, Recipe Scraper, Solar Microgrid Capstone",
+  "answers": {
+   "A": "Your active projects are Solar Microgrid Capstone (`EECE 410`), Plant Watering Bot, Homelab Server, and Recipe Scraper.",
+   "B": "The projects under your Projects hub are Homelab Server, Plant Watering Bot, Recipe Scraper, and Solar Microgrid Capstone.",
+   "C": "I don't know.",
+   "D": "Your active side projects are Homelab Server, Plant Watering Bot, and Recipe Scraper.",
+   "E": "Here are the projects listed under your **Projects** hub:\n\n- **Homelab Server**\n- **Plant Watering Bot**\n- **Recipe Scraper**\n- **Solar Microgrid Capstone**",
+   "F": "The projects listed under your **Projects** hub are:\n\n- **Homelab Server** (active)\n- **Plant Watering Bot** (active)\n- **Recipe Scraper** (active)\n- **Solar Microgrid Capstone** (active)",
+   "G": "I don't know.",
+   "H": "The projects under your Projects hub are Homelab Server, Plant Watering Bot, Recipe Scraper, and Solar Microgrid Capstone.",
+   "I": "The projects listed under your **Projects** hub are:\n\n- **Homelab Server** (active)\n- **Plant Watering Bot** (active)\n- **Recipe Scraper** (active)\n- **Solar Microgrid Capstone** (active)"
+  },
+  "v": 1
+ },
+ "labels": {
+  "A": "gemini-4-hydrogen|context_file|1500",
+  "B": "gemini-4-hydrogen|rag|4000",
+  "C": "gemini-4-hydrogen|no_context|4000",
+  "D": "gemini-4-hydrogen|context_file|4000",
+  "E": "gemini-4-neon|c2v|4000",
+  "F": "gemini-4-hydrogen|c2v|1500",
+  "G": "gemini-4-neon|no_context|4000",
+  "H": "gemini-4-hydrogen|rag|1500",
+  "I": "gemini-4-hydrogen|c2v|4000"
+ },
+ "grades": [
+  {
+   "label": "A",
+   "verdict": "correct",
+   "hallucinated": true,
+   "reason": "Lists all four projects, but adds an unsupported course code (EECE 410) not present in the gold notes."
+  },
+  {
+   "label": "B",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately lists all four projects under the Projects hub."
+  },
+  {
+   "label": "C",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "Says it does not know."
+  },
+  {
+   "label": "D",
+   "verdict": "partial",
+   "hallucinated": false,
+   "reason": "Lists three of the four projects but omits Solar Microgrid Capstone."
+  },
+  {
+   "label": "E",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately lists all four projects under the Projects hub."
+  },
+  {
+   "label": "F",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately lists all four projects under the Projects hub."
+  },
+  {
+   "label": "G",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "Says it does not know."
+  },
+  {
+   "label": "H",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately lists all four projects under the Projects hub."
+  },
+  {
+   "label": "I",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately lists all four projects under the Projects hub."
+  }
+ ],
+ "usage": {
+  "input": 903,
+  "output": 347,
+  "thought": 807
+ }
+}

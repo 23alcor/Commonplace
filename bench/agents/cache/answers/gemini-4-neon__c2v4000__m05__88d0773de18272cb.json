@@ -1,0 +1,83 @@
+{
+ "key": {
+  "model": "gemini-4-neon",
+  "arm": "c2v",
+  "qid": "m05",
+  "question": "List all the projects under my Projects hub.",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 4000,
+  "v": 2
+ },
+ "tool_calls": [
+  {
+   "args": {
+    "query": "Projects hub"
+   },
+   "notes": [
+    "Projects",
+    "Homelab Server",
+    "Plant Watering Bot",
+    "Recipe Scraper",
+    "Solar Microgrid Capstone",
+    "About Me",
+    "Home",
+    "2026-11-12 Capstone - Agreed on relay baseline",
+    "2026-11-12 Plant Watering Bot - Calibrated soil sensor",
+    "2026-11-14 Homelab - Moved cron jobs off laptop",
+    "2026-11-16 Recipe Scraper - Dedupe recipes by URL",
+    "2026-11-18 Capstone - Inverter fault sim results",
+    "2026-11-20 Homelab - Tailscale ACL cleanup",
+    "Career",
+    "Cron jobs",
+    "ESP32",
+    "Fault detection",
+    "Inverter control",
+    "MQTT",
+    "Relay baseline",
+    "SQLite",
+    "School",
+    "Soil moisture sensing",
+    "Tailscale",
+    "Web scraping",
+    "tmux"
+   ]
+  }
+ ],
+ "notes_seen": [
+  "Projects",
+  "Homelab Server",
+  "Plant Watering Bot",
+  "Recipe Scraper",
+  "Solar Microgrid Capstone",
+  "About Me",
+  "Home",
+  "2026-11-12 Capstone - Agreed on relay baseline",
+  "2026-11-12 Plant Watering Bot - Calibrated soil sensor",
+  "2026-11-14 Homelab - Moved cron jobs off laptop",
+  "2026-11-16 Recipe Scraper - Dedupe recipes by URL",
+  "2026-11-18 Capstone - Inverter fault sim results",
+  "2026-11-20 Homelab - Tailscale ACL cleanup",
+  "Career",
+  "Cron jobs",
+  "ESP32",
+  "Fault detection",
+  "Inverter control",
+  "MQTT",
+  "Relay baseline",
+  "SQLite",
+  "School",
+  "Soil moisture sensing",
+  "Tailscale",
+  "Web scraping",
+  "tmux"
+ ],
+ "context_tokens": 1516,
+ "error": null,
+ "answer": "Here are the projects listed under your **Projects** hub:\n\n- **Homelab Server**\n- **Plant Watering Bot**\n- **Recipe Scraper**\n- **Solar Microgrid Capstone**",
+ "usage": {
+  "input": 3244,
+  "output": 68,
+  "thought": 74
+ },
+ "latency_s": 12.873
+}

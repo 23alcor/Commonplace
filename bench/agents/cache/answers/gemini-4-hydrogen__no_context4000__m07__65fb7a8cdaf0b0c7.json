@@ -1,0 +1,22 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "no_context",
+  "qid": "m07",
+  "question": "Which of my courses covers the Smith chart, and when did I do a Smith chart practice set?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 0,
+  "v": 2
+ },
+ "tool_calls": [],
+ "notes_seen": [],
+ "context_tokens": 0,
+ "error": null,
+ "answer": "I don't know, as I don't have access to your course materials, notes, or schedule.",
+ "usage": {
+  "input": 129,
+  "output": 27,
+  "thought": 133
+ },
+ "latency_s": 2.059
+}

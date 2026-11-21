@@ -1,0 +1,92 @@
+{
+ "key": {
+  "judge": "gemini-4-neon",
+  "qid": "s09",
+  "gold": "Inverter fault sim results (inverter fault simulation; concepts inverter control and fault detection)",
+  "answers": {
+   "A": "You didn't log any specific numbers or detailed findings in your vault for that session. \n\nHere is what is recorded for **November 18, 2026** (`2026-11-18 Capstone - Inverter fault sim results`):\n- **Summary:** Inverter fault sim results. Worked on **Solar Microgrid Capstone** (coding session).\n- **Concepts linked:** Inverter control, Fault detection.\n- **Next steps:** Follow up next session.",
+   "B": "I don't know. I don't have access to your capstone logs or notes.",
+   "C": "On November 18, 2026, you logged that you ran inverter fault simulation results for the Solar Microgrid Capstone, though the specific numerical results or details are not included in your notes.",
+   "D": "On November 18, 2026, your session note (**2026-11-18 Capstone - Inverter fault sim results**) and daily note (**2026-11-18**) only log the high-level topic:\n\n- **Inverter fault sim results** (coding session for **Solar Microgrid Capstone**, covering **Inverter control** and **Fault detection**)\n\nNo specific numbers or detailed simulation outcomes were recorded in the note.",
+   "E": "I don't know\u2014your Nov 18 note only mentions \"Inverter fault sim results\" for the Solar Microgrid Capstone without logging the specific results.",
+   "F": "I don't know the specific results\u2014the November 18 session note only logs the title and summary \"Inverter fault sim results\" for the Solar Microgrid Capstone without any details.",
+   "G": "I don't know the specific results\u2014your notes only list \"Inverter fault simulation results\" for `2026-11-18` without any further details.",
+   "H": "On November 18, 2026, you logged a coding session for **Solar Microgrid Capstone** titled **\"Inverter fault sim results\"** (`2026-11-18 Capstone - Inverter fault sim results`).\n\nHowever, the note doesn't contain any specific numerical results or detailed findings\u2014it only records:\n- **Summary:** Inverter fault sim results. Worked on Solar Microgrid Capstone.\n- **Concepts:** Inverter control, Fault detection\n- **Next steps:** Follow up next session",
+   "I": "I don't know. I don't have access to your capstone logs or notes from November 18."
+  },
+  "v": 2,
+  "vault": "ec7da3651072"
+ },
+ "labels": {
+  "A": "gemini-4-neon|c2v|4000",
+  "B": "gemini-4-neon|no_context|4000",
+  "C": "gemini-4-hydrogen|context_file|1500",
+  "D": "gemini-4-hydrogen|c2v|1500",
+  "E": "gemini-4-hydrogen|rag|1500",
+  "F": "gemini-4-hydrogen|rag|4000",
+  "G": "gemini-4-hydrogen|context_file|4000",
+  "H": "gemini-4-hydrogen|c2v|4000",
+  "I": "gemini-4-hydrogen|no_context|4000"
+ },
+ "grades": [
+  {
+   "label": "A",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately reports the logged summary ('Inverter fault sim results'), linked concepts (Inverter control, Fault detection), and that no specific numbers were recorded."
+  },
+  {
+   "label": "B",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "Says it does not know and does not have access to the notes."
+  },
+  {
+   "label": "C",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the logged entry as inverter fault simulation results for the Solar Microgrid Capstone and notes that specific numerical results are not included."
+  },
+  {
+   "label": "D",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately cites both the session note and daily note, stating 'Inverter fault sim results' and the linked concepts (Inverter control, Fault detection)."
+  },
+  {
+   "label": "E",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states that the Nov 18 note logs 'Inverter fault sim results' for the Solar Microgrid Capstone without specific numerical details."
+  },
+  {
+   "label": "F",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states that the Nov 18 session note logs 'Inverter fault sim results' for the Solar Microgrid Capstone without further details."
+  },
+  {
+   "label": "G",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the logged entry as 'Inverter fault simulation results' for 2026-11-18 without further details."
+  },
+  {
+   "label": "H",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately reports the session title, summary ('Inverter fault sim results'), linked concepts (Inverter control, Fault detection), and lack of specific numerical findings."
+  },
+  {
+   "label": "I",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "Says it does not know and does not have access to the notes."
+  }
+ ],
+ "usage": {
+  "input": 6787,
+  "output": 610,
+  "thought": 786
+ }
+}

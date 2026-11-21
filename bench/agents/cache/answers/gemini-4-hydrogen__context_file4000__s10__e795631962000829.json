@@ -1,0 +1,23 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "context_file",
+  "qid": "s10",
+  "question": "Which ECON 205 lecture did I log, and on what date?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 4000,
+  "v": 2,
+  "ctx": "5914ff65802d"
+ },
+ "tool_calls": [],
+ "notes_seen": [],
+ "context_tokens": 1079,
+ "error": null,
+ "answer": "You logged the Anchoring lecture for ECON 205 on 2026-11-13.",
+ "usage": {
+  "input": 1431,
+  "output": 29,
+  "thought": 93
+ },
+ "latency_s": 2.123
+}

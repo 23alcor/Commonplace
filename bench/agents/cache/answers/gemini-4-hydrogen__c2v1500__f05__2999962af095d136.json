@@ -1,0 +1,48 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "c2v",
+  "qid": "f05",
+  "question": "What tmux session name does my homelab runbook say to create?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2
+ },
+ "tool_calls": [
+  {
+   "args": {
+    "max_tokens": 1500,
+    "query": "homelab runbook tmux session name"
+   },
+   "notes": [
+    "Homelab Runbook",
+    "tmux",
+    "2026-11-14 Homelab - Moved cron jobs off laptop",
+    "2026-11-20 Homelab - Tailscale ACL cleanup",
+    "Homelab Server",
+    "Cron jobs",
+    "Tailscale",
+    "Projects"
+   ]
+  }
+ ],
+ "notes_seen": [
+  "Homelab Runbook",
+  "tmux",
+  "2026-11-14 Homelab - Moved cron jobs off laptop",
+  "2026-11-20 Homelab - Tailscale ACL cleanup",
+  "Homelab Server",
+  "Cron jobs",
+  "Tailscale",
+  "Projects"
+ ],
+ "context_tokens": 534,
+ "error": null,
+ "answer": "Your **Homelab Runbook** says to create a tmux session named **`agents`** (`tmux new -s agents`).",
+ "usage": {
+  "input": 1585,
+  "output": 65,
+  "thought": 114
+ },
+ "latency_s": 6.055
+}

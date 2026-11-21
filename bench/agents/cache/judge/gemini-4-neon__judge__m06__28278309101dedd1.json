@@ -1,0 +1,91 @@
+{
+ "key": {
+  "judge": "gemini-4-neon",
+  "qid": "m06",
+  "gold": "Nov 10: Ridge vs lasso on housing data; Nov 17: Bias-variance office hours",
+  "answers": {
+   "A": "You have logged two sessions for **EECE 448 Machine Learning**:\n\n- **2026-11-10** \u2014 *Ridge vs lasso on housing data* (study)\n- **2026-11-17** \u2014 *Bias-variance office hours* (meeting)",
+   "B": "You have logged two sessions for **EECE 448 Machine Learning**:\n\n1. **2026-11-10** \u2014 *Ridge vs lasso on housing data* (study)\n2. **2026-11-17** \u2014 *Bias-variance office hours* (meeting)",
+   "C": "I don't know.",
+   "D": "You have logged two EECE 448 sessions: `2026-11-10` (updated `11-21`) on Ridge vs. Lasso regularization on the housing dataset, and `2026-11-17` for bias-variance office hours.",
+   "E": "You have logged two EECE 448 sessions: \"Ridge vs lasso on housing data\" on 2026-11-10 and \"Bias-variance office hours\" on 2026-11-17.",
+   "F": "You have logged two EECE 448 sessions: \"Ridge vs lasso on housing data\" (study) on 2026-11-10, and \"Bias-variance office hours\" (meeting) on 2026-11-17.",
+   "G": "You have logged two sessions for **EECE 448 Machine Learning**:\n\n- **2026-11-10:** *Ridge vs lasso on housing data* (study)\n- **2026-11-17:** *Bias-variance office hours* (meeting)",
+   "H": "You have logged two EECE 448 sessions: `2026-11-10` (updated `2026-11-21`) on Ridge vs. Lasso on the housing dataset, and `2026-11-17` for bias-variance office hours.",
+   "I": "I don't know. I don't have access to your logged EECE 448 sessions or their dates."
+  },
+  "v": 1
+ },
+ "labels": {
+  "A": "gemini-4-neon|c2v|4000",
+  "B": "gemini-4-hydrogen|c2v|4000",
+  "C": "gemini-4-neon|no_context|4000",
+  "D": "gemini-4-hydrogen|context_file|1500",
+  "E": "gemini-4-hydrogen|rag|1500",
+  "F": "gemini-4-hydrogen|rag|4000",
+  "G": "gemini-4-hydrogen|c2v|1500",
+  "H": "gemini-4-hydrogen|context_file|4000",
+  "I": "gemini-4-hydrogen|no_context|4000"
+ },
+ "grades": [
+  {
+   "label": "A",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately lists both sessions with their correct dates and types."
+  },
+  {
+   "label": "B",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately lists both sessions with their correct dates and types."
+  },
+  {
+   "label": "C",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "Declines to answer by saying it doesn't know."
+  },
+  {
+   "label": "D",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately lists both sessions with dates, including the supported 2026-11-21 update."
+  },
+  {
+   "label": "E",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately lists both sessions with their correct dates."
+  },
+  {
+   "label": "F",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately lists both sessions with their correct dates and categories."
+  },
+  {
+   "label": "G",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately lists both sessions with their correct dates and types."
+  },
+  {
+   "label": "H",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately lists both sessions with dates, including the supported 2026-11-21 update."
+  },
+  {
+   "label": "I",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "Declines to answer by stating it doesn't know or have access."
+  }
+ ],
+ "usage": {
+  "input": 1651,
+  "output": 510,
+  "thought": 285
+ }
+}

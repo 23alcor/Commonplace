@@ -1,0 +1,43 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "c2v",
+  "qid": "m02",
+  "question": "Which of my projects uses MQTT, and what does it publish over MQTT?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 4000,
+  "v": 2
+ },
+ "tool_calls": [
+  {
+   "args": {
+    "query": "MQTT"
+   },
+   "notes": [
+    "MQTT",
+    "Plant Watering Bot",
+    "Projects",
+    "2026-11-12 Plant Watering Bot - Calibrated soil sensor",
+    "ESP32",
+    "Soil moisture sensing"
+   ]
+  }
+ ],
+ "notes_seen": [
+  "MQTT",
+  "Plant Watering Bot",
+  "Projects",
+  "2026-11-12 Plant Watering Bot - Calibrated soil sensor",
+  "ESP32",
+  "Soil moisture sensing"
+ ],
+ "context_tokens": 463,
+ "error": null,
+ "answer": "Your **Plant Watering Bot** project uses MQTT. It publishes the **dry/wet status** (read from the capacitive soil moisture sensor via the ESP32 ADC) over MQTT.",
+ "usage": {
+  "input": 1338,
+  "output": 64,
+  "thought": 76
+ },
+ "latency_s": 3.647
+}

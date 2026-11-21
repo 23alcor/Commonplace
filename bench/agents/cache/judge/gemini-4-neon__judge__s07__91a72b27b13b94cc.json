@@ -1,0 +1,91 @@
+{
+ "key": {
+  "judge": "gemini-4-neon",
+  "qid": "s07",
+  "gold": "Tailscale ACL cleanup",
+  "answers": {
+   "A": "On November 20, you worked on Tailscale ACL cleanup with a policy allowing only home devices.",
+   "B": "In your homelab session on **November 20, 2026** (`2026-11-20 Homelab - Tailscale ACL cleanup`), you worked on **Tailscale ACL cleanup** for your **Homelab Server** project.\n\n- **Concept:** Tailscale\n- **Next steps:** Follow up in the next session (your *Homelab Runbook* also lists \"ACL cleanup after Nov 20 session\" as an open follow-up).",
+   "C": "On November 20, you worked on Tailscale ACL cleanup for your homelab server.",
+   "D": "I don't know.",
+   "E": "In your homelab session on November 20, 2026, you did a Tailscale ACL cleanup for your Homelab Server.",
+   "F": "In your homelab session on **November 20, 2026** (`2026-11-20 Homelab - Tailscale ACL cleanup`), you worked on **Tailscale ACL cleanup** for your **Homelab Server** project.\n\n- **Next steps noted:** Follow up next session (and in your `Homelab Runbook`, there is a related follow-up to do ACL cleanup after the Nov 20 session).",
+   "G": "In your homelab session on November 20, 2026, you did a Tailscale ACL cleanup for your Homelab Server.",
+   "H": "In your **2026-11-20** homelab session (`2026-11-20 Homelab - Tailscale ACL cleanup`), you worked on **Tailscale ACL cleanup** for your **Homelab Server** project.",
+   "I": "I don't know."
+  },
+  "v": 1
+ },
+ "labels": {
+  "A": "gemini-4-hydrogen|context_file|4000",
+  "B": "gemini-4-neon|c2v|4000",
+  "C": "gemini-4-hydrogen|context_file|1500",
+  "D": "gemini-4-hydrogen|no_context|4000",
+  "E": "gemini-4-hydrogen|rag|1500",
+  "F": "gemini-4-hydrogen|c2v|1500",
+  "G": "gemini-4-hydrogen|rag|4000",
+  "H": "gemini-4-hydrogen|c2v|4000",
+  "I": "gemini-4-neon|no_context|4000"
+ },
+ "grades": [
+  {
+   "label": "A",
+   "verdict": "correct",
+   "hallucinated": true,
+   "reason": "Correctly identifies Tailscale ACL cleanup, but fabricates the specific detail about a policy allowing only home devices."
+  },
+  {
+   "label": "B",
+   "verdict": "correct",
+   "hallucinated": true,
+   "reason": "Correctly identifies Tailscale ACL cleanup, but mentions a Homelab Runbook entry that is not supported by the gold notes."
+  },
+  {
+   "label": "C",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states Tailscale ACL cleanup for the homelab server with no unsupported details."
+  },
+  {
+   "label": "D",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "Does not answer the question."
+  },
+  {
+   "label": "E",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states Tailscale ACL cleanup for the Homelab Server with no unsupported details."
+  },
+  {
+   "label": "F",
+   "verdict": "correct",
+   "hallucinated": true,
+   "reason": "Correctly identifies Tailscale ACL cleanup, but mentions a Homelab Runbook follow-up that is not supported by the gold notes."
+  },
+  {
+   "label": "G",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states Tailscale ACL cleanup for the Homelab Server with no unsupported details."
+  },
+  {
+   "label": "H",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states Tailscale ACL cleanup for the Homelab Server with no unsupported details."
+  },
+  {
+   "label": "I",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "Does not answer the question."
+  }
+ ],
+ "usage": {
+  "input": 1062,
+  "output": 390,
+  "thought": 752
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "rag",
+  "qid": "m08",
+  "question": "What did I work on on Thursday Nov 19, which project was it part of, and what hub does that project sit under?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2
+ },
+ "tool_calls": [],
+ "notes_seen": [
+  "2026-11-19",
+  "2026-11-20 Homelab - Tailscale ACL cleanup",
+  "Homelab Server",
+  "2026-11-18 Capstone - Inverter fault sim results",
+  "2026-11-14 Homelab - Moved cron jobs off laptop",
+  "2026-11-20",
+  "Solar Microgrid Capstone",
+  "2026-11-12 Plant Watering Bot - Calibrated soil sensor",
+  "2026-11-19 Career - Mock interview, system design",
+  "2026-11-18",
+  "Recipe Scraper",
+  "2026-11-16 Recipe Scraper - Dedupe recipes by URL",
+  "Projects",
+  "2026-11-12 Capstone - Agreed on relay baseline",
+  "2026-11-15 Career - Weekly application review",
+  "Plant Watering Bot",
+  "2026-11-17 EECE 448 - Bias-variance office hours",
+  "Career"
+ ],
+ "context_tokens": 1479,
+ "error": null,
+ "answer": "On Thursday, November 19, 2026, you worked on a system design mock interview as part of the **Job Search** project, which sits under the **Career** hub.",
+ "usage": {
+  "input": 2303,
+  "output": 45,
+  "thought": 142
+ },
+ "latency_s": 1.885
+}

@@ -1,0 +1,46 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "c2v",
+  "qid": "m07",
+  "question": "Which of my courses covers the Smith chart, and when did I do a Smith chart practice set?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2
+ },
+ "tool_calls": [
+  {
+   "args": {
+    "max_tokens": 1000,
+    "query": "Smith chart"
+   },
+   "notes": [
+    "Smith chart",
+    "2026-11-11 PHYS 230 - Smith chart practice set",
+    "PHYS 230 Electromagnetics",
+    "School",
+    "2026-11-10 EECE 448 - Ridge vs lasso on housing data",
+    "Maxwell's equations",
+    "Transmission lines"
+   ]
+  }
+ ],
+ "notes_seen": [
+  "Smith chart",
+  "2026-11-11 PHYS 230 - Smith chart practice set",
+  "PHYS 230 Electromagnetics",
+  "School",
+  "2026-11-10 EECE 448 - Ridge vs lasso on housing data",
+  "Maxwell's equations",
+  "Transmission lines"
+ ],
+ "context_tokens": 636,
+ "error": null,
+ "answer": "**PHYS 230 Electromagnetics** covers the Smith chart.\n\nYou did a Smith chart practice set on **November 11, 2026** (`2026-11-11 PHYS 230 - Smith chart practice set`).",
+ "usage": {
+  "input": 1659,
+  "output": 94,
+  "thought": 117
+ },
+ "latency_s": 4.739
+}

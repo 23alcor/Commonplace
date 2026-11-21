@@ -1,0 +1,43 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "rag",
+  "qid": "m09",
+  "question": "Besides anchoring, what concept did my Nov 13 ECON 205 lecture cover, and how do my notes define it?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2
+ },
+ "tool_calls": [],
+ "notes_seen": [
+  "2026-11-13 ECON 205 - Anchoring lecture",
+  "ECON 205 Behavioral Economics",
+  "Anchoring",
+  "Loss aversion",
+  "Nudges",
+  "2026-11-17 EECE 448 - Bias-variance office hours",
+  "2026-11-12 Capstone - Agreed on relay baseline",
+  "EECE 448 Machine Learning",
+  "2026-11-10 EECE 448 - Ridge vs lasso on housing data",
+  "2026-11-11 PHYS 230 - Smith chart practice set",
+  "PHYS 230 Electromagnetics",
+  "2026-11-15 Career - Weekly application review",
+  "2026-11-18 Capstone - Inverter fault sim results",
+  "School",
+  "Solar Microgrid Capstone",
+  "Bias-variance tradeoff",
+  "Cross-validation",
+  "2026-11-19",
+  "Informational interviews",
+  "2026-11-18"
+ ],
+ "context_tokens": 1486,
+ "error": null,
+ "answer": "Your November 13 ECON 205 lecture also covered **Loss aversion**, which your notes define as: \"Losses feel about twice as bad as equal gains feel good.\"",
+ "usage": {
+  "input": 2288,
+  "output": 40,
+  "thought": 103
+ },
+ "latency_s": 2.089
+}

@@ -1,0 +1,38 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "rag",
+  "qid": "s09",
+  "question": "What were the results I logged for the capstone on Nov 18?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2
+ },
+ "tool_calls": [],
+ "notes_seen": [
+  "2026-11-18 Capstone - Inverter fault sim results",
+  "2026-11-18",
+  "2026-11-12 Capstone - Agreed on relay baseline",
+  "Solar Microgrid Capstone",
+  "2026-11-19 Career - Mock interview, system design",
+  "2026-11-12 Plant Watering Bot - Calibrated soil sensor",
+  "2026-11-19",
+  "EECE 410 Capstone Design",
+  "2026-11-20",
+  "2026-11-10 EECE 448 - Ridge vs lasso on housing data",
+  "2026-11-20 Homelab - Tailscale ACL cleanup",
+  "2026-11-15 Career - Weekly application review",
+  "2026-11-13 ECON 205 - Anchoring lecture",
+  "2026-11-11 PHYS 230 - Smith chart practice set",
+  "EECE 448 Machine Learning"
+ ],
+ "context_tokens": 1487,
+ "error": null,
+ "answer": "I don't know\u2014your Nov 18 note only mentions \"Inverter fault sim results\" for the Solar Microgrid Capstone without logging the specific results.",
+ "usage": {
+  "input": 2289,
+  "output": 37,
+  "thought": 176
+ },
+ "latency_s": 2.382
+}

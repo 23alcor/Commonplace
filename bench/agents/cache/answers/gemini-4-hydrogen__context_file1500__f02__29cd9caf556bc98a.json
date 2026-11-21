@@ -1,0 +1,23 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "context_file",
+  "qid": "f02",
+  "question": "What's the draft watering threshold for the Plant Watering Bot?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2,
+  "ctx": "8991b47a3001"
+ },
+ "tool_calls": [],
+ "notes_seen": [],
+ "context_tokens": 836,
+ "error": null,
+ "answer": "The draft watering threshold for the Plant Watering Bot is below `480` on the ESP32 ADC.",
+ "usage": {
+  "input": 1181,
+  "output": 28,
+  "thought": 52
+ },
+ "latency_s": 5.385
+}

@@ -1,0 +1,48 @@
+{
+ "key": {
+  "model": "gemini-4-neon",
+  "arm": "c2v",
+  "qid": "s07",
+  "question": "What did I do in my homelab session on Nov 20?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 4000,
+  "v": 2
+ },
+ "tool_calls": [
+  {
+   "args": {
+    "max_tokens": 2000,
+    "query": "homelab session Nov 20"
+   },
+   "notes": [
+    "2026-11-20 Homelab - Tailscale ACL cleanup",
+    "Homelab Runbook",
+    "2026-11-14 Homelab - Moved cron jobs off laptop",
+    "Homelab Server",
+    "Cron jobs",
+    "Tailscale",
+    "tmux",
+    "Projects"
+   ]
+  }
+ ],
+ "notes_seen": [
+  "2026-11-20 Homelab - Tailscale ACL cleanup",
+  "Homelab Runbook",
+  "2026-11-14 Homelab - Moved cron jobs off laptop",
+  "Homelab Server",
+  "Cron jobs",
+  "Tailscale",
+  "tmux",
+  "Projects"
+ ],
+ "context_tokens": 534,
+ "error": null,
+ "answer": "In your homelab session on **November 20, 2026** (`2026-11-20 Homelab - Tailscale ACL cleanup`), you worked on **Tailscale ACL cleanup** for your **Homelab Server** project.\n\n- **Concept:** Tailscale\n- **Next steps:** Follow up in the next session (your *Homelab Runbook* also lists \"ACL cleanup after Nov 20 session\" as an open follow-up).",
+ "usage": {
+  "input": 1612,
+  "output": 142,
+  "thought": 197
+ },
+ "latency_s": 12.876
+}

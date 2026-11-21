@@ -1,0 +1,91 @@
+{
+ "key": {
+  "judge": "gemini-4-neon",
+  "qid": "s04",
+  "gold": "2026-11-14 (Nov 14), in a Homelab Server session",
+  "answers": {
+   "A": "You moved your cron jobs off your laptop on November 14, 2026.",
+   "B": "You moved your cron jobs off your laptop on **November 14, 2026** (recorded in `2026-11-14 Homelab - Moved cron jobs off laptop` and `Homelab Runbook`).",
+   "C": "You moved your cron jobs off your laptop onto the homelab box on `2026-11-14`.",
+   "D": "I don't know.",
+   "E": "You moved your cron jobs off your laptop on **November 14, 2026** (recorded in your session note *2026-11-14 Homelab - Moved cron jobs off laptop* and noted in your *Homelab Runbook*).",
+   "F": "You moved your cron jobs off your laptop onto your homelab box on November 14, 2026.",
+   "G": "You moved your cron jobs off your laptop on **November 14, 2026** (recorded in your session note *2026-11-14 Homelab - Moved cron jobs off laptop* and *Homelab Runbook*).",
+   "H": "I don't know. I don't have access to your notes or project history to see when you moved your cron jobs.",
+   "I": "You moved your cron jobs off your laptop on November 14, 2026."
+  },
+  "v": 1
+ },
+ "labels": {
+  "A": "gemini-4-hydrogen|rag|1500",
+  "B": "gemini-4-hydrogen|c2v|1500",
+  "C": "gemini-4-hydrogen|context_file|4000",
+  "D": "gemini-4-neon|no_context|4000",
+  "E": "gemini-4-neon|c2v|4000",
+  "F": "gemini-4-hydrogen|context_file|1500",
+  "G": "gemini-4-hydrogen|c2v|4000",
+  "H": "gemini-4-hydrogen|no_context|4000",
+  "I": "gemini-4-hydrogen|rag|4000"
+ },
+ "grades": [
+  {
+   "label": "A",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states the date November 14, 2026."
+  },
+  {
+   "label": "B",
+   "verdict": "correct",
+   "hallucinated": true,
+   "reason": "Correctly states the date, but cites a 'Homelab Runbook' note that is not present in the gold notes."
+  },
+  {
+   "label": "C",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states the date 2026-11-14 and the homelab context."
+  },
+  {
+   "label": "D",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "Says it does not know."
+  },
+  {
+   "label": "E",
+   "verdict": "correct",
+   "hallucinated": true,
+   "reason": "Correctly states the date, but cites a 'Homelab Runbook' note that is not present in the gold notes."
+  },
+  {
+   "label": "F",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states the date November 14, 2026 and the homelab context."
+  },
+  {
+   "label": "G",
+   "verdict": "correct",
+   "hallucinated": true,
+   "reason": "Correctly states the date, but cites a 'Homelab Runbook' note that is not present in the gold notes."
+  },
+  {
+   "label": "H",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "Says it does not know."
+  },
+  {
+   "label": "I",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states the date November 14, 2026."
+  }
+ ],
+ "usage": {
+  "input": 1008,
+  "output": 398,
+  "thought": 762
+ }
+}
