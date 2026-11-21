@@ -58,6 +58,28 @@ uvicorn app.server:app --host 0.0.0.0 --port 8000   # capture page
 `demo_vault/` is a small synthetic vault, so the repo contains no personal notes. Point `VAULT_PATH`
 at a private copy only for local eval — never commit a real vault or `.env`.
 
+## Give any AI your vault: `get_context` over MCP
+One tool gives an agent the right whole notes for a project, conversation or topic. It starts from the
+best match, follows wikilinks, backlinks and the `project:`/`parent:` note it belongs to, and packs
+whole notes to a token budget. HTTP: `GET /context?q=Solar%20Microgrid%20Capstone&max_tokens=4000`.
+
+```bash
+# Claude Code (run from the repo root; use absolute paths)
+claude mcp add capture-to-vault -e VAULT_PATH="$PWD/demo_vault" -e PYTHONPATH="$PWD" \
+  -- "$PWD/.venv/bin/python" -m c2v.mcp_server
+
+# Gemini CLI
+gemini mcp add capture-to-vault -e VAULT_PATH="$PWD/demo_vault" -e PYTHONPATH="$PWD" \
+  "$PWD/.venv/bin/python" -m c2v.mcp_server
+```
+Or in `~/.gemini/settings.json`:
+```json
+{"mcpServers": {"capture-to-vault": {"command": "/abs/repo/.venv/bin/python",
+  "args": ["-m", "c2v.mcp_server"], "cwd": "/abs/repo", "env": {"VAULT_PATH": "/abs/repo/demo_vault"}}}}
+```
+Tools: `get_context(query, max_tokens)`, `search_notes(query)`, `read_note(title)`. The vault is
+re-read on every call, so a capture filed a moment ago is already in context.
+
 ## Built during the hackathon
 Everything in this repo was written on Nov 21, 2026. Lanes: A pipeline, B eval, C verify + capture
 page, D demo inputs + submission docs.
