@@ -8,6 +8,8 @@ transcribes the capture, decides where the note belongs, links it to the right e
 its own work and files it.
 
 ## How it works: four models, four jobs
+
+![capture-to-vault flow](docs/architecture.svg)
 | Step | Model | Job |
 |---|---|---|
 | Transcribe | Gemini 4 Hydrogen | Media to a structured capture (transcript, key terms, legibility) |

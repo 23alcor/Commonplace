@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" font-family="system-ui,-apple-system,'Segoe UI',sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#8a93a6"/></marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#81c784"/></marker>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#ef5350"/></marker>
+    <style>
+      .t{fill:#e8ebf2;font-size:20px;font-weight:700}.s{fill:#aab3c5;font-size:14px}.m{fill:#8a93a6;font-size:13px}
+      .box{fill:#141821;stroke-width:2;rx:14}.ln{stroke:#8a93a6;stroke-width:2;fill:none;marker-end:url(#a)}
+      .lbl{fill:#8a93a6;font-size:13px;font-style:italic}
+    </style>
+  </defs>
+  <rect width="1200" height="760" fill="#0b0d12"/>
+  <text x="40" y="52" fill="#e8ebf2" font-size="30" font-weight="800">capture → vault</text>
+  <text x="40" y="80" class="s">messy media in, a filed and linked Obsidian note out. One model, one job.</text>
+
+  <!-- input -->
+  <rect x="40" y="130" width="190" height="150" class="box" stroke="#3a4256"/>
+  <text x="60" y="165" class="t">Capture</text>
+  <text x="60" y="192" class="s">voice memo</text><text x="60" y="214" class="s">whiteboard photo</text>
+  <text x="60" y="236" class="s">screenshot · PDF</text><text x="60" y="262" class="m">phone → POST /capture</text>
+
+  <!-- 1 transcribe -->
+  <rect x="290" y="130" width="250" height="150" class="box" stroke="#4fc3f7"/>
+  <text x="310" y="165" class="t" fill="#4fc3f7" style="fill:#4fc3f7">① Transcribe</text>
+  <text x="310" y="190" class="s">Gemini 4 Hydrogen</text>
+  <text x="310" y="222" class="m">→ Capture</text>
+  <text x="310" y="242" class="m">transcript · key terms</text>
+  <text x="310" y="262" class="m">legibility · action items</text>
+
+  <!-- 2 route -->
+  <rect x="600" y="130" width="270" height="150" class="box" stroke="#ffb74d"/>
+  <text x="620" y="165" class="t" style="fill:#ffb74d">② Route</text>
+  <text x="620" y="190" class="s">Gemini Decision 1 (Decisions API)</text>
+  <text x="620" y="222" class="m">→ RoutingDecision</text>
+  <text x="620" y="242" class="m">type · folder · merge?</text>
+  <text x="620" y="262" class="m">each with a confidence</text>
+
+  <line x1="230" y1="205" x2="286" y2="205" class="ln"/>
+  <line x1="540" y1="205" x2="596" y2="205" class="ln"/>
+
+  <!-- confidence gate -->
+  <path d="M735 280 L735 320" class="ln"/>
+  <rect x="620" y="324" width="230" height="56" rx="28" fill="#1d2230" stroke="#ffb74d" stroke-dasharray="5 4" stroke-width="2"/>
+  <text x="735" y="349" text-anchor="middle" class="s" style="fill:#ffb74d;font-weight:700">every confidence ≥ 0.75?</text>
+  <text x="735" y="369" text-anchor="middle" class="m">calibrated gate</text>
+
+  <!-- auto path -->
+  <path d="M850 352 L930 352 L930 396" class="ln"/>
+  <text x="862" y="380" class="lbl">yes: auto path</text><text x="862" y="396" class="lbl"> </text>
+
+  <!-- escalate -->
+  <path d="M620 352 L470 352 L470 396" class="ln"/>
+  <text x="300" y="380" class="lbl">no: escalate, with router probabilities</text>
+
+  <!-- 3 manage -->
+  <rect x="290" y="400" width="360" height="140" class="box" stroke="#ba68c8"/>
+  <text x="310" y="435" class="t" style="fill:#ba68c8">③ Manage</text>
+  <text x="310" y="460" class="s">Gemini 4 Neon: vault manager</text>
+  <text x="310" y="490" class="m">+ candidate notes from vault search</text>
+  <text x="310" y="510" class="m">→ NoteDraft: title · folder · frontmatter</text>
+  <text x="310" y="528" class="m">   body · wikilinks · merge target</text>
+  <path d="M650 470 L840 470" class="ln"/>
+
+  <!-- 4 verify -->
+  <rect x="845" y="400" width="315" height="140" class="box" stroke="#81c784"/>
+  <text x="865" y="435" class="t" style="fill:#81c784">④ Verify</text>
+  <text x="865" y="460" class="s">c2v.verify + Managed Agent</text>
+  <text x="865" y="490" class="m">✓ links resolve  ✓ frontmatter valid</text>
+  <text x="865" y="510" class="m">✓ no duplicate   ✓ folder exists</text>
+
+  <!-- fix loop -->
+  <path d="M900 540 L900 586" stroke="#ef5350" stroke-width="2" marker-end="url(#ar)"/><path d="M1060 590 L1060 544" stroke="#ef5350" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ar)"/><text x="908" y="568" class="lbl" style="fill:#ef9a9a">fail</text><text x="1068" y="568" class="lbl" style="fill:#ef9a9a">retry</text>
+  <rect x="700" y="590" width="420" height="58" rx="12" fill="#1f1416" stroke="#ef5350" stroke-width="1.5"/>
+  <text x="716" y="614" class="s" style="fill:#ef9a9a;font-weight:700">Managed Agent (Antigravity, Google sandbox)</text>
+  <text x="716" y="634" class="m">writes the note, runs python -m c2v.verify, fixes, repeats</text>
+
+  <!-- 5 write -->
+  <path d="M1120 400 L1120 286" stroke="#81c784" stroke-width="2" fill="none" marker-end="url(#ag)"/>
+  <text x="1128" y="350" class="lbl" style="fill:#81c784">pass</text>
+  <rect x="940" y="130" width="220" height="150" class="box" stroke="#fff176"/>
+  <text x="960" y="165" class="t" style="fill:#fff176">⑤ Filed</text>
+  <text x="960" y="190" class="s">note written to vault</text>
+  <text x="960" y="222" class="m">FilingResult</text>
+  <text x="960" y="242" class="m">path · auto | escalated</text>
+  <text x="960" y="262" class="m">latency</text>
+
+  <!-- stage -->
+  <rect x="40" y="590" width="600" height="130" class="box" stroke="#3a4256"/>
+  <text x="60" y="624" class="t">Live on the projector: /stage</text>
+  <text x="60" y="652" class="s">every step streams over SSE: the vault graph, confidence bars vs</text>
+  <text x="60" y="674" class="s">the 0.75 line, the new note pulled toward its links, verify checks</text>
+  <circle cx="72" cy="700" r="6" fill="#4fc3f7"/><circle cx="92" cy="700" r="6" fill="#ffb74d"/>
+  <circle cx="112" cy="700" r="6" fill="#ba68c8"/><circle cx="132" cy="700" r="6" fill="#81c784"/>
+  <circle cx="152" cy="700" r="6" fill="#fff176"/>
+  <text x="170" y="705" class="m">one color per model, same on phone and projector</text>
+  <text x="40" y="748" class="m">Eval: held-out notes removed from the vault, re-rendered as noisy media, re-filed. Baseline = one Hydrogen call.</text>
+</svg>
