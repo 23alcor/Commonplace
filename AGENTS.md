@@ -76,7 +76,8 @@ on Neon/Hydrogen. Use native structured output / Decisions questions, not hand-p
 |---|---|---|---|
 | A: pipeline | Claude Code | `lane-a` | `c2v/transcribe.py`, `c2v/route.py`, `c2v/manage.py`, `c2v/pipeline.py` |
 | B: eval | Codex | `lane-b` | `eval/*` |
-| C: verify + demo | Cursor | `lane-c` | `c2v/agent_verify.py`, `app/*` |
+| C: verify + demo | Claude Code | `lane-c` | `c2v/agent_verify.py`, `app/*` |
+| D: demo inputs + submission | Cursor | `lane-d` | `demo_captures/*`, `docs/*`, README prose |
 
 Shared, already implemented (change only if broken, and say so in the commit):
 `c2v/schemas.py`, `c2v/config.py`, `c2v/vault.py`, `c2v/verify.py`, `eval/score.py`.
