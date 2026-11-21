@@ -342,7 +342,8 @@ def attachment_path(capture: Capture, draft: NoteDraft, vault: Vault) -> str:
     """Vault-relative path the original capture will live at: _attachments/<date> <title><ext>.
     Reuses an identical file already there; otherwise picks a name that doesn't collide."""
     src = Path(capture.source_path)
-    stem = BAD_TITLE_CHARS.sub(" ", f"{_today()} {draft.title}")
+    title = draft.title if draft.title.startswith(_today()) else f"{_today()} {draft.title}"
+    stem = BAD_TITLE_CHARS.sub(" ", title)
     stem = " ".join(stem.split()) or src.stem
     ext = src.suffix.lower()
     digest = _digest(src) if src.exists() else None

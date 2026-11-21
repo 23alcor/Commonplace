@@ -4,9 +4,12 @@ One job: faithful transcription. Media goes in as an Interactions content block 
 small files, Files API upload for big ones); Hydrogen answers with native structured output
 (response_format JSON schema), which we validate straight into `Capture`.
 
-Video is first-class: Hydrogen (agentic video processing) returns timestamped segments (speech +
+Video is first-class: Hydrogen returns timestamped segments (speech +
 on-screen content) and key moments (decisions, actions, diagrams, code). The flat transcript is
 rebuilt from the segments as "[mm:ss] ..." lines so every downstream consumer keeps working.
+Processing mode (measured on the 3.5 min demo video, see commit log): static 0.5 fps for videos up to
+10 min (full audio every time, 15-23 s, ~$0.05); agentic above that (docs: more token-efficient on
+long-form). Agentic picks what to look at, and in 1 of 7 short-video runs it skipped ~40 words of speech.
 """
 from __future__ import annotations
 
@@ -14,6 +17,7 @@ import base64
 import json
 import mimetypes
 import re
+import subprocess
 import time
 from functools import lru_cache
 from pathlib import Path
@@ -40,6 +44,8 @@ CONTENT_TYPE = {MediaKind.audio: "audio", MediaKind.image: "image", MediaKind.pd
 # inline media under ~14 MB and leave room for the prompt.
 INLINE_MAX_BYTES = 14 * 1024 * 1024
 FILE_ACTIVE_TIMEOUT_S = 600
+STATIC_MAX_S = 600          # <= 10 min: static (complete audio); longer or unknown length: agentic
+VIDEO_STATIC_FPS = 0.5      # slides/whiteboards/screens change slowly; halves frame tokens vs 1 fps
 
 PROMPT = """You transcribe a personal capture (voice memo, whiteboard photo, handwritten page,
 screenshot, PDF or short video) for an Obsidian vault. Be faithful: write what is actually said or
@@ -129,8 +135,24 @@ def media_part(path: str | Path, client=None) -> dict:
         f = _wait_active(client, client.files.upload(file=str(path)))
         block["uri"] = f.uri
     if kind is MediaKind.video:
-        block["processing"] = "agentic"
+        block["processing"] = video_processing(path)
     return block
+
+
+def video_duration_s(path: Path) -> float | None:
+    try:
+        out = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0",
+                              str(path)], capture_output=True, text=True, timeout=20)
+        return float(out.stdout.strip())
+    except (OSError, ValueError, subprocess.SubprocessError):
+        return None
+
+
+def video_processing(path: Path):
+    dur = video_duration_s(path)
+    if dur is not None and dur <= STATIC_MAX_S:
+        return {"type": "static", "fps": VIDEO_STATIC_FPS}
+    return "agentic"
 
 
 def _state(f) -> str:

@@ -233,7 +233,8 @@ def test_video_transcribe_segments_and_key_moments(tmp_path):
     c = fake_client(VIDEO_JSON)
     cap = transcribe(vid, client=c)
     kw = c.interactions.calls[0]
-    assert kw["input"][1] == {**kw["input"][1], "type": "video", "mime_type": "video/mov", "processing": "agentic"}
+    assert kw["input"][1] == {**kw["input"][1], "type": "video", "mime_type": "video/mov"}
+    assert kw["input"][1]["processing"] == "agentic"  # fake bytes: ffprobe can't read a length
     assert "segments" in kw["response_format"]["schema"]["required"]
     assert [s.start for s in cap.segments] == ["00:00", "00:42"] and cap.segments[1].end == "01:30"
     assert cap.segments[1].on_screen is None
@@ -264,7 +265,7 @@ def test_big_video_goes_through_files_api_and_waits_for_active(tmp_path, monkeyp
     client = SimpleNamespace(files=files)
     monkeypatch.setattr(tr.time, "sleep", lambda s: None)
     part = media_part(vid, client)
-    assert part["uri"] == "gs://u" and "data" not in part and part["processing"] == "agentic"
+    assert part["uri"] == "gs://u" and "data" not in part
     failed = SimpleNamespace(upload=lambda file: SimpleNamespace(name="f", uri="u", state="FAILED"))
     with pytest.raises(RuntimeError):
         media_part(vid, SimpleNamespace(files=failed))
@@ -405,3 +406,22 @@ def test_fast_draft_video_gets_unlinked_timeline(vault, tmp_path):
     d = fast_draft(cap, routing(), vault)
     assert "- [00:00] Momentum recap" in d.body and "- [00:42] Plant bot wiring" in d.body
     assert verify_draft(d, vault).ok
+
+
+def test_video_processing_mode_by_length(monkeypatch):
+    from c2v import transcribe as tr
+
+    monkeypatch.setattr(tr, "video_duration_s", lambda p: 212.7)
+    assert tr.video_processing(Path("x.mp4")) == {"type": "static", "fps": 0.5}
+    monkeypatch.setattr(tr, "video_duration_s", lambda p: 1800.0)
+    assert tr.video_processing(Path("x.mp4")) == "agentic"
+    monkeypatch.setattr(tr, "video_duration_s", lambda p: None)
+    assert tr.video_processing(Path("x.mp4")) == "agentic"
+
+
+def test_attachment_name_does_not_double_the_date(vault, image):
+    today = manage._today()
+    d = NoteDraft(title=f"{today} Saturday Session", folder="", frontmatter={}, body="x" * 30)
+    assert manage.attachment_path(capture(source_path=str(image)), d, vault) == f"_attachments/{today} Saturday Session.png"
+    d2 = d.model_copy(update={"title": "Saturday Session"})
+    assert manage.attachment_path(capture(source_path=str(image)), d2, vault) == f"_attachments/{today} Saturday Session.png"
