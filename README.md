@@ -55,16 +55,33 @@ Live walkthrough: [`docs/demo-script.md`](docs/demo-script.md) (~3 minutes). Sub
 video shot list, and pre-submit checklist: [`docs/submission.md`](docs/submission.md).
 
 ## Results
-_Filled in by `eval/run_eval.py`. Held-out notes were removed from the vault, re-rendered as noisy
-voice memos, blurred screenshots and scanned PDFs, and filed again. The baseline is one Gemini 4
-Hydrogen call._
 
-| | Folder accuracy | Link F1 | Verify pass | Median latency |
-|---|---|---|---|---|
-| Baseline (1 call) | | | | |
-| capture-to-vault | | | | |
+Live Gemini comparison on 15 notes stratified across folders in a private working copy of the
+synthetic `mock_vault/`. The notes were removed before evaluation and rendered as five clean,
+five noisy, and five hard captures (screenshots, handwritten-style images, scanned PDFs, and
+voice memos). Hard captures include partial text and an ambiguous topic. Both methods saw the
+same media and remaining vault. Link F1 is the mean of per-case F1 scores.
 
-Where it still fails: _TBD_
+| Method | Completed | Folder accuracy | Link F1 | Verify pass | Escalation | Median latency |
+|---|---:|---:|---:|---:|---:|---:|
+| One-call Hydrogen baseline | 15/15 | 40.0% | 29.0% | 93.3% | — | 6.08s |
+| capture-to-vault pipeline | 15/15 | 60.0% | 33.7% | 100.0% | 100.0% | 19.36s |
+
+The pipeline improved folder accuracy by 20 percentage points and link F1 by 4.7 points, at
+about 3.2 times the median latency. Every case escalated to Neon; this run therefore does not
+demonstrate a fast router-only path. The local verifier and repair loop were included, but the
+remote Managed Agent verifier was outside this capped comparison. The run used 61 API calls,
+plus three calls to synthesize the voice memos. See [detailed results](eval/results/summary.md).
+
+### Where it still fails
+
+- The clean PHYS 230 voice memo went to the parent academic folder instead of the course folder;
+  both methods linked `School` and missed all four expected course links.
+- The hard `Fault detection` screenshot was filed under the EECE 410 course rather than
+  `40 Knowledge/Concepts`; the pipeline added four unrelated project links where the source
+  note had none.
+- The noisy `Plant Watering Bot` handwritten capture went to `Sessions/2026-11` instead of
+  its project folder, with none of its four expected links. Both methods made the same error.
 
 ## Run it
 ```bash

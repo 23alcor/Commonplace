@@ -1,0 +1,23 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "context_file",
+  "qid": "f01",
+  "question": "What ADC readings did I record when calibrating the plant bot's soil sensor (dry, damp, saturated)?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 4000,
+  "v": 2,
+  "ctx": "5914ff65802d"
+ },
+ "tool_calls": [],
+ "notes_seen": [],
+ "context_tokens": 1079,
+ "error": null,
+ "answer": "You recorded the following ESP32 ADC readings: 820 for air/dry, 540 for damp, and 310 for saturated.",
+ "usage": {
+  "input": 1437,
+  "output": 38,
+  "thought": 122
+ },
+ "latency_s": 3.321
+}

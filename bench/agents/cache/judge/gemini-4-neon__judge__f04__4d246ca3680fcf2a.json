@@ -1,0 +1,91 @@
+{
+ "key": {
+  "judge": "gemini-4-neon",
+  "qid": "f04",
+  "gold": "Practice set #3; z = 0.4 + j0.7",
+  "answers": {
+   "A": "Your PHYS 230 homework is to complete practice set #3. The example impedance from the Smith chart practice set was `z = 0.4 + j0.7`.",
+   "B": "You need to complete HW practice set #3 for PHYS 230, and the impedance in the Smith chart practice example was `z = 0.4 + j0.7`.",
+   "C": "For PHYS 230, your Smith chart homework is **practice set #3**, and the impedance in the example diagram was **$z = 0.4 + j0.7$**.",
+   "D": "I don't know. I don't have access to your PHYS 230 homework or notes.",
+   "E": "Your PHYS 230 homework for the Smith chart is practice set #3. The impedance in the example diagram was z = 0.4 + j0.7.",
+   "F": "For PHYS 230, your homework is **practice set #3**, and the impedance shown in the example diagram is **z = 0.4 + j0.7**.",
+   "G": "Your PHYS 230 homework is practice set #3, and the impedance in the example diagram is z = 0.4 + j0.7.",
+   "H": "For PHYS 230, your Smith chart homework is **practice set #3**, and the impedance shown in the example diagram was **$z = 0.4 + j0.7$**.",
+   "I": "I don't know. I don't have access to your PHYS 230 homework details or any example diagrams."
+  },
+  "v": 1
+ },
+ "labels": {
+  "A": "gemini-4-hydrogen|context_file|4000",
+  "B": "gemini-4-hydrogen|context_file|1500",
+  "C": "gemini-4-hydrogen|c2v|1500",
+  "D": "gemini-4-neon|no_context|4000",
+  "E": "gemini-4-hydrogen|rag|1500",
+  "F": "gemini-4-hydrogen|c2v|4000",
+  "G": "gemini-4-hydrogen|rag|4000",
+  "H": "gemini-4-neon|c2v|4000",
+  "I": "gemini-4-hydrogen|no_context|4000"
+ },
+ "grades": [
+  {
+   "label": "A",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies both practice set #3 and z = 0.4 + j0.7."
+  },
+  {
+   "label": "B",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies both practice set #3 and z = 0.4 + j0.7."
+  },
+  {
+   "label": "C",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies both practice set #3 and z = 0.4 + j0.7."
+  },
+  {
+   "label": "D",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "Says it does not know and does not answer the question."
+  },
+  {
+   "label": "E",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies both practice set #3 and z = 0.4 + j0.7."
+  },
+  {
+   "label": "F",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies both practice set #3 and z = 0.4 + j0.7."
+  },
+  {
+   "label": "G",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies both practice set #3 and z = 0.4 + j0.7."
+  },
+  {
+   "label": "H",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies both practice set #3 and z = 0.4 + j0.7."
+  },
+  {
+   "label": "I",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "Says it does not know and does not answer the question."
+  }
+ ],
+ "usage": {
+  "input": 1228,
+  "output": 352,
+  "thought": 520
+ }
+}

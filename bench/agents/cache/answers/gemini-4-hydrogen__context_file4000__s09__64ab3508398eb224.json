@@ -1,0 +1,23 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "context_file",
+  "qid": "s09",
+  "question": "What were the results I logged for the capstone on Nov 18?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 4000,
+  "v": 2,
+  "ctx": "5914ff65802d"
+ },
+ "tool_calls": [],
+ "notes_seen": [],
+ "context_tokens": 1079,
+ "error": null,
+ "answer": "I don't know\u2014your notes for `2026-11-18` only list \"Inverter fault simulation results\" without the specific results.",
+ "usage": {
+  "input": 1430,
+  "output": 39,
+  "thought": 170
+ },
+ "latency_s": 2.295
+}

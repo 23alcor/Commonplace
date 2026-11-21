@@ -1,0 +1,91 @@
+{
+ "key": {
+  "judge": "gemini-4-neon",
+  "qid": "f02",
+  "gold": "Water when the reading is below 480",
+  "answers": {
+   "A": "The draft watering threshold for the Plant Watering Bot is **below 480** (based on the ESP32 ADC calibration points: Air/dry = 820, Damp = 540, Saturated = 310), as recorded in `2026-11-12 Plant Watering Bot - Calibrated soil sensor`.",
+   "B": "The draft watering threshold for the Plant Watering Bot is to water below 480.",
+   "C": "The draft watering threshold for the Plant Watering Bot is to water below 480.",
+   "D": "The draft watering threshold for the **Plant Watering Bot** is **below 480** (based on the ESP32 ADC calibration points: Air/dry = 820, Damp = 540, Saturated = 310).",
+   "E": "The draft watering threshold for the Plant Watering Bot is below `480` on the ESP32 ADC.",
+   "F": "According to your calibration note (`2026-11-12 Plant Watering Bot - Calibrated soil sensor`), the draft watering threshold is **below 480** (for reference, the calibration points are 820 for air/dry, 540 for damp, and 310 for saturated).",
+   "G": "I don't know.",
+   "H": "I don't know. I don't have any information about your Plant Watering Bot project or its draft watering threshold.",
+   "I": "The draft watering threshold for the Plant Watering Bot is to water below `480` on the ESP32 ADC."
+  },
+  "v": 1
+ },
+ "labels": {
+  "A": "gemini-4-hydrogen|c2v|1500",
+  "B": "gemini-4-hydrogen|rag|1500",
+  "C": "gemini-4-hydrogen|rag|4000",
+  "D": "gemini-4-hydrogen|c2v|4000",
+  "E": "gemini-4-hydrogen|context_file|1500",
+  "F": "gemini-4-neon|c2v|4000",
+  "G": "gemini-4-neon|no_context|4000",
+  "H": "gemini-4-hydrogen|no_context|4000",
+  "I": "gemini-4-hydrogen|context_file|4000"
+ },
+ "grades": [
+  {
+   "label": "A",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states the threshold is below 480 and includes accurate supporting details from the note."
+  },
+  {
+   "label": "B",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states to water below 480."
+  },
+  {
+   "label": "C",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states to water below 480."
+  },
+  {
+   "label": "D",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states the threshold is below 480 and includes accurate calibration points from the note."
+  },
+  {
+   "label": "E",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states the threshold is below 480 on the ESP32 ADC."
+  },
+  {
+   "label": "F",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states the threshold is below 480 and includes accurate supporting details from the note."
+  },
+  {
+   "label": "G",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "Says it does not know."
+  },
+  {
+   "label": "H",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "Says it does not know and lacks information."
+  },
+  {
+   "label": "I",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states to water below 480 on the ESP32 ADC."
+  }
+ ],
+ "usage": {
+  "input": 1141,
+  "output": 313,
+  "thought": 457
+ }
+}

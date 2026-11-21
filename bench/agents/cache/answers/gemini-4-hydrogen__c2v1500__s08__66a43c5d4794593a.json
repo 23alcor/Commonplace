@@ -1,0 +1,46 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "c2v",
+  "qid": "s08",
+  "question": "What was my Nov 19 mock interview about?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2
+ },
+ "tool_calls": [
+  {
+   "args": {
+    "max_tokens": 1500,
+    "query": "Nov 19 mock interview"
+   },
+   "notes": [
+    "2026-11-19 Career - Mock interview, system design",
+    "2026-11-19",
+    "Interview Prep",
+    "Job Search",
+    "Career",
+    "Informational interviews",
+    "System design interviews"
+   ]
+  }
+ ],
+ "notes_seen": [
+  "2026-11-19 Career - Mock interview, system design",
+  "2026-11-19",
+  "Interview Prep",
+  "Job Search",
+  "Career",
+  "Informational interviews",
+  "System design interviews"
+ ],
+ "context_tokens": 526,
+ "error": null,
+ "answer": "Your November 19, 2026 mock interview was a **system design** session focused on designing a **rate limiter** (part of your [[Job Search]] / [[Interview Prep]]).\n\nKey topics covered in the notes:\n- **Algorithms:** Token bucket vs. leaky bucket\n- **Implementation:** Redis counters per API key\n- **Architecture:** Edge vs. central enforcement\n\n**Action items noted:**\n- Tie notes to [[Interview Prep]]\n- Follow up next session\n- Job Search: ChipCo screen on Thursday",
+ "usage": {
+  "input": 1445,
+  "output": 152,
+  "thought": 78
+ },
+ "latency_s": 4.419
+}

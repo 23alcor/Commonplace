@@ -1,0 +1,91 @@
+{
+ "key": {
+  "judge": "gemini-4-neon",
+  "qid": "s03",
+  "gold": "2026-11-12 (Nov 12, 2026)",
+  "answers": {
+   "A": "Your capstone team agreed on the relay baseline on November 12, 2026 (2026-11-12).",
+   "B": "Your capstone team agreed on the relay baseline on **November 12, 2026** (`2026-11-12`), as recorded in your meeting note *2026-11-12 Capstone - Agreed on relay baseline* for the Solar Microgrid Capstone project.",
+   "C": "I don't know. I don't have access to your notes or project records to see when your capstone team agreed on the relay baseline.",
+   "D": "I don't know. I don't have access to your notes or capstone project details.",
+   "E": "Your capstone team agreed on the relay baseline on **November 12, 2026** (`2026-11-12`), as recorded in the meeting note *2026-11-12 Capstone - Agreed on relay baseline* for **Solar Microgrid Capstone**.",
+   "F": "Your capstone team agreed on the relay baseline on November 12, 2026 (`2026-11-12`).",
+   "G": "Your capstone team agreed on the relay baseline on November 12, 2026 (2026-11-12).",
+   "H": "Your capstone team agreed on the relay baseline on November 12, 2026 (`2026-11-12`).",
+   "I": "Your capstone team agreed on the relay baseline on **November 12, 2026** (from the session note *2026-11-12 Capstone - Agreed on relay baseline*)."
+  },
+  "v": 1
+ },
+ "labels": {
+  "A": "gemini-4-hydrogen|rag|4000",
+  "B": "gemini-4-neon|c2v|4000",
+  "C": "gemini-4-hydrogen|no_context|4000",
+  "D": "gemini-4-neon|no_context|4000",
+  "E": "gemini-4-hydrogen|c2v|1500",
+  "F": "gemini-4-hydrogen|context_file|4000",
+  "G": "gemini-4-hydrogen|rag|1500",
+  "H": "gemini-4-hydrogen|context_file|1500",
+  "I": "gemini-4-hydrogen|c2v|4000"
+ },
+ "grades": [
+  {
+   "label": "A",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states the date November 12, 2026 (2026-11-12)."
+  },
+  {
+   "label": "B",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states the date and accurately references the note title and project from the gold notes."
+  },
+  {
+   "label": "C",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States it does not know the answer."
+  },
+  {
+   "label": "D",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States it does not know the answer."
+  },
+  {
+   "label": "E",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states the date and accurately references the note title and project from the gold notes."
+  },
+  {
+   "label": "F",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states the date November 12, 2026 (2026-11-12)."
+  },
+  {
+   "label": "G",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states the date November 12, 2026 (2026-11-12)."
+  },
+  {
+   "label": "H",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states the date November 12, 2026 (2026-11-12)."
+  },
+  {
+   "label": "I",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states the date and accurately references the session note title from the gold notes."
+  }
+ ],
+ "usage": {
+  "input": 1070,
+  "output": 417,
+  "thought": 609
+ }
+}

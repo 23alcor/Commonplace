@@ -1,0 +1,92 @@
+{
+ "key": {
+  "judge": "gemini-4-neon",
+  "qid": "s10",
+  "gold": "The Anchoring lecture on 2026-11-13",
+  "answers": {
+   "A": "You logged the **Anchoring lecture** for ECON 205 on **2026-11-13**.",
+   "B": "I don't know.",
+   "C": "You logged the **Anchoring lecture** for ECON 205 Behavioral Economics on **2026-11-13** (November 13, 2026), in the note `2026-11-13 ECON 205 - Anchoring lecture`.",
+   "D": "You logged the Anchoring lecture for ECON 205 on 2026-11-13.",
+   "E": "You logged the Anchoring lecture for ECON 205 on `2026-11-13`.",
+   "F": "You logged the \"Anchoring lecture\" on 2026-11-13.",
+   "G": "You logged the **Anchoring lecture** for **ECON 205 Behavioral Economics** on **2026-11-13** (November 13, 2026).",
+   "H": "You logged the **Anchoring lecture** for ECON 205 (Behavioral Economics) on **2026-11-13** (November 13, 2026).",
+   "I": "I don't know. I don't have access to your notes or lecture logs."
+  },
+  "v": 2,
+  "vault": "ec7da3651072"
+ },
+ "labels": {
+  "A": "gemini-4-hydrogen|rag|1500",
+  "B": "gemini-4-neon|no_context|4000",
+  "C": "gemini-4-hydrogen|c2v|4000",
+  "D": "gemini-4-hydrogen|context_file|1500",
+  "E": "gemini-4-hydrogen|context_file|4000",
+  "F": "gemini-4-hydrogen|rag|4000",
+  "G": "gemini-4-hydrogen|c2v|1500",
+  "H": "gemini-4-neon|c2v|4000",
+  "I": "gemini-4-hydrogen|no_context|4000"
+ },
+ "grades": [
+  {
+   "label": "A",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states the Anchoring lecture and the date 2026-11-13."
+  },
+  {
+   "label": "B",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "Says it does not know."
+  },
+  {
+   "label": "C",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states the Anchoring lecture, the date 2026-11-13, the full course name, and the note title."
+  },
+  {
+   "label": "D",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states the Anchoring lecture and the date 2026-11-13."
+  },
+  {
+   "label": "E",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states the Anchoring lecture and the date 2026-11-13."
+  },
+  {
+   "label": "F",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states the Anchoring lecture and the date 2026-11-13."
+  },
+  {
+   "label": "G",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states the Anchoring lecture and the date 2026-11-13."
+  },
+  {
+   "label": "H",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states the Anchoring lecture and the date 2026-11-13."
+  },
+  {
+   "label": "I",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "Says it does not know."
+  }
+ ],
+ "usage": {
+  "input": 6566,
+  "output": 546,
+  "thought": 706
+ }
+}

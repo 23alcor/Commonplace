@@ -1,0 +1,43 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "rag",
+  "qid": "f06",
+  "question": "In my system design mock interview, what was the design problem and what did I plan to keep counters in?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2
+ },
+ "tool_calls": [],
+ "notes_seen": [
+  "2026-11-19 Career - Mock interview, system design",
+  "System design interviews",
+  "2026-11-19",
+  "Interview Prep",
+  "Job Search",
+  "2026-11-18 Capstone - Inverter fault sim results",
+  "2026-11-18",
+  "2026-11-12 Capstone - Agreed on relay baseline",
+  "Informational interviews",
+  "Solar Microgrid Capstone",
+  "2026-11-20 Homelab - Tailscale ACL cleanup",
+  "About Me",
+  "2026-11-15 Career - Weekly application review",
+  "Plant Watering Bot",
+  "Recipe Scraper",
+  "2026-11-16 Recipe Scraper - Dedupe recipes by URL",
+  "2026-11-17 EECE 448 - Bias-variance office hours",
+  "Career",
+  "ESP32",
+  "MQTT"
+ ],
+ "context_tokens": 1490,
+ "error": null,
+ "answer": "The design problem was a rate limiter, and you planned to keep the counters in Redis (per API key).",
+ "usage": {
+  "input": 2192,
+  "output": 26,
+  "thought": 293
+ },
+ "latency_s": 3.353
+}

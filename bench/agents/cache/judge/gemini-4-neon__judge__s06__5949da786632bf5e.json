@@ -1,0 +1,91 @@
+{
+ "key": {
+  "judge": "gemini-4-neon",
+  "qid": "s06",
+  "gold": "Embedded / ML roles",
+  "answers": {
+   "A": "Your job search is targeting Embedded, ML, and Systems roles.",
+   "B": "Your job search is targeting Embedded ML, Firmware, On-device inference, and Systems SWE roles.",
+   "C": "Your job search is targeting embedded and ML roles, with current applications for Embedded ML, Firmware intern, Systems SWE, and On-device inference positions.",
+   "D": "I don't know. I don't have access to any information or notes about your job search.",
+   "E": "Your **Job Search** note states that you are targeting **embedded / ML roles**.\n\nSpecifically, your current application pipeline includes:\n- **Embedded ML** (ChipCo \u2014 Screen)\n- **Firmware intern** (EdgeNet \u2014 Applied)\n- **Systems SWE** (CloudForge \u2014 Found)\n- **On-device inference** (GPU Labs \u2014 Technical)",
+   "F": "I don't know.",
+   "G": "Your job search is targeting embedded and ML roles, including embedded ML, firmware intern, systems SWE, and on-device inference positions.",
+   "H": "Your **Job Search** note states that you are targeting **embedded / ML roles**. \n\nSpecifically, your current application pipeline includes:\n* **Embedded ML** (ChipCo)\n* **Firmware intern** (EdgeNet)\n* **Systems SWE** (CloudForge)\n* **On-device inference** (GPU Labs)",
+   "I": "According to your **Job Search** note, your job search is targeting **embedded and ML roles**. \n\nSpecifically, your current application pipeline includes:\n* **Embedded ML** (ChipCo)\n* **Firmware intern** (EdgeNet)\n* **Systems SWE** (CloudForge)\n* **On-device inference** (GPU Labs)"
+  },
+  "v": 1
+ },
+ "labels": {
+  "A": "gemini-4-hydrogen|context_file|1500",
+  "B": "gemini-4-hydrogen|context_file|4000",
+  "C": "gemini-4-hydrogen|rag|4000",
+  "D": "gemini-4-hydrogen|no_context|4000",
+  "E": "gemini-4-neon|c2v|4000",
+  "F": "gemini-4-neon|no_context|4000",
+  "G": "gemini-4-hydrogen|rag|1500",
+  "H": "gemini-4-hydrogen|c2v|4000",
+  "I": "gemini-4-hydrogen|c2v|1500"
+ },
+ "grades": [
+  {
+   "label": "A",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies Embedded and ML roles, and Systems is supported by the Systems SWE role in the pipeline."
+  },
+  {
+   "label": "B",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Identifies Embedded ML along with the other specific roles listed in the pipeline."
+  },
+  {
+   "label": "C",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states embedded and ML roles and accurately lists the pipeline positions."
+  },
+  {
+   "label": "D",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States it does not know."
+  },
+  {
+   "label": "E",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states embedded / ML roles and accurately details the pipeline."
+  },
+  {
+   "label": "F",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States it does not know."
+  },
+  {
+   "label": "G",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states embedded and ML roles and accurately lists the pipeline positions."
+  },
+  {
+   "label": "H",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states embedded / ML roles and accurately lists the pipeline positions."
+  },
+  {
+   "label": "I",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states embedded and ML roles and accurately lists the pipeline positions."
+  }
+ ],
+ "usage": {
+  "input": 1183,
+  "output": 298,
+  "thought": 695
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "rag",
+  "qid": "m05",
+  "question": "List all the projects under my Projects hub.",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2
+ },
+ "tool_calls": [],
+ "notes_seen": [
+  "Projects",
+  "Homelab Server",
+  "School",
+  "Solar Microgrid Capstone",
+  "Career",
+  "Recipe Scraper",
+  "Home",
+  "About Me",
+  "Job Search",
+  "2026-11-20 Homelab - Tailscale ACL cleanup",
+  "2026-11-14 Homelab - Moved cron jobs off laptop",
+  "Plant Watering Bot",
+  "2026-11-15 Career - Weekly application review",
+  "EECE 448 Machine Learning",
+  "2026-11-18 Capstone - Inverter fault sim results",
+  "PHYS 230 Electromagnetics",
+  "2026-11-20",
+  "EECE 410 Capstone Design",
+  "2026-11-16 Recipe Scraper - Dedupe recipes by URL"
+ ],
+ "context_tokens": 1495,
+ "error": null,
+ "answer": "The projects under your Projects hub are Homelab Server, Plant Watering Bot, Recipe Scraper, and Solar Microgrid Capstone.",
+ "usage": {
+  "input": 2296,
+  "output": 29,
+  "thought": 163
+ },
+ "latency_s": 3.134
+}

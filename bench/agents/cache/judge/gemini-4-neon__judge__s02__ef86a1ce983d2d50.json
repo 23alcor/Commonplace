@@ -1,0 +1,92 @@
+{
+ "key": {
+  "judge": "gemini-4-neon",
+  "qid": "s02",
+  "gold": "Conventional overcurrent relay logic used as the comparison for the ML fault detectors.",
+  "answers": {
+   "A": "In your capstone notes, the relay baseline is conventional overcurrent relay logic used as the comparison for ML detectors.",
+   "B": "In your **Solar Microgrid Capstone** notes (specifically the **Relay baseline** concept note), the relay baseline is **conventional overcurrent relay logic used as the comparison for ML detectors**.",
+   "C": "I don't know, as I don't have access to your capstone notes.",
+   "D": "In your capstone notes, the relay baseline is conventional overcurrent relay logic used as the comparison for ML detectors.",
+   "E": "In your Solar Microgrid Capstone (`EECE 410`), the conventional overcurrent relay baseline is used as a benchmark to evaluate your ML-based fault detection for grid-following inverters.",
+   "F": "In your EECE 410 Capstone Design notes, the relay baseline is conventional overcurrent relay logic used as a comparison for ML fault detectors.",
+   "G": "In your **Solar Microgrid Capstone** notes (specifically the **Relay baseline** concept note), the **relay baseline** is:\n\n> **Conventional overcurrent relay logic used as the comparison for ML detectors.**",
+   "H": "I don't know. I don't have access to your capstone notes to see what the \"relay baseline\" is used for.",
+   "I": "In your **Solar Microgrid Capstone** notes, the **relay baseline** is conventional overcurrent relay logic used as the comparison benchmark for ML fault detectors."
+  },
+  "v": 2,
+  "vault": "ec7da3651072"
+ },
+ "labels": {
+  "A": "gemini-4-hydrogen|rag|4000",
+  "B": "gemini-4-neon|c2v|4000",
+  "C": "gemini-4-hydrogen|no_context|4000",
+  "D": "gemini-4-hydrogen|rag|1500",
+  "E": "gemini-4-hydrogen|context_file|1500",
+  "F": "gemini-4-hydrogen|context_file|4000",
+  "G": "gemini-4-hydrogen|c2v|1500",
+  "H": "gemini-4-neon|no_context|4000",
+  "I": "gemini-4-hydrogen|c2v|4000"
+ },
+ "grades": [
+  {
+   "label": "A",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately states the gold answer from the Relay baseline note."
+  },
+  {
+   "label": "B",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately states the gold answer and correctly cites the Solar Microgrid Capstone and Relay baseline notes."
+  },
+  {
+   "label": "C",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "Says it does not know."
+  },
+  {
+   "label": "D",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately states the gold answer from the Relay baseline note."
+  },
+  {
+   "label": "E",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately states the gold answer and only includes additional context supported by other capstone vault notes (EECE 410, Fault detection, Inverter control)."
+  },
+  {
+   "label": "F",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately states the gold answer and correctly references EECE 410 Capstone Design."
+  },
+  {
+   "label": "G",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately quotes the gold answer and correctly cites the Solar Microgrid Capstone and Relay baseline notes."
+  },
+  {
+   "label": "H",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "Says it does not know."
+  },
+  {
+   "label": "I",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately states the gold answer and correctly references the Solar Microgrid Capstone."
+  }
+ ],
+ "usage": {
+  "input": 6473,
+  "output": 515,
+  "thought": 684
+ }
+}

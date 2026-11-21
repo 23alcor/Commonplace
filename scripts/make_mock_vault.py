@@ -18,6 +18,7 @@ PROJECTS = {
     "Homelab Server": ("30 Project and Hobby/31 Pet Projects/Homelab", ["Tailscale", "tmux", "Cron jobs"]),
     "Plant Watering Bot": ("30 Project and Hobby/31 Pet Projects/Plant Watering Bot", ["ESP32", "Soil moisture sensing", "MQTT"]),
     "Recipe Scraper": ("30 Project and Hobby/31 Pet Projects/Recipe Scraper", ["Web scraping", "SQLite"]),
+    "Capture to Vault": ("30 Project and Hobby/31 Pet Projects/Capture to Vault", ["Context management", "Decisions API", "Managed Agents"]),
     "Solar Microgrid Capstone": ("10 Learning and Teaching/11 Academic/EECE 410 Capstone Design", ["Fault detection", "Relay baseline", "Inverter control"]),
 }
 SESSIONS = [
@@ -58,6 +59,9 @@ CONCEPT_BLURBS = {
     "Inverter control": "Grid-following inverters sync to grid voltage; behavior during faults differs from generators.",
     "Informational interviews": "Short chats with people in a target role to learn, not to ask for a job.",
     "System design interviews": "Open-ended architecture questions: requirements, scale, tradeoffs.",
+    "Context management": "Keeping an AI's working context filed, linked and current so any model can retrieve it.",
+    "Decisions API": "Gemini API that answers choice/yes-no questions with calibrated probabilities instead of text.",
+    "Managed Agents": "Agents that run in a provider-hosted sandbox, executing code and checking their own work.",
 }
 
 def w(rel, text):

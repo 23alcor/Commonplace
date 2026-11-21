@@ -1,0 +1,22 @@
+{
+ "key": {
+  "model": "gemini-4-neon",
+  "arm": "no_context",
+  "qid": "m05",
+  "question": "List all the projects under my Projects hub.",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 0,
+  "v": 2
+ },
+ "tool_calls": [],
+ "notes_seen": [],
+ "context_tokens": 0,
+ "error": null,
+ "answer": "I don't know.",
+ "usage": {
+  "input": 118,
+  "output": 10,
+  "thought": 81
+ },
+ "latency_s": 3.359
+}

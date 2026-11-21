@@ -1,0 +1,91 @@
+{
+ "key": {
+  "judge": "gemini-4-neon",
+  "qid": "f05",
+  "gold": "agents (tmux new -s agents)",
+  "answers": {
+   "A": "I don't know. I don't have access to your homelab runbook.",
+   "B": "I don't know. I don't have access to your homelab runbook or notes.",
+   "C": "Your homelab notes specify creating a tmux session named `agents` (`tmux new -s agents`).",
+   "D": "Your homelab runbook specifies creating a tmux session named `agents` (via `tmux new -s agents`).",
+   "E": "Your **Homelab Runbook** says to create a tmux session named **`agents`** (via `tmux new -s agents`).",
+   "F": "Your Homelab Runbook says to create a tmux session named `agents` (`tmux new -s agents`).",
+   "G": "Your **Homelab Runbook** says to create a tmux session named **`agents`** (`tmux new -s agents`).",
+   "H": "Your Homelab Runbook says to create a tmux session named `agents` (`tmux new -s agents`).",
+   "I": "Your **Homelab Runbook** says to create a tmux session named **`agents`** (`tmux new -s agents`)."
+  },
+  "v": 1
+ },
+ "labels": {
+  "A": "gemini-4-neon|no_context|4000",
+  "B": "gemini-4-hydrogen|no_context|4000",
+  "C": "gemini-4-hydrogen|context_file|1500",
+  "D": "gemini-4-hydrogen|context_file|4000",
+  "E": "gemini-4-neon|c2v|4000",
+  "F": "gemini-4-hydrogen|rag|4000",
+  "G": "gemini-4-hydrogen|c2v|1500",
+  "H": "gemini-4-hydrogen|rag|1500",
+  "I": "gemini-4-hydrogen|c2v|4000"
+ },
+ "grades": [
+  {
+   "label": "A",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States it does not know and does not have access to the runbook."
+  },
+  {
+   "label": "B",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States it does not know and does not have access to the runbook or notes."
+  },
+  {
+   "label": "C",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the tmux session name as agents and includes the exact command."
+  },
+  {
+   "label": "D",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the tmux session name as agents and includes the exact command."
+  },
+  {
+   "label": "E",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the tmux session name as agents and includes the exact command."
+  },
+  {
+   "label": "F",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the tmux session name as agents and includes the exact command."
+  },
+  {
+   "label": "G",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the tmux session name as agents and includes the exact command."
+  },
+  {
+   "label": "H",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the tmux session name as agents and includes the exact command."
+  },
+  {
+   "label": "I",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the tmux session name as agents and includes the exact command."
+  }
+ ],
+ "usage": {
+  "input": 1047,
+  "output": 373,
+  "thought": 377
+ }
+}

@@ -1,0 +1,52 @@
+{
+ "key": {
+  "model": "gemini-4-neon",
+  "arm": "c2v",
+  "qid": "s09",
+  "question": "What were the results I logged for the capstone on Nov 18?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 4000,
+  "v": 2
+ },
+ "tool_calls": [
+  {
+   "args": {
+    "max_tokens": 2000,
+    "query": "capstone Nov 18 results"
+   },
+   "notes": [
+    "2026-11-18 Capstone - Inverter fault sim results",
+    "2026-11-18",
+    "Solar Microgrid Capstone",
+    "Projects",
+    "2026-11-12 Capstone - Agreed on relay baseline",
+    "Fault detection",
+    "Inverter control",
+    "Relay baseline",
+    "EECE 410 Capstone Design",
+    "School"
+   ]
+  }
+ ],
+ "notes_seen": [
+  "2026-11-18 Capstone - Inverter fault sim results",
+  "2026-11-18",
+  "Solar Microgrid Capstone",
+  "Projects",
+  "2026-11-12 Capstone - Agreed on relay baseline",
+  "Fault detection",
+  "Inverter control",
+  "Relay baseline",
+  "EECE 410 Capstone Design",
+  "School"
+ ],
+ "context_tokens": 538,
+ "error": null,
+ "answer": "You didn't log any specific numbers or detailed findings in your vault for that session. \n\nHere is what is recorded for **November 18, 2026** (`2026-11-18 Capstone - Inverter fault sim results`):\n- **Summary:** Inverter fault sim results. Worked on **Solar Microgrid Capstone** (coding session).\n- **Concepts linked:** Inverter control, Fault detection.\n- **Next steps:** Follow up next session.",
+ "usage": {
+  "input": 1557,
+  "output": 141,
+  "thought": 295
+ },
+ "latency_s": 8.233
+}

@@ -1,0 +1,22 @@
+{
+ "key": {
+  "model": "gemini-4-neon",
+  "arm": "no_context",
+  "qid": "s08",
+  "question": "What was my Nov 19 mock interview about?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 0,
+  "v": 2
+ },
+ "tool_calls": [],
+ "notes_seen": [],
+ "context_tokens": 0,
+ "error": null,
+ "answer": "I don't know. I don't have any information about your Nov 19 mock interview.",
+ "usage": {
+  "input": 120,
+  "output": 26,
+  "thought": 158
+ },
+ "latency_s": 5.318
+}

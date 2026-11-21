@@ -1,0 +1,91 @@
+{
+ "key": {
+  "judge": "gemini-4-neon",
+  "qid": "f06",
+  "gold": "A rate limiter; Redis counters per API key",
+  "answers": {
+   "A": "I don't know. I don't have any notes or information about your system design mock interview.",
+   "B": "I don't know, as I don't have access to your notes or details about your system design mock interview.",
+   "C": "In your system design mock interview, the design problem was a **Rate Limiter**, and you planned to keep the counters (per API key) in **Redis**.",
+   "D": "The design problem was a rate limiter, and you planned to keep the counters per API key in Redis.",
+   "E": "In your system design mock interview (`2026-11-19 Career - Mock interview, system design`):\n\n* **Design problem:** A **rate limiter**\n* **Where to keep counters:** **Redis** (specifically, Redis counters per API key)",
+   "F": "In your system design mock interview on November 19, 2026, the design problem was a **Rate Limiter**, and you planned to keep the counters per API key in **Redis**.",
+   "G": "The design problem was a rate limiter, and you planned to keep the counters in Redis (per API key).",
+   "H": "In your system design mock interview (`2026-11-19 Career - Mock interview, system design`):\n\n- **Design problem:** A **rate limiter**\n- **Counters:** **Redis** (specifically, Redis counters per API key)",
+   "I": "In your system design mock interview (`2026-11-19 Career - Mock interview, system design`), the design problem was a **rate limiter**, and you planned to keep the counters in **Redis** (per API key)."
+  },
+  "v": 1
+ },
+ "labels": {
+  "A": "gemini-4-neon|no_context|4000",
+  "B": "gemini-4-hydrogen|no_context|4000",
+  "C": "gemini-4-hydrogen|context_file|1500",
+  "D": "gemini-4-hydrogen|rag|4000",
+  "E": "gemini-4-hydrogen|c2v|1500",
+  "F": "gemini-4-hydrogen|context_file|4000",
+  "G": "gemini-4-hydrogen|rag|1500",
+  "H": "gemini-4-hydrogen|c2v|4000",
+  "I": "gemini-4-neon|c2v|4000"
+ },
+ "grades": [
+  {
+   "label": "A",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States it does not know and does not answer the question."
+  },
+  {
+   "label": "B",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States it does not know and does not answer the question."
+  },
+  {
+   "label": "C",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the design problem as a rate limiter and that counters per API key are kept in Redis."
+  },
+  {
+   "label": "D",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the design problem as a rate limiter and that counters per API key are kept in Redis."
+  },
+  {
+   "label": "E",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the design problem as a rate limiter and that counters per API key are kept in Redis, citing the correct note."
+  },
+  {
+   "label": "F",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the date, the rate limiter problem, and Redis counters per API key."
+  },
+  {
+   "label": "G",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the design problem as a rate limiter and that counters per API key are kept in Redis."
+  },
+  {
+   "label": "H",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the design problem as a rate limiter and that counters per API key are kept in Redis, citing the correct note."
+  },
+  {
+   "label": "I",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the design problem as a rate limiter and that counters per API key are kept in Redis, citing the correct note."
+  }
+ ],
+ "usage": {
+  "input": 1134,
+  "output": 553,
+  "thought": 436
+ }
+}

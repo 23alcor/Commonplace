@@ -1,0 +1,23 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "context_file",
+  "qid": "s04",
+  "question": "When did I move my cron jobs off my laptop?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2,
+  "ctx": "afb4999980f9"
+ },
+ "tool_calls": [],
+ "notes_seen": [],
+ "context_tokens": 836,
+ "error": null,
+ "answer": "You moved your cron jobs off your laptop onto your homelab box on November 14, 2026 (`2026-11-14`).",
+ "usage": {
+  "input": 1178,
+  "output": 40,
+  "thought": 78
+ },
+ "latency_s": 1.578
+}

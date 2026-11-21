@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 import os
+import random
 import statistics
 import threading
 import time
@@ -19,6 +20,60 @@ from eval.score import CaseScore, score_case, summarize
 
 ROOT = Path(__file__).resolve().parent
 WRITE_LOCK = threading.Lock()
+
+
+class BudgetExceeded(RuntimeError):
+    pass
+
+
+class ApiBudget:
+    """Persist request attempts so restarts and rate-limit retries respect the cap."""
+    def __init__(self, path: Path, limit: int):
+        self.path, self.limit = path, limit
+        self.lock = threading.Lock()
+        self.used = json.loads(path.read_text())["used"] if path.exists() else 0
+
+    def consume(self) -> None:
+        with self.lock:
+            if self.used >= self.limit:
+                raise BudgetExceeded(f"API budget reached: {self.used}/{self.limit}")
+            self.used += 1
+            self.path.parent.mkdir(parents=True, exist_ok=True)
+            self.path.write_text(json.dumps({"used": self.used, "limit": self.limit}) + "\n")
+
+
+def _rate_limited(exc: Exception) -> bool:
+    message = str(exc).lower()
+    return any(token in message for token in ("429", "resource_exhausted", "rate limit", "quota exceeded", "503"))
+
+
+class EndpointProxy:
+    def __init__(self, endpoint, budget: ApiBudget):
+        self.endpoint, self.budget = endpoint, budget
+
+    def __getattr__(self, name):
+        value = getattr(self.endpoint, name)
+        if name not in {"create", "upload"} or not callable(value):
+            return value
+        def call(*args, **kwargs):
+            for attempt in range(4):
+                self.budget.consume()
+                try:
+                    return value(*args, **kwargs)
+                except Exception as exc:
+                    if not _rate_limited(exc) or attempt == 3:
+                        raise
+                    time.sleep(min(16, 2 ** (attempt + 1)) + random.uniform(0, 0.5))
+        return call
+
+
+class ClientProxy:
+    def __init__(self, client, budget: ApiBudget):
+        self.client, self.budget = client, budget
+
+    def __getattr__(self, name):
+        value = getattr(self.client, name)
+        return EndpointProxy(value, self.budget) if name in {"interactions", "decisions", "files"} else value
 
 
 def load_jsonl(path: Path) -> list[dict]:
@@ -36,7 +91,8 @@ def _fingerprint(case: dict) -> str:
     return digest.hexdigest()[:16]
 
 
-def run_one(case: dict, method: str, vault_path: Path, agent_verify: bool = False) -> dict:
+def run_one(case: dict, method: str, vault_path: Path, agent_verify: bool = False,
+            client=None, beta_client=None) -> dict:
     start = time.monotonic()
     row = {"case_id": case["case_id"], "method": method,
            "media_kind": case["media_kind"], "difficulty": case.get("difficulty", {}),
@@ -44,19 +100,24 @@ def run_one(case: dict, method: str, vault_path: Path, agent_verify: bool = Fals
     try:
         vault = Vault(vault_path)
         if method == "baseline":
-            draft = run_baseline(case["media_path"], vault)
+            draft = run_baseline(case["media_path"], vault, client=client)
             path_taken = "single_call"
             report = verify_draft(draft, vault)  # scoring only; baseline has no repair step
         else:
             from c2v.pipeline import file_capture
             result = file_capture(case["media_path"], vault, dry_run=True,
-                                  agent_verify=agent_verify)
+                                  agent_verify=agent_verify, client=client,
+                                  beta_client=beta_client)
             draft, report, path_taken = result.draft, result.verify, result.path_taken
+            row["routing"] = result.routing.model_dump(mode="json")
+            row["capture_legibility"] = result.capture.legibility
         score = score_case(case["case_id"], case["folder"], case["links"],
                            draft.folder, draft.links, report.ok)
         row.update({"status": "ok", "score": vars(score), "path_taken": path_taken,
                     "latency_s": round(time.monotonic() - start, 3),
-                    "issue_codes": [issue.code for issue in report.issues]})
+                    "issue_codes": [issue.code for issue in report.issues],
+                    "pred_folder": draft.folder, "pred_links": draft.links,
+                    "truth_folder": case["folder"], "truth_links": case["links"]})
     except Exception as exc:
         row.update({"status": "error", "error_type": type(exc).__name__,
                     "latency_s": round(time.monotonic() - start, 3), "path_taken": "error"})
@@ -69,6 +130,8 @@ def _aggregate(rows: list[dict]) -> dict:
     metrics = summarize(scores)
     metrics.update({"attempted": len(rows), "completed": len(good),
                     "errors": len(rows) - len(good),
+                    "escalation_rate": (sum(r["path_taken"] in {"escalated", "agent_fixed"} for r in good) /
+                                        len(good)) if good and any(r["method"] == "system" for r in good) else None,
                     "median_latency_s": statistics.median(r["latency_s"] for r in good) if good else None})
     return metrics
 
@@ -100,15 +163,11 @@ def _chart(rows: list[dict], output: Path) -> None:
         if row["status"] != "ok":
             continue
         knobs = row.get("difficulty", {})
-        if "snr_db" in knobs:
-            bucket = "audio <10 dB" if knobs["snr_db"] < 10 else "audio ≥10 dB"
-        else:
-            blur = knobs.get("blur_px", 0)
-            bucket = "blur <1 px" if blur < 1 else "blur ≥1 px"
+        bucket = knobs.get("difficulty") or ("audio" if "snr_db" in knobs else "visual")
         buckets[(row["method"], bucket)].append(row["score"]["folder_correct"])
     if not buckets:
         return
-    labels = [label for label in ("blur <1 px", "blur ≥1 px", "audio <10 dB", "audio ≥10 dB")
+    labels = [label for label in ("clean", "noisy", "hard", "audio", "visual")
               if any((method, label) in buckets for method, _ in buckets)]
     methods = sorted({key[0] for key in buckets})
     fig, ax = plt.subplots(figsize=(8, 4.5))
@@ -135,14 +194,15 @@ def write_summary(rows: list[dict], output_dir: Path, dataset: str = "unspecifie
     (output_dir / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
     lines = ["# Held-out evaluation", "", f"Dataset: {dataset}. "
              "Scores include completed cases only; errors are reported separately.", "",
-             "| Method | Done / attempted | Folder acc | Link P | Link R | Link F1 | Verify pass | Median latency |",
-             "|---|---:|---:|---:|---:|---:|---:|---:|"]
+             "| Method | Done / attempted | Folder acc | Link P | Link R | Link F1 | Verify pass | Escalation | Median latency |",
+             "|---|---:|---:|---:|---:|---:|---:|---:|---:|"]
     for method in methods:
         m = summary[method]
         latency = f"{m['median_latency_s']:.2f}s" if m["median_latency_s"] is not None else "—"
+        escalation = f"{m['escalation_rate']:.1%}" if m["escalation_rate"] is not None else "—"
         lines.append(f"| {method} | {m['completed']} / {m['attempted']} | {m['folder_accuracy']:.1%} | "
                      f"{m['link_precision']:.1%} | {m['link_recall']:.1%} | {m['link_f1']:.1%} | "
-                     f"{m['verify_pass_rate']:.1%} | {latency} |")
+                     f"{m['verify_pass_rate']:.1%} | {escalation} | {latency} |")
     lines += ["", "## Failures by capture", "", "| Method | Media kind | Runs | Failures |", "|---|---|---:|---:|"]
     for method in methods:
         by_kind = defaultdict(list)
@@ -161,10 +221,7 @@ def write_summary(rows: list[dict], output_dir: Path, dataset: str = "unspecifie
             if row["method"] != method:
                 continue
             knobs = row.get("difficulty", {})
-            if "snr_db" in knobs:
-                label = "audio SNR <10 dB" if knobs["snr_db"] < 10 else "audio SNR ≥10 dB"
-            else:
-                label = "blur <1 px" if knobs.get("blur_px", 0) < 1 else "blur ≥1 px"
+            label = knobs.get("difficulty") or ("audio" if "snr_db" in knobs else "visual")
             by_difficulty[label].append(row)
         for label, group in sorted(by_difficulty.items()):
             failures = sum(r["status"] != "ok" or not r["score"]["verify_ok"] or
@@ -184,15 +241,21 @@ def write_summary(rows: list[dict], output_dir: Path, dataset: str = "unspecifie
 
 def run(cases_path: Path, vault_path: Path, output_dir: Path,
         system: bool = False, workers: int = 6, agent_verify: bool = False,
-        rerun: bool = False) -> dict:
+        rerun: bool = False, max_api_calls: int = 97) -> dict:
     cases = load_jsonl(cases_path)
     if not cases:
         raise ValueError(f"No cases in {cases_path}; run python -m eval.build_heldout first")
     if not vault_path.is_dir():
         raise FileNotFoundError(vault_path)
+    if agent_verify:
+        raise ValueError("Managed Agent calls cannot be counted by this budgeted runner; use local verify/repair")
     for case in cases:
         case["fingerprint"] = _fingerprint(case)
     output_dir.mkdir(parents=True, exist_ok=True)
+    budget = ApiBudget(output_dir / "api_calls.json", max_api_calls)
+    from google import genai
+    client = ClientProxy(genai.Client(), budget)
+    beta_client = ClientProxy(genai.Client(http_options={"api_version": "v1beta"}), budget)
     result_path = output_dir / "results.jsonl"
     existing = load_jsonl(result_path)
     fingerprints = {case["case_id"]: case["fingerprint"] for case in cases}
@@ -205,7 +268,7 @@ def run(cases_path: Path, vault_path: Path, output_dir: Path,
     tasks = [(case, method) for case in cases for method in methods
              if (case["case_id"], method) not in done]
     with ThreadPoolExecutor(max_workers=workers) as pool:
-        futures = [pool.submit(run_one, case, method, vault_path, agent_verify)
+        futures = [pool.submit(run_one, case, method, vault_path, agent_verify, client, beta_client)
                    for case, method in tasks]
         for future in as_completed(futures):
             row = future.result()
@@ -215,7 +278,9 @@ def run(cases_path: Path, vault_path: Path, output_dir: Path,
                     (row["case_id"], row["method"])]
             rows.append(row)
             print(f"{row['case_id']} {row['method']}: {row['status']}", flush=True)
-    return write_summary(rows, output_dir, cases[0].get("dataset", "unspecified"))
+    summary = write_summary(rows, output_dir, cases[0].get("dataset", "unspecified"))
+    print(f"API calls: {budget.used}/{budget.limit}")
+    return summary
 
 
 def main() -> None:
@@ -227,9 +292,12 @@ def main() -> None:
     ap.add_argument("--agent-verify", action="store_true")
     ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--rerun", action="store_true", help="rerun completed cases after a prompt change")
+    ap.add_argument("--max-api-calls", type=int, default=97,
+                    help="persistent API attempt cap; leaves room for three TTS calls")
     args = ap.parse_args()
     print(json.dumps(run(args.cases, args.vault, args.results,
-                         args.system, args.workers, args.agent_verify, args.rerun), indent=2))
+                         args.system, args.workers, args.agent_verify, args.rerun,
+                         args.max_api_calls), indent=2))
 
 
 if __name__ == "__main__":

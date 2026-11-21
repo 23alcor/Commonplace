@@ -1,0 +1,48 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "c2v",
+  "qid": "f03",
+  "question": "Which company in my job pipeline is at the Technical stage, and for what role?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2
+ },
+ "tool_calls": [
+  {
+   "args": {
+    "max_tokens": 1500,
+    "query": "job pipeline Technical stage"
+   },
+   "notes": [
+    "Job Search",
+    "2026-11-15 Career - Weekly application review",
+    "2026-11-19",
+    "Career",
+    "2026-11-19 Career - Mock interview, system design",
+    "Informational interviews",
+    "Interview Prep",
+    "System design interviews"
+   ]
+  }
+ ],
+ "notes_seen": [
+  "Job Search",
+  "2026-11-15 Career - Weekly application review",
+  "2026-11-19",
+  "Career",
+  "2026-11-19 Career - Mock interview, system design",
+  "Informational interviews",
+  "Interview Prep",
+  "System design interviews"
+ ],
+ "context_tokens": 599,
+ "error": null,
+ "answer": "According to your **Job Search** note, **GPU Labs** is at the **Technical** stage for the **On-device inference** role.",
+ "usage": {
+  "input": 1588,
+  "output": 68,
+  "thought": 82
+ },
+ "latency_s": 4.944
+}

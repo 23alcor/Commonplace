@@ -1,0 +1,23 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "context_file",
+  "qid": "m08",
+  "question": "What did I work on on Thursday Nov 19, which project was it part of, and what hub does that project sit under?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 4000,
+  "v": 2,
+  "ctx": "5914ff65802d"
+ },
+ "tool_calls": [],
+ "notes_seen": [],
+ "context_tokens": 1079,
+ "error": null,
+ "answer": "On Thursday, Nov 19, you worked on a system design mock interview covering a **Rate Limiter** (token bucket vs. leaky bucket, Redis counters per API key, and edge vs. central enforcement). This was part of your **Career & Job Search** (`Interview Prep.md`), which sits under the `20 Work and Career/` hub (`Career.md`).",
+ "usage": {
+  "input": 1443,
+  "output": 82,
+  "thought": 184
+ },
+ "latency_s": 2.611
+}

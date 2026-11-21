@@ -1,0 +1,23 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "context_file",
+  "qid": "m05",
+  "question": "List all the projects under my Projects hub.",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 4000,
+  "v": 2,
+  "ctx": "0c4ea23a7e7d"
+ },
+ "tool_calls": [],
+ "notes_seen": [],
+ "context_tokens": 1079,
+ "error": null,
+ "answer": "Your active side projects are Homelab Server, Plant Watering Bot, and Recipe Scraper.",
+ "usage": {
+  "input": 1424,
+  "output": 22,
+  "thought": 151
+ },
+ "latency_s": 3.766
+}

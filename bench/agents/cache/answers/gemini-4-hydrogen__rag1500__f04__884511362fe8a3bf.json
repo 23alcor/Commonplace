@@ -1,0 +1,39 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "rag",
+  "qid": "f04",
+  "question": "What PHYS 230 homework do I have for the Smith chart, and what impedance was in the example diagram?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2
+ },
+ "tool_calls": [],
+ "notes_seen": [
+  "2026-11-11 PHYS 230 - Smith chart practice set",
+  "PHYS 230 Electromagnetics",
+  "Smith chart",
+  "Transmission lines",
+  "2026-11-18",
+  "Solar Microgrid Capstone",
+  "2026-11-18 Capstone - Inverter fault sim results",
+  "School",
+  "2026-11-13 ECON 205 - Anchoring lecture",
+  "2026-11-10 EECE 448 - Ridge vs lasso on housing data",
+  "About Me",
+  "2026-11-19 Career - Mock interview, system design",
+  "ECON 205 Behavioral Economics",
+  "2026-11-17 EECE 448 - Bias-variance office hours",
+  "Job Search",
+  "Career"
+ ],
+ "context_tokens": 1495,
+ "error": null,
+ "answer": "Your PHYS 230 homework for the Smith chart is practice set #3. The impedance in the example diagram was z = 0.4 + j0.7.",
+ "usage": {
+  "input": 2208,
+  "output": 40,
+  "thought": 154
+ },
+ "latency_s": 2.192
+}

@@ -1,0 +1,42 @@
+=== 01_voice_eece448_ridge.wav
+  },
+  "written_path": "/home/ralph/Code/c2v-lane-f/bench/agents/work/vault/Sessions/2026-11/2026-11-10 EECE 448 - Ridge vs lasso on housing data.md",
+  "path_taken": "escalated",
+  "latency_s": 21.604295015335083
+}
+=== 02_whiteboard_smith_chart.jpg
+  },
+  "written_path": "/home/ralph/Code/c2v-lane-f/bench/agents/work/vault/Sessions/2026-11/2026-11-11 PHYS 230 - Smith chart practice set.md",
+  "path_taken": "auto",
+  "latency_s": 8.86684274673462
+}
+=== 04_screenshot_job_search.jpg
+  },
+  "written_path": "/home/ralph/Code/c2v-lane-f/bench/agents/work/vault/20 Work and Career/Job Search/Job Search.md",
+  "path_taken": "escalated",
+  "latency_s": 20.10783624649048
+}
+=== 05_scanned_homelab_tmux.pdf
+  },
+  "written_path": "/home/ralph/Code/c2v-lane-f/bench/agents/work/vault/30 Project and Hobby/31 Pet Projects/Homelab/Homelab Runbook.md",
+  "path_taken": "escalated",
+  "latency_s": 19.011972904205322
+}
+=== 06_whiteboard_plant_bot_esp32.jpg
+  },
+  "written_path": "/home/ralph/Code/c2v-lane-f/bench/agents/work/vault/30 Project and Hobby/31 Pet Projects/Plant Watering Bot/Plant Watering Bot.md",
+  "path_taken": "escalated",
+  "latency_s": 21.427254676818848
+}
+=== 08_merge_soil_sensor_followup.jpg
+  },
+  "written_path": "/home/ralph/Code/c2v-lane-f/bench/agents/work/vault/Sessions/2026-11/2026-11-12 Plant Watering Bot - Calibrated soil sensor.md",
+  "path_taken": "escalated",
+  "latency_s": 23.72049307823181
+}
+=== 10_screenshot_interview_prep.jpg
+  },
+  "written_path": "/home/ralph/Code/c2v-lane-f/bench/agents/work/vault/Sessions/2026-11/2026-11-19 Career - Mock interview, system design.md",
+  "path_taken": "escalated",
+  "latency_s": 20.311609506607056
+}

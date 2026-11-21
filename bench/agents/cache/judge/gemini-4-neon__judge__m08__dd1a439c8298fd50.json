@@ -1,0 +1,91 @@
+{
+ "key": {
+  "judge": "gemini-4-neon",
+  "qid": "m08",
+  "gold": "A system design mock interview; part of Job Search; under the Career hub",
+  "answers": {
+   "A": "On **Thursday, November 19, 2026**, you worked on a **system design mock interview** (covering rate limiter design, including token bucket vs. leaky bucket, Redis counters per API key, and edge vs. central enforcement).\n\n* **Project:** [[Job Search]]\n* **Hub:** [[Career]]",
+   "B": "On Thursday, November 19, 2026, you worked on a system design mock interview as part of the **Job Search** project, which sits under the **Career** hub.",
+   "C": "On Thursday, Nov 19, you worked on a system design mock interview for a Rate Limiter. It was part of your Job Search / Interview Prep, which sits under the `20 Work and Career/` hub (`Career.md`).",
+   "D": "I don't know. I don't have access to your notes, calendar, or project records.",
+   "E": "On Thursday, November 19, you worked on a system design mock interview. This was part of your **Job Search** project, which sits under the **Career** hub.",
+   "F": "I don't know. I don't have access to your notes, calendar, or project information.",
+   "G": "On Thursday, November 19, 2026, you worked on a **Mock interview, system design** (covering a rate limiter design).\n\n- **Project:** [[Job Search]]\n- **Hub:** [[Career]]",
+   "H": "On Thursday, Nov 19, you worked on a **Rate Limiter** system design mock interview, which is part of your **Job Search & Interview Prep**. That sits under the `20 Work and Career/Job Search/` hub.",
+   "I": "On **Thursday, November 19, 2026**, you worked on:\n\n* **Activity:** Mock interview, system design (covering rate limiter design)\n* **Project:** [[Job Search]]\n* **Hub:** [[Career]]"
+  },
+  "v": 1
+ },
+ "labels": {
+  "A": "gemini-4-neon|c2v|4000",
+  "B": "gemini-4-hydrogen|rag|1500",
+  "C": "gemini-4-hydrogen|context_file|4000",
+  "D": "gemini-4-hydrogen|no_context|4000",
+  "E": "gemini-4-hydrogen|rag|4000",
+  "F": "gemini-4-neon|no_context|4000",
+  "G": "gemini-4-hydrogen|c2v|1500",
+  "H": "gemini-4-hydrogen|context_file|1500",
+  "I": "gemini-4-hydrogen|c2v|4000"
+ },
+ "grades": [
+  {
+   "label": "A",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the system design mock interview, the Job Search project, and the Career hub, with extra details supported by the gold notes."
+  },
+  {
+   "label": "B",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately states all three parts of the gold answer without unsupported claims."
+  },
+  {
+   "label": "C",
+   "verdict": "correct",
+   "hallucinated": true,
+   "reason": "Gets all three parts of the answer right, but invents the unsupported folder path '20 Work and Career/'."
+  },
+  {
+   "label": "D",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States it does not know."
+  },
+  {
+   "label": "E",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately states all three parts of the gold answer without unsupported claims."
+  },
+  {
+   "label": "F",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States it does not know."
+  },
+  {
+   "label": "G",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately states all three parts of the gold answer with supported details."
+  },
+  {
+   "label": "H",
+   "verdict": "partial",
+   "hallucinated": true,
+   "reason": "Correctly identifies the system design mock interview and Job Search, but misidentifies the hub as an unsupported path '20 Work and Career/Job Search/' instead of Career."
+  },
+  {
+   "label": "I",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Accurately states all three parts of the gold answer with supported details."
+  }
+ ],
+ "usage": {
+  "input": 1576,
+  "output": 341,
+  "thought": 823
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "rag",
+  "qid": "m01",
+  "question": "Which course is my Solar Microgrid Capstone project for?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 1500,
+  "v": 2
+ },
+ "tool_calls": [],
+ "notes_seen": [
+  "EECE 410 Capstone Design",
+  "Solar Microgrid Capstone",
+  "2026-11-12 Capstone - Agreed on relay baseline",
+  "2026-11-18 Capstone - Inverter fault sim results",
+  "2026-11-18",
+  "School",
+  "Projects",
+  "PHYS 230 Electromagnetics",
+  "EECE 448 Machine Learning",
+  "ECON 205 Behavioral Economics",
+  "About Me",
+  "2026-11-17 EECE 448 - Bias-variance office hours",
+  "2026-11-10 EECE 448 - Ridge vs lasso on housing data",
+  "2026-11-11 PHYS 230 - Smith chart practice set",
+  "Homelab Server",
+  "2026-11-13 ECON 205 - Anchoring lecture",
+  "Home",
+  "ESP32",
+  "Career"
+ ],
+ "context_tokens": 1499,
+ "error": null,
+ "answer": "Your Solar Microgrid Capstone project is for **EECE 410 Capstone Design**.",
+ "usage": {
+  "input": 2323,
+  "output": 22,
+  "thought": 118
+ },
+ "latency_s": 3.142
+}

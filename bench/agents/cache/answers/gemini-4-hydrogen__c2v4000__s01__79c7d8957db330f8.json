@@ -1,0 +1,79 @@
+{
+ "key": {
+  "model": "gemini-4-hydrogen",
+  "arm": "c2v",
+  "qid": "s01",
+  "question": "What's the course code for my Behavioral Economics class?",
+  "system": "You are the user's assistant. They ask about their own courses, projects, job search and\nnotes. Answer in one or two sentences with the specific fact asked for (a date, a number, a name, a\ndecision). If the information you have does not contain the answer, say \"I don't know\" rather than\nguessing.",
+  "budget": 4000,
+  "v": 2
+ },
+ "tool_calls": [
+  {
+   "args": {
+    "query": "Behavioral Economics"
+   },
+   "notes": [
+    "ECON 205 Behavioral Economics",
+    "2026-11-13 ECON 205 - Anchoring lecture",
+    "School",
+    "Anchoring",
+    "EECE 410 Capstone Design",
+    "EECE 448 Machine Learning",
+    "Loss aversion",
+    "Nudges",
+    "PHYS 230 Electromagnetics",
+    "About Me",
+    "Home",
+    "2026-11-10 EECE 448 - Ridge vs lasso on housing data",
+    "2026-11-11 PHYS 230 - Smith chart practice set",
+    "2026-11-17 EECE 448 - Bias-variance office hours",
+    "Bias-variance tradeoff",
+    "Career",
+    "Cross-validation",
+    "Gradient descent",
+    "Maxwell's equations",
+    "Projects",
+    "Regularization",
+    "Smith chart",
+    "Solar Microgrid Capstone",
+    "Transmission lines"
+   ]
+  }
+ ],
+ "notes_seen": [
+  "ECON 205 Behavioral Economics",
+  "2026-11-13 ECON 205 - Anchoring lecture",
+  "School",
+  "Anchoring",
+  "EECE 410 Capstone Design",
+  "EECE 448 Machine Learning",
+  "Loss aversion",
+  "Nudges",
+  "PHYS 230 Electromagnetics",
+  "About Me",
+  "Home",
+  "2026-11-10 EECE 448 - Ridge vs lasso on housing data",
+  "2026-11-11 PHYS 230 - Smith chart practice set",
+  "2026-11-17 EECE 448 - Bias-variance office hours",
+  "Bias-variance tradeoff",
+  "Career",
+  "Cross-validation",
+  "Gradient descent",
+  "Maxwell's equations",
+  "Projects",
+  "Regularization",
+  "Smith chart",
+  "Solar Microgrid Capstone",
+  "Transmission lines"
+ ],
+ "context_tokens": 1493,
+ "error": null,
+ "answer": "The course code for your Behavioral Economics class is **ECON 205**.",
+ "usage": {
+  "input": 3208,
+  "output": 44,
+  "thought": 60
+ },
+ "latency_s": 3.893
+}

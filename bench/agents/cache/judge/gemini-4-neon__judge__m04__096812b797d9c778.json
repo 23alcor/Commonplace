@@ -1,0 +1,91 @@
+{
+ "key": {
+  "judge": "gemini-4-neon",
+  "qid": "m04",
+  "gold": "Recipe Scraper; on Nov 16 I deduped recipes by URL.",
+  "answers": {
+   "A": "Your **Recipe Scraper** project uses SQLite. Most recently, on November 16, 2026, you implemented URL-based recipe deduplication.",
+   "B": "Your **Recipe Scraper** project uses SQLite. Most recently, on `2026-11-16`, you deduplicated recipes by URL.",
+   "C": "I don't know. I don't have access to your project files or notes to see which project uses SQLite or what you most recently did on it.",
+   "D": "Your **Recipe Scraper** project uses SQLite. On November 16, 2026, you most recently worked on deduping recipes by URL.",
+   "E": "Your **Recipe Scraper** project uses SQLite.\n\nMost recently, on **2026-11-16**, you worked on **deduping recipes by URL** (recorded in the session note *2026-11-16 Recipe Scraper - Dedupe recipes by URL*).",
+   "F": "I don't know. I don't have any information about your projects or recent activity.",
+   "G": "Your **Recipe Scraper** project uses **SQLite**.\n\nThe most recent thing you did on it was on **2026-11-16** (`2026-11-16 Recipe Scraper - Dedupe recipes by URL`), where you worked on **deduplicating recipes by URL**.",
+   "H": "Your **Recipe Scraper** project uses SQLite. You most recently worked on it on **2026-11-16**, when you deduped recipes by URL.",
+   "I": "Your **Recipe Scraper** project uses SQLite. \n\nThe most recent work logged on it was a coding session on **November 16, 2026**, where you worked on **deduping recipes by URL**."
+  },
+  "v": 1
+ },
+ "labels": {
+  "A": "gemini-4-hydrogen|context_file|1500",
+  "B": "gemini-4-hydrogen|context_file|4000",
+  "C": "gemini-4-hydrogen|no_context|4000",
+  "D": "gemini-4-hydrogen|rag|1500",
+  "E": "gemini-4-hydrogen|c2v|1500",
+  "F": "gemini-4-neon|no_context|4000",
+  "G": "gemini-4-hydrogen|c2v|4000",
+  "H": "gemini-4-hydrogen|rag|4000",
+  "I": "gemini-4-neon|c2v|4000"
+ },
+ "grades": [
+  {
+   "label": "A",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies Recipe Scraper and the Nov 16, 2026 URL-based recipe deduplication."
+  },
+  {
+   "label": "B",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies Recipe Scraper and the 2026-11-16 recipe deduplication by URL."
+  },
+  {
+   "label": "C",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States it does not know and does not answer the question."
+  },
+  {
+   "label": "D",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies Recipe Scraper and the Nov 16, 2026 work on deduping recipes by URL."
+  },
+  {
+   "label": "E",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies Recipe Scraper, the date 2026-11-16, deduping recipes by URL, and the exact session note title."
+  },
+  {
+   "label": "F",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States it does not know and does not answer the question."
+  },
+  {
+   "label": "G",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies Recipe Scraper, the date 2026-11-16, the session note title, and deduplicating recipes by URL."
+  },
+  {
+   "label": "H",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies Recipe Scraper and the 2026-11-16 work deduping recipes by URL."
+  },
+  {
+   "label": "I",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies Recipe Scraper, the coding session on November 16, 2026, and deduping recipes by URL."
+  }
+ ],
+ "usage": {
+  "input": 1229,
+  "output": 455,
+  "thought": 643
+ }
+}

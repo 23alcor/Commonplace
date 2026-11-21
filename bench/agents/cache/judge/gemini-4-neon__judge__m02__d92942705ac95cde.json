@@ -1,0 +1,91 @@
+{
+ "key": {
+  "judge": "gemini-4-neon",
+  "qid": "m02",
+  "gold": "The Plant Watering Bot; it publishes dry/wet (soil moisture) status over MQTT to trigger the valve.",
+  "answers": {
+   "A": "Your **Plant Watering Bot** project uses MQTT. It publishes the **dry/wet status** (read from the capacitive soil moisture sensor via the ESP32 ADC) over MQTT.",
+   "B": "I don't know. I don't have access to your project notes or files to check which project uses MQTT or what it publishes.",
+   "C": "I don't know.",
+   "D": "Your **Plant Watering Bot** project uses MQTT, and it publishes the plant's dry/wet status over MQTT.",
+   "E": "Your **Plant Watering Bot** project uses MQTT. It publishes the soil's dry/wet status over MQTT.",
+   "F": "Your **Plant Watering Bot** project uses MQTT, and it publishes the dry/wet status over MQTT.",
+   "G": "Your **Plant Watering Bot** project uses MQTT. It publishes the **dry/wet status** (read from the capacitive soil moisture sensor via the ESP32 ADC) over MQTT.",
+   "H": "Your **Plant Watering Bot** project uses MQTT, and it publishes the soil's **dry/wet status**.",
+   "I": "Your **Plant Watering Bot** project uses MQTT. It publishes the **dry/wet status** (read from the capacitive moisture sensor via the ESP32 ADC) over MQTT."
+  },
+  "v": 1
+ },
+ "labels": {
+  "A": "gemini-4-hydrogen|c2v|1500",
+  "B": "gemini-4-hydrogen|no_context|4000",
+  "C": "gemini-4-neon|no_context|4000",
+  "D": "gemini-4-hydrogen|context_file|4000",
+  "E": "gemini-4-hydrogen|rag|4000",
+  "F": "gemini-4-hydrogen|rag|1500",
+  "G": "gemini-4-hydrogen|c2v|4000",
+  "H": "gemini-4-hydrogen|context_file|1500",
+  "I": "gemini-4-neon|c2v|4000"
+ },
+ "grades": [
+  {
+   "label": "A",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the Plant Watering Bot and that it publishes dry/wet status over MQTT, with accurate supporting details from the notes."
+  },
+  {
+   "label": "B",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States it does not know and does not answer the question."
+  },
+  {
+   "label": "C",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States it does not know."
+  },
+  {
+   "label": "D",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the Plant Watering Bot and that it publishes dry/wet status over MQTT."
+  },
+  {
+   "label": "E",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the Plant Watering Bot and that it publishes the soil's dry/wet status over MQTT."
+  },
+  {
+   "label": "F",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the Plant Watering Bot and that it publishes dry/wet status over MQTT."
+  },
+  {
+   "label": "G",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the Plant Watering Bot and that it publishes dry/wet status over MQTT, with accurate supporting details from the notes."
+  },
+  {
+   "label": "H",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the Plant Watering Bot and that it publishes the soil's dry/wet status."
+  },
+  {
+   "label": "I",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies the Plant Watering Bot and that it publishes dry/wet status over MQTT, with accurate supporting details from the notes."
+  }
+ ],
+ "usage": {
+  "input": 1136,
+  "output": 551,
+  "thought": 653
+ }
+}

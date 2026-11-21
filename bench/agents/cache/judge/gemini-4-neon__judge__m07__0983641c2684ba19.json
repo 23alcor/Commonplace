@@ -1,0 +1,92 @@
+{
+ "key": {
+  "judge": "gemini-4-neon",
+  "qid": "m07",
+  "gold": "PHYS 230 Electromagnetics; practice set on 2026-11-11",
+  "answers": {
+   "A": "The Smith chart is covered in **PHYS 230 Electromagnetics**. \n\nYou did a Smith chart practice set on **November 11, 2026** (`2026-11-11 PHYS 230 - Smith chart practice set`).",
+   "B": "**PHYS 230 Electromagnetics** covers the Smith chart, and you did a Smith chart practice set on **2026-11-11**.",
+   "C": "**PHYS 230 Electromagnetics** covers the Smith chart.\n\nYou did a Smith chart practice set on **November 11, 2026** (`2026-11-11 PHYS 230 - Smith chart practice set`).",
+   "D": "PHYS 230 Electromagnetics covers the Smith chart, and you did a Smith chart practice set on 2026-11-11.",
+   "E": "**PHYS 230 Electromagnetics** covers the Smith chart. You did a Smith chart practice set on **November 11, 2026** (2026-11-11).",
+   "F": "I don't know, as I don't have access to your course materials, notes, or schedule.",
+   "G": "Your **PHYS 230 Electromagnetics** course covers the Smith chart. You did a Smith chart practice set on **November 11, 2026**.",
+   "H": "The Smith chart is covered in **PHYS 230 Electromagnetics** (Fall 2026).\n\nYou did a Smith chart practice set on **November 11, 2026** (`2026-11-11 PHYS 230 - Smith chart practice set`).",
+   "I": "I don't know which of your courses covers the Smith chart or when you did the practice set, as I don't have access to your courses or notes."
+  },
+  "v": 2,
+  "vault": "ec7da3651072"
+ },
+ "labels": {
+  "A": "gemini-4-hydrogen|c2v|4000",
+  "B": "gemini-4-hydrogen|context_file|1500",
+  "C": "gemini-4-hydrogen|c2v|1500",
+  "D": "gemini-4-hydrogen|context_file|4000",
+  "E": "gemini-4-hydrogen|rag|4000",
+  "F": "gemini-4-hydrogen|no_context|4000",
+  "G": "gemini-4-hydrogen|rag|1500",
+  "H": "gemini-4-neon|c2v|4000",
+  "I": "gemini-4-neon|no_context|4000"
+ },
+ "grades": [
+  {
+   "label": "A",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies PHYS 230 Electromagnetics and the date November 11, 2026, referencing the exact session note."
+  },
+  {
+   "label": "B",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states both PHYS 230 Electromagnetics and the practice set date 2026-11-11."
+  },
+  {
+   "label": "C",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies PHYS 230 Electromagnetics and the date November 11, 2026, citing the exact session note."
+  },
+  {
+   "label": "D",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states PHYS 230 Electromagnetics and the date 2026-11-11."
+  },
+  {
+   "label": "E",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies PHYS 230 Electromagnetics and the date November 11, 2026 (2026-11-11)."
+  },
+  {
+   "label": "F",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States that it does not know."
+  },
+  {
+   "label": "G",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly states PHYS 230 Electromagnetics and the date November 11, 2026."
+  },
+  {
+   "label": "H",
+   "verdict": "correct",
+   "hallucinated": false,
+   "reason": "Correctly identifies PHYS 230 Electromagnetics (Fall 2026) and the date November 11, 2026, with all details supported by the vault."
+  },
+  {
+   "label": "I",
+   "verdict": "wrong",
+   "hallucinated": false,
+   "reason": "States that it does not know."
+  }
+ ],
+ "usage": {
+  "input": 7002,
+  "output": 470,
+  "thought": 625
+ }
+}
