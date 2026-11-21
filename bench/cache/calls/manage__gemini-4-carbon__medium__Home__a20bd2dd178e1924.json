@@ -1,0 +1,17 @@
+{
+ "key": {
+  "step": "manage",
+  "model": "gemini-4-carbon",
+  "thinking": "medium",
+  "case": "Home",
+  "prompt_sha": "1ecb063d6fac"
+ },
+ "output_text": "{\"title\":\"Home\",\"folder\":\"00 Home\",\"frontmatter\":{\"type\":\"other\",\"created\":\"2026-11-21\",\"source\":\"text\",\"tags\":[\"home\",\"index\"]},\"body\":\"- [[School]] \u00b7 [[Career]] \u00b7 [[Projects]]\\n- Daily notes live in `00 Home/09 Journal/Daily Notes`. Sessions live in `Sessions/`.\",\"links\":[\"School\",\"Career\",\"Projects\"],\"merge_into\":\"\"}",
+ "latency_s": 26.192,
+ "usage": {
+  "input": 2613,
+  "output": 111,
+  "thought": 1416
+ },
+ "error": null
+}

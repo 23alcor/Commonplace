@@ -1,0 +1,23 @@
+{
+  "_source": "Reference text is the exact string each capture was rendered from in lane D's demo_captures/generate.py.",
+  "01_voice_eece448_ridge.wav": {
+    "kind": "voice memo (espeak TTS + pink noise)",
+    "text": "EECE 448 memo. Ridge versus lasso on the housing set — L2 shrinks weights, L1 drives some to zero. Tie this back to gradient descent step size and the regularization notes for class.",
+    "key_terms": ["EECE 448", "ridge", "lasso", "housing", "L2", "L1", "gradient descent", "regularization"]
+  },
+  "03_handwritten_anchoring.jpg": {
+    "kind": "handwritten page photo",
+    "text": "ECON 205 — Anchoring\nEstimates drift toward the first number\neven if the number is irrelevant\nDemo: wheel of fortune → GDP guess\nRetail: 'was $80, now $49'\nvs loss aversion (separate note)\nNudges can set the anchor on purpose\nRead: Kahneman ch. on anchors",
+    "key_terms": ["ECON 205", "Anchoring", "wheel of fortune", "GDP", "$80", "$49", "loss aversion", "Nudges", "Kahneman"]
+  },
+  "04_screenshot_job_search.jpg": {
+    "kind": "phone screenshot",
+    "text": "9:41 LTE 71%\nJob Search\nEmbedded ML — ChipCo\nScreen\nFirmware intern — EdgeNet\nApplied\nSystems SWE — CloudForge\nFound\nOn-device inference — GPU Labs\nTechnical\nPrep: system design mock Thu",
+    "key_terms": ["Job Search", "ChipCo", "EdgeNet", "CloudForge", "GPU Labs", "Embedded ML", "Firmware intern", "system design"]
+  },
+  "05_scanned_homelab_tmux.pdf": {
+    "kind": "scanned 2-page PDF",
+    "text": "Homelab runbook (phone scan)\nBox: headless Ubuntu\nReachability: Tailscale + MagicDNS\nLong jobs: tmux sessions (survive SSH drop)\nCron: moved off laptop Nov 14\nChecklist\n1. tailscale up\n2. tmux new -s agents\n3. ACL: only home devices\nProject note: Homelab Server\nFollow-ups\n- document exit nodes\n- ACL cleanup after Nov 20 session\n- keep cron on the box, not laptop\nConcepts: Tailscale, tmux, Cron jobs",
+    "key_terms": ["Homelab", "Ubuntu", "Tailscale", "MagicDNS", "tmux", "SSH", "Nov 14", "ACL", "Homelab Server", "exit nodes", "Nov 20", "Cron jobs"]
+  }
+}

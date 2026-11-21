@@ -1,0 +1,17 @@
+{
+ "key": {
+  "step": "manage",
+  "model": "gemini-4-neon",
+  "thinking": "low",
+  "case": "2026-11-10 EECE 448 - Ridge vs lasso on housing data",
+  "prompt_sha": "8439b5a3ba6e"
+ },
+ "output_text": "{\"title\": \"2026-11-21 EECE 448 - Ridge vs lasso on housing data\", \"folder\": \"Sessions/2026-11\", \"frontmatter\": {\"type\": \"class\", \"created\": \"2026-11-21\", \"source\": \"text\", \"tags\": [\"eece-448\", \"machine-learning\", \"regularization\", \"cross-validation\"]}, \"body\": \"# Ridge vs lasso on housing data\\n\\n## Summary\\nRidge vs lasso on housing data. Worked on [[EECE 448 Machine Learning]].\\n\\nConcepts: [[Regularization]] \u00b7 [[Cross-validation]]\\n\\n## Next steps\\n- [ ] Follow up next session\", \"links\": [\"EECE 448 Machine Learning\", \"Regularization\", \"Cross-validation\"], \"merge_into\": \"\"}",
+ "latency_s": 12.504,
+ "usage": {
+  "input": 2868,
+  "output": 212,
+  "thought": 1226
+ },
+ "error": null
+}

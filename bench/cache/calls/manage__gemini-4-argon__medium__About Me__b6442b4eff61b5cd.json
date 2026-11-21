@@ -1,0 +1,17 @@
+{
+ "key": {
+  "step": "manage",
+  "model": "gemini-4-argon",
+  "thinking": "medium",
+  "case": "About Me",
+  "prompt_sha": "9685fc7fa159"
+ },
+ "output_text": "{\n  \"title\": \"About Me\",\n  \"folder\": \"00 Home/01 About Me\",\n  \"frontmatter\": {\n    \"type\": \"reference\",\n    \"created\": \"2026-11-21\",\n    \"source\": \"text\",\n    \"tags\": [\n      \"profile\",\n      \"about\"\n    ]\n  },\n  \"body\": \"Fictional demo owner: senior electrical engineering student who builds side projects and is job hunting.\\n\\nSee [[School]], [[Career]], [[Projects]].\",\n  \"links\": [\n    \"School\",\n    \"Career\",\n    \"Projects\"\n  ],\n  \"merge_into\": \"\"\n}",
+ "latency_s": 6.818,
+ "usage": {
+  "input": 2672,
+  "output": 175,
+  "thought": 0
+ },
+ "error": null
+}

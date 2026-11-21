@@ -1,0 +1,16 @@
+{
+ "key": {
+  "step": "transcribe",
+  "model": "gemini-4-hydrogen",
+  "thinking": "low",
+  "case": "04_screenshot_job_search.jpg"
+ },
+ "output_text": "{\n  \"transcript\": \"Job Search\\nEmbedded ML \u2014 ChipCo\\nScreen\\nFirmware intern \u2014 EdgeNet\\nApplied\\nSystems SWE \u2014 CloudForge\\nFound\\nOn-device inference \u2014 GPU Labs\\nTechnical\\nPrep: system design mock Thu\",\n  \"summary\": \"A mobile screenshot of a job search tracker listing four engineering roles and their current application statuses, along with a reminder for a system design mock interview on Thursday.\",\n  \"key_terms\": [\n    \"Job Search\",\n    \"Embedded ML\",\n    \"ChipCo\",\n    \"Firmware intern\",\n    \"EdgeNet\",\n    \"Systems SWE\",\n    \"CloudForge\",\n    \"On-device inference\",\n    \"GPU Labs\",\n    \"system design mock\"\n  ],\n  \"action_items\": [\n    \"Prep: system design mock Thu\"\n  ],\n  \"legibility\": 1.0,\n  \"notes\": \"Crisp mobile screenshot of a job search tracking interface.\"\n}",
+ "latency_s": 8.413,
+ "usage": {
+  "input": 1572,
+  "output": 238,
+  "thought": 408
+ },
+ "error": null
+}

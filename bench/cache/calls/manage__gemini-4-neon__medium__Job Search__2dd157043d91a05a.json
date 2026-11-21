@@ -1,0 +1,17 @@
+{
+ "key": {
+  "step": "manage",
+  "model": "gemini-4-neon",
+  "thinking": "medium",
+  "case": "Job Search",
+  "prompt_sha": "372aa8956713"
+ },
+ "output_text": "{\"title\": \"Job Search\", \"folder\": \"20 Work and Career/Job Search\", \"frontmatter\": {\"type\": \"other\", \"created\": \"2026-11-21\", \"source\": \"text\", \"tags\": [\"career\", \"job-search\", \"embedded\", \"ml\"]}, \"body\": \"Pipeline of applications to embedded / ML roles. See [[Interview Prep]].\\n\\n## Log\\n- 2026-11-15 Weekly application review (planning)\\n- 2026-11-19 Mock interview, system design (study)\", \"links\": [\"Interview Prep\", \"Career\", \"2026-11-15 Career - Weekly application review\", \"2026-11-19 Career - Mock interview, system design\", \"System design interviews\"], \"merge_into\": \"\"}",
+ "latency_s": 52.787,
+ "usage": {
+  "input": 2661,
+  "output": 206,
+  "thought": 1679
+ },
+ "error": null
+}

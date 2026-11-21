@@ -1,0 +1,16 @@
+{
+ "key": {
+  "step": "transcribe",
+  "model": "gemini-4-carbon",
+  "thinking": "medium",
+  "case": "04_screenshot_job_search.jpg"
+ },
+ "output_text": "{\"transcript\":\"Job Search\\nEmbedded ML \u2014 ChipCo\\nScreen\\nFirmware intern \u2014 EdgeNet\\nApplied\\nSystems SWE \u2014 CloudForge\\nFound\\nOn-device inference \u2014 GPU Labs\\nTechnical\\nPrep: system design mock Thu\",\"summary\":\"A mobile job search tracker listing four engineering roles across different application stages at ChipCo (Screen), EdgeNet (Applied), CloudForge (Found), and GPU Labs (Technical), along with a reminder for a system design mock on Thursday.\",\"key_terms\":[\"Job Search\",\"Embedded ML\",\"ChipCo\",\"Firmware intern\",\"EdgeNet\",\"Systems SWE\",\"CloudForge\",\"On-device inference\",\"GPU Labs\",\"system design\"],\"action_items\":[\"Prep: system design mock Thu\"],\"legibility\":1.0,\"notes\":\"Crisp digital mobile screenshot with color-coded status badges; OS status bar (9:41, LTE 71%) omitted from transcript.\"}",
+ "latency_s": 32.295,
+ "usage": {
+  "input": 1572,
+  "output": 207,
+  "thought": 1513
+ },
+ "error": null
+}

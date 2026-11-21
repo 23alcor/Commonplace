@@ -1,0 +1,17 @@
+{
+ "key": {
+  "step": "manage",
+  "model": "gemini-4-hydrogen",
+  "thinking": "medium",
+  "case": "Career",
+  "prompt_sha": "2a5f7ec4a21a"
+ },
+ "output_text": "{\n  \"title\": \"Career\",\n  \"folder\": \"20 Work and Career\",\n  \"frontmatter\": {\n    \"type\": \"other\",\n    \"created\": \"2026-11-21\",\n    \"source\": \"text\",\n    \"tags\": [\"career\", \"job-search\"]\n  },\n  \"body\": \"- [[Job Search]]\\n- [[Interview Prep]]\",\n  \"links\": [\"Job Search\", \"Interview Prep\"],\n  \"merge_into\": \"\"\n}",
+ "latency_s": 9.943,
+ "usage": {
+  "input": 2644,
+  "output": 134,
+  "thought": 1677
+ },
+ "error": null
+}

@@ -1,0 +1,17 @@
+{
+ "key": {
+  "step": "manage",
+  "model": "gemini-4-hydrogen",
+  "thinking": "medium",
+  "case": "About Me",
+  "prompt_sha": "9685fc7fa159"
+ },
+ "output_text": "{\"title\": \"About Me\", \"folder\": \"00 Home/01 About Me\", \"frontmatter\": {\"type\": \"other\", \"created\": \"2026-11-21\", \"source\": \"text\", \"tags\": [\"about-me\", \"profile\"]}, \"body\": \"Fictional demo owner: senior electrical engineering student who builds side projects and is job hunting. See [[School]], [[Career]], [[Projects]].\", \"links\": [\"School\", \"Career\", \"Projects\"], \"merge_into\": \"\"}",
+ "latency_s": 7.37,
+ "usage": {
+  "input": 2672,
+  "output": 129,
+  "thought": 1036
+ },
+ "error": null
+}

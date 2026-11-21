@@ -1,0 +1,16 @@
+{
+ "key": {
+  "step": "transcribe",
+  "model": "gemini-4-carbon",
+  "thinking": "medium",
+  "case": "03_handwritten_anchoring.jpg"
+ },
+ "output_text": "{\"transcript\":\"ECON 205 \u2014 Anchoring\\nEstimates drift toward the first number\\neven if the number is irrelevant\\n\\nDemo: wheel of fortune \u2192 GDP guess\\nRetail: 'was $80, now $49'\\n\\nvs loss aversion (separate note)\\nNudges can set the anchor on purpose\\n\\nRead: Kahneman ch. on anchors\",\"summary\":\"Notes for ECON 205 explaining the anchoring bias, where estimates gravitate toward an initial number regardless of its relevance. It lists examples from a wheel-of-fortune GDP demo, retail pricing, and intentional nudges, alongside a reminder to read Kahneman's chapter on anchors.\",\"key_terms\":[\"ECON 205\",\"Anchoring\",\"GDP\",\"loss aversion\",\"Nudges\",\"Kahneman\"],\"action_items\":[\"Read: Kahneman ch. on anchors\"],\"legibility\":0.98,\"notes\":\"Clear typewriter-style text on lined paper with slight page tilt and a small circular stain/mark at the bottom right.\"}",
+ "latency_s": 18.865,
+ "usage": {
+  "input": 1564,
+  "output": 239,
+  "thought": 954
+ },
+ "error": null
+}

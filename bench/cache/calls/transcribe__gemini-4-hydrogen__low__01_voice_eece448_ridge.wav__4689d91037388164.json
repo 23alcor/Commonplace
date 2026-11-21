@@ -1,0 +1,16 @@
+{
+ "key": {
+  "step": "transcribe",
+  "model": "gemini-4-hydrogen",
+  "thinking": "low",
+  "case": "01_voice_eece448_ridge.wav"
+ },
+ "output_text": "{\n  \"transcript\": \"E448 memo.\\nRidge versus Lasso on the housing set.\\nL2 shrinks weights, L1 drives some to zero.\\nTie this back to gradient descent step size and the regularization notes for class.\",\n  \"summary\": \"A brief voice memo for E448 comparing Ridge (L2) and Lasso (L1) regularization on the housing dataset. It notes that this needs to be connected back to gradient descent step size and class regularization notes.\",\n  \"key_terms\": [\n    \"E448\",\n    \"Ridge\",\n    \"Lasso\",\n    \"L2\",\n    \"L1\",\n    \"gradient descent\",\n    \"step size\",\n    \"regularization\"\n  ],\n  \"action_items\": [\n    \"Tie Ridge vs. Lasso on the housing set back to gradient descent step size and the regularization notes for class\"\n  ],\n  \"legibility\": 0.95,\n  \"notes\": \"Synthesized/robotic voice audio, very clear.\"\n}",
+ "latency_s": 5.698,
+ "usage": {
+  "input": 960,
+  "output": 245,
+  "thought": 326
+ },
+ "error": null
+}

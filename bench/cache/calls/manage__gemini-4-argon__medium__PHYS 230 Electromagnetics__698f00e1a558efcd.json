@@ -1,0 +1,17 @@
+{
+ "key": {
+  "step": "manage",
+  "model": "gemini-4-argon",
+  "thinking": "medium",
+  "case": "PHYS 230 Electromagnetics",
+  "prompt_sha": "68174bd0ac50"
+ },
+ "output_text": "{\n  \"title\": \"PHYS 230 Electromagnetics\",\n  \"folder\": \"10 Learning and Teaching/11 Academic/PHYS 230 Electromagnetics\",\n  \"frontmatter\": {\n    \"type\": \"class\",\n    \"created\": \"2026-11-21\",\n    \"source\": \"text\",\n    \"tags\": [\n      \"academic\",\n      \"phys230\",\n      \"electromagnetics\"\n    ]\n  },\n  \"body\": \"## Key concepts\\n[[Maxwell's equations]] \u00b7 [[Transmission lines]] \u00b7 [[Smith chart]]\\n\\n## Log\\n- [[2026-11-11 PHYS 230 - Smith chart practice set|2026-11-11 Smith chart practice set]] (study)\",\n  \"links\": [\n    \"Maxwell's equations\",\n    \"Transmission lines\",\n    \"Smith chart\",\n    \"2026-11-11 PHYS 230 - Smith chart practice set\",\n    \"School\"\n  ],\n  \"merge_into\": \"\"\n}",
+ "latency_s": 10.286,
+ "usage": {
+  "input": 2616,
+  "output": 272,
+  "thought": 0
+ },
+ "error": null
+}

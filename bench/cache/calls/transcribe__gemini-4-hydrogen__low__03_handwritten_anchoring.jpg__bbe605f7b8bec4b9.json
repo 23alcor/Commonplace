@@ -1,0 +1,16 @@
+{
+ "key": {
+  "step": "transcribe",
+  "model": "gemini-4-hydrogen",
+  "thinking": "low",
+  "case": "03_handwritten_anchoring.jpg"
+ },
+ "output_text": "{\n  \"transcript\": \"ECON 205 \u2014 Anchoring\\nEstimates drift toward the first number\\neven if the number is irrelevant\\nDemo: wheel of fortune -> GDP guess\\nRetail: 'was $80, now $49'\\nvs loss aversion (separate note)\\nNudges can set the anchor on purpose\\nRead: Kahneman ch. on anchors\",\n  \"summary\": \"Notes for ECON 205 covering the concept of anchoring, where estimates are pulled toward an initial, even irrelevant, number. Includes examples like the wheel of fortune GDP demo, retail pricing, and intentional nudges, while distinguishing it from loss aversion.\",\n  \"key_terms\": [\n    \"ECON 205\",\n    \"Anchoring\",\n    \"GDP\",\n    \"loss aversion\",\n    \"Nudges\",\n    \"Kahneman\"\n  ],\n  \"action_items\": [\n    \"Read: Kahneman ch. on anchors\"\n  ],\n  \"legibility\": 1.0,\n  \"notes\": \"Typed/printed text on lined paper with a small hand-drawn circle at the bottom right.\"\n}",
+ "latency_s": 6.83,
+ "usage": {
+  "input": 1564,
+  "output": 272,
+  "thought": 278
+ },
+ "error": null
+}

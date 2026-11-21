@@ -1,0 +1,16 @@
+{
+ "key": {
+  "step": "transcribe",
+  "model": "gemini-4-neon",
+  "thinking": "low",
+  "case": "04_screenshot_job_search.jpg"
+ },
+ "output_text": "{\"transcript\": \"Job Search\\nEmbedded ML \u2014 ChipCo\\nScreen\\nFirmware intern \u2014 EdgeNet\\nApplied\\nSystems SWE \u2014 CloudForge\\nFound\\nOn-device inference \u2014 GPU Labs\\nTechnical\\nPrep: system design mock Thu\", \"summary\": \"A mobile job search tracker listing four engineering roles across different application stages: ChipCo (Screen), EdgeNet (Applied), CloudForge (Found), and GPU Labs (Technical). It also includes a note about preparing for a system design mock interview on Thursday.\", \"key_terms\": [\"Job Search\", \"Embedded ML\", \"ChipCo\", \"Firmware intern\", \"EdgeNet\", \"Systems SWE\", \"CloudForge\", \"On-device inference\", \"GPU Labs\", \"system design mock\"], \"action_items\": [\"Prep: system design mock Thu\"], \"legibility\": 1.0, \"notes\": \"Crisp mobile screenshot showing a job application tracker.\"}",
+ "latency_s": 9.676,
+ "usage": {
+  "input": 1572,
+  "output": 212,
+  "thought": 727
+ },
+ "error": null
+}

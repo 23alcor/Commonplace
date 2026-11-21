@@ -1,0 +1,17 @@
+{
+ "key": {
+  "step": "manage",
+  "model": "gemini-4-argon",
+  "thinking": "medium",
+  "case": "Homelab Server",
+  "prompt_sha": "0204e409fbd7"
+ },
+ "output_text": "{\n  \"title\": \"Homelab Server\",\n  \"folder\": \"30 Project and Hobby/31 Pet Projects/Homelab\",\n  \"frontmatter\": {\n    \"type\": \"project-update\",\n    \"created\": \"2026-11-21\",\n    \"source\": \"text\",\n    \"tags\": [\"homelab\", \"project\"]\n  },\n  \"body\": \"# Homelab Server\\n\\nConcepts: [[Tailscale]] \u00b7 [[tmux]] \u00b7 [[Cron jobs]]\\n\\n## Open loops\\n- [ ] Next milestone TBD\\n\\n## Log\\n- 2026-11-14 [[2026-11-14 Homelab - Moved cron jobs off laptop|Moved cron jobs off laptop]] (coding)\\n- 2026-11-20 [[2026-11-20 Homelab - Tailscale ACL cleanup|Tailscale ACL cleanup]] (coding)\",\n  \"links\": [\n    \"Tailscale\",\n    \"tmux\",\n    \"Cron jobs\",\n    \"2026-11-14 Homelab - Moved cron jobs off laptop\",\n    \"2026-11-20 Homelab - Tailscale ACL cleanup\"\n  ],\n  \"merge_into\": \"\"\n}",
+ "latency_s": 10.283,
+ "usage": {
+  "input": 2909,
+  "output": 315,
+  "thought": 0
+ },
+ "error": null
+}
