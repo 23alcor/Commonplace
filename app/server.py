@@ -81,6 +81,46 @@ async def capture(file: UploadFile = File(...), agent_verify: bool = Form(True))
     return {"job": job.id}
 
 
+def _maintain_work(job: Job, project: str, apply: bool) -> None:
+    """Maintenance run, reported with the same step names the stage screen already draws."""
+    from c2v import maintain as mt
+
+    try:
+        with vault_lock:
+            vault.reload()
+            ctx = mt.gather(vault, project)
+            job.emit("manage", "start", f"Neon reading {len(ctx['notes'])} notes around {project}")
+            findings, meta = mt.find_issues(ctx)
+            job.emit("manage", "done", f"{len(findings)} finding(s) in {meta['seconds']}s", findings=findings)
+            job.emit("verify", "warn" if findings else "done",
+                     "; ".join(f"{f['kind']}: {f['stale_title']}" for f in findings) or "vault is consistent",
+                     report={"ok": not findings, "issues": [{"code": f"{f['kind']}: {f['stale_title']}"}
+                                                            for f in findings]})
+            todo = [f for f in findings if f["verified"]]
+            if apply and todo:
+                mt._guard(vault)
+                job.emit("agent", "start", "Managed Agent fixing the vault in a sandbox")
+                rec = mt.apply_with_agent(vault, ctx, todo, on_event=lambda t: job.emit("agent", "info", t))
+                job.emit("verify", "done" if rec["check"]["ok"] else "warn",
+                         f"agent edited {len(rec['changed'])} note(s) in {rec['seconds']}s",
+                         report={"ok": rec["check"]["ok"], "issues": rec["check"]["issues"]})
+                job.emit("write", "done", f"maintained {len(rec['changed'])} notes",
+                         path=", ".join(Path(c).stem for c in rec["changed"]))
+    except BaseException as e:  # _guard raises SystemExit; show every failure on screen
+        job.emit("error", "error", f"{type(e).__name__}: {e}")
+    job.done = True
+
+
+@app.post("/maintain")
+def maintain(project: str, apply: bool = False):
+    """Find (and with apply=true, fix) contradictions, superseded decisions, stale tasks, duplicates."""
+    job = Job()
+    jobs[job.id] = {"job": job}
+    latest["job"] = job.id
+    threading.Thread(target=_maintain_work, args=(job, project, apply), daemon=True).start()
+    return {"job": job.id}
+
+
 @app.get("/events/{job_id}")
 async def events(job_id: str, request: Request):
     if job_id not in jobs:
