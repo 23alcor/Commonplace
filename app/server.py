@@ -23,6 +23,7 @@ from fastapi.responses import FileResponse
 from sse_starlette.sse import EventSourceResponse
 
 from c2v.config import VAULT_PATH
+from c2v.context import get_context
 from c2v.vault import Vault, split_frontmatter
 
 from .render import render_note
@@ -119,6 +120,13 @@ def note(path: str | None = None, title: str | None = None):
     fm, body = split_frontmatter(text)
     return {"path": path, "title": p.stem, "frontmatter": fm, "markdown": text,
             "html": render_note(body, vault)}
+
+
+@app.get("/context")
+def context(q: str, max_tokens: int = 4000):
+    """The context-manager API: the right notes for a project, conversation or topic."""
+    vault.reload()
+    return get_context(vault, q, max_tokens=max(200, min(max_tokens, 200_000)))
 
 
 @app.get("/graph")
