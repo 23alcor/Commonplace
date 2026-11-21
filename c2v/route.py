@@ -61,7 +61,7 @@ def _query(capture: Capture) -> str:
 
 def folder_options(capture: Capture, vault: Vault) -> dict[str, str]:
     """Folder option -> description (a few note titles in it, so the router knows what lives there)."""
-    folders = vault.folder_list()
+    folders = [f for f in vault.folder_list() if not f.startswith("_attachments")]
     if len(folders) + 1 > MAX_CHOICES:
         hits = vault.search(_query(capture), k=50)
         ranked = list(dict.fromkeys(n.folder for n in hits if n.folder))
@@ -123,7 +123,9 @@ def build_input(capture: Capture, client=None) -> list[dict]:
             f"LEGIBILITY: {capture.legibility:.2f}\nTRANSCRIPT:\n{capture.transcript}")
     parts: list[dict] = [{"type": "text", "text": text}]
     src = Path(capture.source_path)
-    if capture.media_kind is not MediaKind.text and src.exists():
+    # Video: the timestamped transcript already carries speech + on-screen content; re-sending the
+    # video would double the upload and the video-token cost for no routing gain.
+    if capture.media_kind not in (MediaKind.text, MediaKind.video) and src.exists():
         from .transcribe import media_part
 
         parts.insert(0, media_part(src, client))
@@ -155,6 +157,9 @@ def route(capture: Capture, vault: Vault, beta_client=None, client=None) -> Rout
     decision = RoutingDecision(note_type=nt, folder=fo, merge_target=mt)
     decision.escalate = needs_escalation(decision, capture)
     decision.reason = escalation_reason(decision, capture)
+    if capture.segments:  # linking each part of a video to the right notes is Neon's job
+        decision.escalate = True
+        decision.reason += "; video: Neon builds the linked timeline"
     return decision
 
 

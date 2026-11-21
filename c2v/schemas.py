@@ -15,6 +15,22 @@ class MediaKind(str, Enum):
     text = "text"
 
 
+class Segment(BaseModel):
+    """One timestamped span of a video (or long audio) capture."""
+
+    start: str = Field(description="mm:ss (or h:mm:ss)")
+    end: Optional[str] = None
+    topic: str = ""
+    text: str = Field("", description="Verbatim speech in this span")
+    on_screen: Optional[str] = Field(None, description="Text, code or diagrams visible in this span")
+
+
+class KeyMoment(BaseModel):
+    at: str  # mm:ss
+    kind: str  # decision | action | diagram | code | fact
+    text: str
+
+
 class Capture(BaseModel):
     """Output of the transcriber (Hydrogen)."""
 
@@ -26,6 +42,9 @@ class Capture(BaseModel):
     action_items: list[str] = Field(default_factory=list)
     legibility: float = Field(1.0, ge=0, le=1, description="Transcriber's own read of input quality")
     notes: Optional[str] = Field(None, description="Anything unreadable or ambiguous")
+    # optional, video only (added by lane A for video capture; empty for every other media kind)
+    segments: list[Segment] = Field(default_factory=list)
+    key_moments: list[KeyMoment] = Field(default_factory=list)
 
 
 class RoutedAnswer(BaseModel):

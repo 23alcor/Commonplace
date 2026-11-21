@@ -6,18 +6,42 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import time
 from pathlib import Path
 
 from .config import VAULT_PATH
-from .manage import draft_note, repair
+from .manage import attachment_path, draft_note, finalize_note, repair
 from .route import needs_escalation, route
-from .schemas import FilingResult
+from .schemas import Capture, FilingResult, NoteDraft, VerifyReport
 from .transcribe import transcribe
 from .vault import Vault
 from .verify import verify_draft, write_draft
 
 MAX_REPAIRS = 2
+
+
+def finalize(draft: NoteDraft, capture: Capture, vault: Vault) -> tuple[NoteDraft, str | None]:
+    """Draft with the full source attached, plus the vault-relative attachment path (not copied yet)."""
+    src = Path(capture.source_path)
+    attachment = attachment_path(capture, draft, vault) if src.is_file() else None
+    return finalize_note(draft, capture, attachment), attachment
+
+
+def write_note(draft: NoteDraft, capture: Capture, vault: Vault) -> tuple[Path | None, NoteDraft, VerifyReport]:
+    """Copy the original capture into _attachments/, attach the transcript, re-verify, write.
+    Call with a draft that already passed verify_draft. The demo runner should call this instead of
+    verify.write_draft so demo-filed notes keep their source too."""
+    final, attachment = finalize(draft, capture, vault)
+    report = verify_draft(final, vault)
+    if not report.ok:  # attaching the source must never break a verified note
+        return None, final, report
+    if attachment:
+        target = vault.root / attachment
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if not target.exists():
+            shutil.copy2(capture.source_path, target)
+    return write_draft(final, vault), final, report
 
 
 def file_capture(path: str | Path, vault: Vault, dry_run: bool = False, agent_verify: bool = False,
@@ -45,7 +69,10 @@ def file_capture(path: str | Path, vault: Vault, dry_run: bool = False, agent_ve
 
     written = None
     if report.ok and not dry_run:
-        written = str(write_draft(draft, vault))
+        path_written, draft, report = write_note(draft, capture, vault)
+        written = str(path_written) if path_written else None
+    elif report.ok:
+        draft, _ = finalize(draft, capture, vault)  # dry run: show the final note, touch nothing
     return FilingResult(capture=capture, routing=routing, draft=draft, verify=report,
                         written_path=written, path_taken=path_taken, latency_s=time.time() - t0)
 

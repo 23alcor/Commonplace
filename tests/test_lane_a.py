@@ -212,16 +212,216 @@ def test_pipeline_escalated_path(vault, image):
     manage._INTERACTIONS.clear()
 
 
-def test_video_prompt_asks_for_both_channels(tmp_path):
-    vid = tmp_path / "clip.mp4"
+VIDEO_JSON = {
+    "segments": [
+        {"start": "0:00", "end": "0:42", "topic": "Momentum recap", "text": "So momentum keeps a running average.",
+         "on_screen": "v = beta*v + grad\nw = w - lr*v"},
+        {"start": "42s", "end": "1:30", "topic": "Plant bot wiring", "text": "Next, the ESP32 soil sensor.",
+         "on_screen": ""},
+    ],
+    "key_moments": [{"at": "0:20", "kind": "diagram", "text": "momentum update equations"},
+                    {"at": "01:10", "kind": "decision", "text": "use GPIO 34 for the soil sensor"}],
+    "summary": "Momentum recap for EECE 448, then ESP32 soil sensor wiring for the plant bot.",
+    "key_terms": ["EECE 448", "ESP32"], "action_items": ["order capacitive sensor"], "legibility": 0.9,
+    "notes": "",
+}
+
+
+def test_video_transcribe_segments_and_key_moments(tmp_path):
+    vid = tmp_path / "clip.mov"
     vid.write_bytes(b"\x00" * 64)
-    c = fake_client(CAPTURE_JSON)
-    transcribe(vid, client=c)
+    c = fake_client(VIDEO_JSON)
+    cap = transcribe(vid, client=c)
     kw = c.interactions.calls[0]
-    assert "ON SCREEN" in kw["input"][0]["text"]
-    assert kw["input"][1]["type"] == "video" and kw["input"][1]["processing"] == "agentic"
+    assert kw["input"][1] == {**kw["input"][1], "type": "video", "mime_type": "video/mov"}
+    assert kw["input"][1]["processing"] == "agentic"  # fake bytes: ffprobe can't read a length
+    assert "segments" in kw["response_format"]["schema"]["required"]
+    assert [s.start for s in cap.segments] == ["00:00", "00:42"] and cap.segments[1].end == "01:30"
+    assert cap.segments[1].on_screen is None
+    assert [(k.at, k.kind) for k in cap.key_moments] == [("00:20", "diagram"), ("01:10", "decision")]
+    lines = cap.transcript.splitlines()
+    assert lines[0] == "[00:00] (Momentum recap) So momentum keeps a running average."
+    assert lines[1] == "[00:00] ON SCREEN: v = beta*v + grad / w = w - lr*v"
+    assert lines[2].startswith("[00:42] (Plant bot wiring)")
+    # images keep the plain prompt and schema
     c2 = fake_client(CAPTURE_JSON)
     img = tmp_path / "b.png"
     img.write_bytes(PNG)
-    transcribe(img, client=c2)
-    assert "ON SCREEN" not in c2.interactions.calls[0]["input"][0]["text"]
+    cap2 = transcribe(img, client=c2)
+    assert "segments" not in c2.interactions.calls[0]["response_format"]["schema"]["properties"]
+    assert cap2.segments == [] and cap2.key_moments == []
+
+
+def test_big_video_goes_through_files_api_and_waits_for_active(tmp_path, monkeypatch):
+    from c2v import transcribe as tr
+
+    monkeypatch.setattr(tr, "INLINE_MAX_BYTES", 10)
+    vid = tmp_path / "long.mp4"
+    vid.write_bytes(b"\x00" * 64)
+    states = iter(["PROCESSING", "ACTIVE"])
+    files = SimpleNamespace(
+        upload=lambda file: SimpleNamespace(name="files/1", uri="gs://u", state=SimpleNamespace(name="PROCESSING")),
+        get=lambda name: SimpleNamespace(name=name, uri="gs://u", state=SimpleNamespace(name=next(states))))
+    client = SimpleNamespace(files=files)
+    monkeypatch.setattr(tr.time, "sleep", lambda s: None)
+    part = media_part(vid, client)
+    assert part["uri"] == "gs://u" and "data" not in part
+    failed = SimpleNamespace(upload=lambda file: SimpleNamespace(name="f", uri="u", state="FAILED"))
+    with pytest.raises(RuntimeError):
+        media_part(vid, SimpleNamespace(files=failed))
+
+
+# --- keep the source (scripts/tasks/a-keep-source.md) -------------------------------------
+def _fast_beta(merge=NEW):
+    return fake_beta(note_type=("class", 0.92), folder=("10 Learning/EECE 448", 0.88), merge_target=(merge, 0.81))
+
+
+def test_written_note_keeps_full_source(vault, image):
+    cap_json = {**CAPTURE_JSON, "transcript": "line one of the board\nline two: v = beta*v + grad\n\nTODO HW3"}
+    res = file_capture(image, vault, client=fake_client(cap_json), beta_client=_fast_beta())
+    assert res.verify.ok and res.written_path
+    from c2v.vault import split_frontmatter
+
+    fm, body = split_frontmatter(Path(res.written_path).read_text())
+    # (b) frontmatter source -> original file copied under _attachments/, byte-identical
+    assert fm["source"].startswith("_attachments/") and fm["media"] == "image"
+    copied = vault.root / fm["source"]
+    assert copied.read_bytes() == image.read_bytes()
+    # (a) full transcript under ## Source in a collapsed callout, embed for images; summary on top
+    assert body.lstrip().startswith(CAPTURE_JSON["summary"])
+    src = body.split("## Source", 1)[1]
+    assert f"![[{fm['source']}]]" in src and "> [!quote]- Transcript" in src
+    assert "> line two: v = beta*v + grad\n>\n> TODO HW3" in src
+    # the vault still indexes fine and the attachments folder is never offered as a destination
+    vault.reload()
+    assert verify_draft(NoteDraft(**{**res.draft.model_dump(), "title": "Another One"}), vault).ok
+    assert "_attachments" not in build_questions(capture(), vault)["folder"]["criteria"]
+    assert "_attachments" not in manage.vault_map(vault)
+
+
+def test_dry_run_shows_source_but_touches_nothing(vault, image):
+    res = file_capture(image, vault, dry_run=True, client=fake_client(CAPTURE_JSON), beta_client=_fast_beta())
+    assert "## Source" in res.draft.body and res.draft.frontmatter["source"].startswith("_attachments/")
+    assert not (vault.root / "_attachments").exists() and res.written_path is None
+
+
+def test_merge_appends_source(vault, image):
+    res = file_capture(image, vault, client=fake_client(CAPTURE_JSON), beta_client=_fast_beta("Gradient Descent Notes"))
+    text = Path(res.written_path).read_text()
+    assert res.written_path.endswith("Gradient Descent Notes.md")
+    assert "## Update" in text and "> [!quote]- Transcript" in text and "![[_attachments/" in text
+
+
+def test_finalize_idempotent_and_attachment_names(vault, image):
+    from c2v.pipeline import write_note
+
+    d = fast_draft(capture(source_path=str(image)), routing(), vault)
+    _, final, rep = write_note(d, capture(source_path=str(image)), vault)
+    assert rep.ok and final.body.count("## Source") == 1
+    again = manage.finalize_note(final, capture(source_path=str(image)), final.frontmatter["source"])
+    assert again.body.count("## Source") == 1
+    # same bytes -> reuse the existing attachment; different bytes -> new name
+    assert manage.attachment_path(capture(source_path=str(image)), d, vault) == final.frontmatter["source"]
+    other = image.with_name("other.png")
+    other.write_bytes(PNG + b"x")
+    assert manage.attachment_path(capture(source_path=str(other)), d, vault) != final.frontmatter["source"]
+
+
+def test_audio_source_embeds_player_and_text_has_no_embed():
+    a = manage.source_section(capture(media_kind=MediaKind.audio), "_attachments/memo.m4a")
+    assert "![[_attachments/memo.m4a]]" in a
+    t = manage.source_section(capture(media_kind=MediaKind.text), "_attachments/note.txt")
+    assert "![[" not in t and "> [!quote]- Transcript" in t
+
+
+# --- video step 2: linked timeline ----------------------------------------------------------
+NEON_VIDEO = {
+    "title": "Momentum and Plant Bot Walkthrough", "folder": "10 Learning/EECE 448",
+    "frontmatter": {"type": "reference", "created": "2026-11-21", "source": "video", "tags": ["video"]},
+    "body": "Two-part walkthrough: momentum recap, then the plant bot soil sensor.\n\n- [ ] order capacitive sensor",
+    "links": ["EECE 448 Machine Learning"], "merge_into": "",
+    "timeline": [
+        {"at": "0:00", "text": "Momentum update rule recap", "links": ["Gradient Descent Notes", "eece448"]},
+        {"at": "42", "text": "ESP32 soil sensor wiring", "links": ["Plant Watering Bot"]},  # invented
+    ],
+}
+
+
+def video_capture(tmp_path):
+    vid = tmp_path / "clip.mp4"
+    vid.write_bytes(b"\x00" * 64)
+    return transcribe(vid, client=fake_client(VIDEO_JSON)), vid
+
+
+def test_video_routes_to_neon_without_resending_video(vault, tmp_path):
+    cap, _ = video_capture(tmp_path)
+    beta = _fast_beta()  # router fully confident...
+    d = route(cap, vault, beta_client=beta)
+    assert d.escalate and "timeline" in d.reason  # ...but video still goes to Neon
+    assert all(p["type"] == "text" for p in beta.decisions.calls[0]["input"])
+
+
+def test_neon_video_timeline_links_resolve(vault, tmp_path):
+    cap, _ = video_capture(tmp_path)
+    c = fake_client(NEON_VIDEO)
+    d = draft_note(cap, routing(conf=0.5, escalate=True), vault, client=c)
+    kw = c.interactions.calls[0]
+    assert "timeline" in kw["response_format"]["schema"]["required"] and "SEGMENTS:" in kw["input"]
+    tl = d.body.split("## Timeline\n", 1)[1].split("\n\n")[0].splitlines()
+    assert tl[0] == "- [00:00] Momentum update rule recap → [[Gradient Descent Notes]], [[EECE 448 Machine Learning]]"
+    assert tl[1] == "- [00:42] ESP32 soil sensor wiring"  # invented link dropped, not rendered
+    assert "- [01:10] **Decision:** use GPIO 34 for the soil sensor" in d.body
+    assert d.links == ["EECE 448 Machine Learning", "Gradient Descent Notes"]
+    assert d.body.startswith("Two-part walkthrough") and verify_draft(d, vault).ok
+
+
+def test_repair_keeps_timeline(vault, tmp_path):
+    cap, _ = video_capture(tmp_path)
+    bad = {**NEON_VIDEO, "folder": "Nowhere"}
+    fixed_out = {k: v for k, v in NEON_VIDEO.items() if k != "timeline"}
+    fixed_out["body"] = "Fixed hub body, long enough to pass."
+    c = fake_client(bad, fixed_out)
+    d = draft_note(cap, routing(conf=0.5, escalate=True), vault, client=c)
+    rep = verify_draft(d, vault)
+    assert not rep.ok
+    f = repair(d, rep, vault, client=c)
+    assert "## Timeline" not in c.interactions.calls[1]["input"]  # Neon never sees the owned sections
+    assert f.body.startswith("Fixed hub body") and f.body.count("## Timeline") == 1
+    assert "[[Gradient Descent Notes]]" in f.body and verify_draft(f, vault).ok
+
+
+def test_video_pipeline_writes_hub_note(vault, tmp_path):
+    _, vid = video_capture(tmp_path)
+    res = file_capture(vid, vault, client=fake_client(VIDEO_JSON, NEON_VIDEO), beta_client=_fast_beta())
+    assert res.verify.ok and res.path_taken == "escalated"
+    text = Path(res.written_path).read_text()
+    order = [text.index(h) for h in ("Two-part walkthrough", "## Timeline", "## Key moments", "## Source", "## Related")]
+    assert order == sorted(order)
+    assert "> [00:42] (Plant bot wiring) Next, the ESP32 soil sensor." in text
+    assert "![[_attachments/" in text and text.count("## Timeline") == 1
+
+
+def test_fast_draft_video_gets_unlinked_timeline(vault, tmp_path):
+    cap, _ = video_capture(tmp_path)
+    d = fast_draft(cap, routing(), vault)
+    assert "- [00:00] Momentum recap" in d.body and "- [00:42] Plant bot wiring" in d.body
+    assert verify_draft(d, vault).ok
+
+
+def test_video_processing_mode_by_length(monkeypatch):
+    from c2v import transcribe as tr
+
+    monkeypatch.setattr(tr, "video_duration_s", lambda p: 212.7)
+    assert tr.video_processing(Path("x.mp4")) == {"type": "static", "fps": 0.5}
+    monkeypatch.setattr(tr, "video_duration_s", lambda p: 1800.0)
+    assert tr.video_processing(Path("x.mp4")) == "agentic"
+    monkeypatch.setattr(tr, "video_duration_s", lambda p: None)
+    assert tr.video_processing(Path("x.mp4")) == "agentic"
+
+
+def test_attachment_name_does_not_double_the_date(vault, image):
+    today = manage._today()
+    d = NoteDraft(title=f"{today} Saturday Session", folder="", frontmatter={}, body="x" * 30)
+    assert manage.attachment_path(capture(source_path=str(image)), d, vault) == f"_attachments/{today} Saturday Session.png"
+    d2 = d.model_copy(update={"title": "Saturday Session"})
+    assert manage.attachment_path(capture(source_path=str(image)), d2, vault) == f"_attachments/{today} Saturday Session.png"
