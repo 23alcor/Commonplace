@@ -1,19 +1,26 @@
 # capture-to-vault
 
-**Explain your project once. Every AI gets it.**
+**For developers who work across AI tools: one context vault that follows your project
+everywhere. Explain it once, every AI gets it.**
 
-A **context manager for AI**. Developers already juggle several stacks at once — we built this
-hackathon entry with Claude, Codex and Cursor in parallel and still had to hand-write
-`AGENTS.md`, `CLAUDE.md` and per-agent prompts just to share context. Those files are lossy,
-per-tool, stale, and always fully loaded.
+Built for people who live in Claude Code, Cursor, Codex, Gemini, ChatGPT — on a laptop, a
+server, and a phone — and need the same project context in each place. A **context manager for
+AI**, not another chat box.
+
+Context files (`AGENTS.md`, `CLAUDE.md`, `/init` dumps, agent-updated memory) are not the problem
+because they are hand-written — `/init` and agents write them too. They are a **snapshot**,
+squeezed into a summary, tied to one tool, stale by tomorrow, always fully loaded, and never
+verified. Evidence: in [`bench/AGENTS_RESULTS.md`](bench/AGENTS_RESULTS.md), a `CLAUDE.md` that
+**Neon generated** from the vault still scored **72% on multi-note questions** vs **100% for
+`get_context`**.
 
 capture-to-vault turns messy media (voice memos, whiteboard photos, handwriting, screenshots,
 scanned PDFs) into a filed, linked, **verified** context vault. Any model then calls one
 `get_context` MCP tool and gets the right slice — not the whole dump. Built at the Gemini 4 NYC
 Hackathon (Nov 21, 2026) for **Problem Statement 1: 5 Sigma**.
 
-The UI is a capture page plus the resulting note (and a `/stage` graph for the demo) — not a
-chat box. We serve context to agents; we don't build another chatbot.
+The UI is a capture page plus the resulting note (and a `/stage` graph for the demo). We serve
+context to agents; we don't build another chatbot.
 
 ## How it works: four models, four jobs
 
@@ -34,16 +41,17 @@ High router confidence (≥ `ROUTE_CONFIDENCE_MIN`, default 0.75) can file witho
 escalates with the router's probabilities as context. The Managed Agent loop is the “proof it works”
 story for the Best use of Managed Agents prize.
 
-## Not just RAG
+## Not just RAG (or a context file)
 
-| | Typical RAG chat | capture-to-vault |
-|---|---|---|
-| What you store | Chunks / embeddings of whatever you pasted | Filed Obsidian notes with folders, frontmatter, wikilinks |
-| How it gets there | You upload text or hope crawl quality holds | Four Gemini jobs: transcribe → route → manage → verify |
-| Retrieval | Top-k similar chunks; mid-chunk cuts common | Structure-aware `get_context` (seed + links + backlinks + parent) _(Lane C, in progress)_ |
-| Freshness | Re-embed when something changes | New capture files or merges; graph stays consistent |
-| Multi-tool | Separate indexes / prompts per product | One vault; every agent calls the same MCP tool _(Lane C, in progress)_ |
-| Proof at scale | “It feels better” | Bench: see [`bench/SCALE.md`](bench/SCALE.md) _(Lane E placeholder — fill when the scale run lands)_ |
+| | Context file (`CLAUDE.md` / `AGENTS.md`) | Typical RAG chat | capture-to-vault |
+|---|---|---|---|
+| What you store | One summary snapshot (often model-written) | Chunks / embeddings of whatever you pasted | Filed Obsidian notes with folders, frontmatter, wikilinks |
+| How it gets there | `/init`, agent memory, or a one-shot summarize | Upload text / crawl | Four Gemini jobs: transcribe → route → manage → verify |
+| Retrieval | Always load the whole file | Top-k similar chunks; mid-chunk cuts common | Structure-aware `get_context` (seed + links + backlinks + parent) |
+| Freshness | Stale by tomorrow unless you regenerate | Re-embed when something changes | New capture files or merges; graph stays consistent |
+| Multi-tool | Tied to one product's prompt / memory | Separate indexes per product | One vault follows the project across Claude, Cursor, Codex, Gemini, ChatGPT |
+| Verified? | No | No | Managed Agent + `c2v.verify` until checks pass |
+| Proof | Multi-note score **72%** on a Neon-written `CLAUDE.md` ([`bench/AGENTS_RESULTS.md`](bench/AGENTS_RESULTS.md)) | Ties accuracy on a small vault; burns more tokens | **`get_context` 100%** multi-note + agent Q&A; scale chart in [`bench/SCALE.md`](bench/SCALE.md) |
 
 ## Demo inputs
 

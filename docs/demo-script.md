@@ -1,8 +1,14 @@
 # Live demo script (~3 minutes)
 
-**Pitch in one line:** *Explain your project once. Every AI gets it.* capture-to-vault is a
-**context manager** — messy media becomes a filed, linked, verified vault; any model calls one
-`get_context` tool instead of each stack keeping its own stale prompt file.
+**Pitch:** *For developers who work across AI tools: one context vault that follows your project
+everywhere. Explain it once, every AI gets it.* Claude Code, Cursor, Codex, Gemini, ChatGPT —
+laptop, server, phone. capture-to-vault is a **context manager**: messy media becomes a filed,
+linked, verified vault; any model calls one `get_context` tool.
+
+**Against context files (not “hand-written”):** `/init`, agent-updated memory, and auto summaries
+are still a snapshot — squeezed into a summary, tied to one tool, stale by tomorrow, always fully
+loaded, never verified. Neon-written `CLAUDE.md` hit **72% multi-note** vs **100% `get_context`**
+([`bench/AGENTS_RESULTS.md`](../bench/AGENTS_RESULTS.md)).
 
 **No audience involvement.** Time is short — you run the phone; judges only watch.
 
@@ -25,9 +31,10 @@ MCP (or `GET /context` backup). Pre-taken fallback photo of `/stage` already on 
 **Audience sees on `/stage`:** vault graph — Learning, Job Search, Plant Watering Bot, Homelab,
 and the **Capture to Vault** project node.
 
-> “We built this with Claude, Codex and Cursor in parallel and still wrote AGENTS.md by hand —
-> lossy, per-tool, always fully loaded. This vault is the shared context. Watch one unprepared
-> capture file itself, then an AI read it back.”
+> “If you bounce between Claude Code, Cursor, Codex, Gemini, ChatGPT — laptop, server, phone —
+> each tool keeps its own context file. Even when the agent writes it, that file is a snapshot:
+> summarized, one-tool, stale tomorrow, fully loaded, never verified. This vault follows the
+> project instead. Watch one unprepared capture file itself, then an AI read it back.”
 
 Point at idle four-step rail. Do **not** pass the phone to the room.
 
@@ -83,8 +90,8 @@ Ask it to explain the project from that context.
 **Audience sees:** tool return packing [[Capture to Vault]] (+ linked notes), then a spoken/ typed
 summary grounded in the vault — including the note that just filed from the screen photo.
 
-> “One tool. The vault just learned from a photo of itself. Explain your project once — every AI
-> gets it.”
+> “One tool. The vault just learned from a photo of itself. For developers across AI tools —
+> explain it once, every AI gets it.”
 
 If MCP is flaky: `GET /context?q=capture%20to%20vault` in the browser and read the packed notes
 aloud while the agent (or you) summarizes.
