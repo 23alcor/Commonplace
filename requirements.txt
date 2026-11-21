@@ -9,3 +9,4 @@ pillow>=10.4
 numpy>=1.26
 matplotlib>=3.9
 pytest>=8.0
+mcp>=1.2
