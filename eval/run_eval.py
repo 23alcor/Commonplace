@@ -109,6 +109,8 @@ def run_one(case: dict, method: str, vault_path: Path, agent_verify: bool = Fals
                                   agent_verify=agent_verify, client=client,
                                   beta_client=beta_client)
             draft, report, path_taken = result.draft, result.verify, result.path_taken
+            row["routing"] = result.routing.model_dump(mode="json")
+            row["capture_legibility"] = result.capture.legibility
         score = score_case(case["case_id"], case["folder"], case["links"],
                            draft.folder, draft.links, report.ok)
         row.update({"status": "ok", "score": vars(score), "path_taken": path_taken,
