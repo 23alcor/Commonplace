@@ -1,0 +1,17 @@
+{
+ "key": {
+  "step": "manage",
+  "model": "gemini-4-neon",
+  "thinking": "low",
+  "case": "ECON 205 Behavioral Economics",
+  "prompt_sha": "34ed359ede18"
+ },
+ "output_text": "{\"title\": \"ECON 205 Behavioral Economics\", \"folder\": \"10 Learning and Teaching/11 Academic/ECON 205 Behavioral Economics\", \"frontmatter\": {\"type\": \"class\", \"created\": \"2026-11-21\", \"source\": \"text\", \"tags\": [\"econ-205\", \"behavioral-economics\", \"class\"]}, \"body\": \"## Key concepts\\nLoss aversion \u00b7 Anchoring \u00b7 Nudges\\n\\n## Log\\n- 2026-11-13 Anchoring lecture (lecture)\", \"links\": [\"Loss aversion\", \"Anchoring\", \"Nudges\", \"2026-11-13 ECON 205 - Anchoring lecture\"], \"merge_into\": \"\"}",
+ "latency_s": 11.297,
+ "usage": {
+  "input": 2718,
+  "output": 186,
+  "thought": 1017
+ },
+ "error": null
+}

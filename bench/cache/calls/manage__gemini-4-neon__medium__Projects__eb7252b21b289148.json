@@ -1,0 +1,17 @@
+{
+ "key": {
+  "step": "manage",
+  "model": "gemini-4-neon",
+  "thinking": "medium",
+  "case": "Projects",
+  "prompt_sha": "190c7e86971b"
+ },
+ "output_text": "{\"title\": \"Active Projects\", \"folder\": \"30 Project and Hobby\", \"frontmatter\": {\"type\": \"reference\", \"created\": \"2026-11-21\", \"source\": \"text\", \"tags\": [\"projects\"]}, \"body\": \"- [[Homelab Server]]\\n- [[Plant Watering Bot]]\\n- [[Recipe Scraper]]\\n- [[Solar Microgrid Capstone]]\", \"links\": [\"Homelab Server\", \"Plant Watering Bot\", \"Recipe Scraper\", \"Solar Microgrid Capstone\"], \"merge_into\": \"\"}",
+ "latency_s": 16.956,
+ "usage": {
+  "input": 2932,
+  "output": 135,
+  "thought": 1552
+ },
+ "error": null
+}

@@ -1,0 +1,17 @@
+{
+ "key": {
+  "step": "manage",
+  "model": "gemini-4-hydrogen",
+  "thinking": "medium",
+  "case": "2026-11-10 EECE 448 - Ridge vs lasso on housing data",
+  "prompt_sha": "8439b5a3ba6e"
+ },
+ "output_text": "{\n  \"title\": \"2026-11-21 EECE 448 - Ridge vs lasso on housing data\",\n  \"folder\": \"Sessions/2026-11\",\n  \"frontmatter\": {\n    \"type\": \"other\",\n    \"created\": \"2026-11-21\",\n    \"source\": \"text\",\n    \"tags\": [\n      \"eece-448\",\n      \"regularization\",\n      \"cross-validation\"\n    ]\n  },\n  \"body\": \"# Ridge vs lasso on housing data\\n\\n## Summary\\nRidge vs lasso on housing data. Worked on [[EECE 448 Machine Learning]].\\n\\nConcepts: [[Regularization]] \u00b7 [[Cross-validation]]\\n\\n## Next steps\\n- [ ] Follow up next session\",\n  \"links\": [\n    \"EECE 448 Machine Learning\",\n    \"Regularization\",\n    \"Cross-validation\"\n  ],\n  \"merge_into\": \"\"\n}",
+ "latency_s": 9.105,
+ "usage": {
+  "input": 2868,
+  "output": 254,
+  "thought": 1540
+ },
+ "error": null
+}

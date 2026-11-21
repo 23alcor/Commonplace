@@ -1,0 +1,17 @@
+{
+ "key": {
+  "step": "manage",
+  "model": "gemini-4-neon",
+  "thinking": "medium",
+  "case": "2026-11-20 Homelab - Tailscale ACL cleanup",
+  "prompt_sha": "1be14a802b63"
+ },
+ "output_text": "{\"title\": \"2026-11-20 Homelab - Tailscale ACL cleanup\", \"folder\": \"Sessions/2026-11\", \"frontmatter\": {\"type\": \"project-update\", \"created\": \"2026-11-21\", \"source\": \"text\", \"tags\": [\"homelab\", \"tailscale\"]}, \"body\": \"# Tailscale ACL cleanup\\n\\n## Summary\\nTailscale ACL cleanup. Worked on [[Homelab Server]].\\n\\nConcepts: [[Tailscale]]\\n\\n## Next steps\\n- [ ] Follow up next session\", \"links\": [\"Homelab Server\", \"Tailscale\"], \"merge_into\": \"\"}",
+ "latency_s": 17.309,
+ "usage": {
+  "input": 2824,
+  "output": 169,
+  "thought": 1886
+ },
+ "error": null
+}

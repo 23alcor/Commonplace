@@ -1,0 +1,17 @@
+{
+ "key": {
+  "step": "manage",
+  "model": "gemini-4-hydrogen",
+  "thinking": "medium",
+  "case": "Home",
+  "prompt_sha": "1ecb063d6fac"
+ },
+ "output_text": "{\n  \"title\": \"Home\",\n  \"folder\": \"00 Home\",\n  \"frontmatter\": {\n    \"type\": \"reference\",\n    \"created\": \"2026-11-21\",\n    \"source\": \"text\",\n    \"tags\": [\n      \"home\",\n      \"index\"\n    ]\n  },\n  \"body\": \"- [[School]] \u00b7 [[Career]] \u00b7 [[Projects]]\\n- Daily notes live in `00 Home/09 Journal/Daily Notes`. Sessions live in `Sessions/`.\",\n  \"links\": [\n    \"School\",\n    \"Career\",\n    \"Projects\"\n  ],\n  \"merge_into\": \"\"\n}",
+ "latency_s": 7.821,
+ "usage": {
+  "input": 2613,
+  "output": 174,
+  "thought": 1037
+ },
+ "error": null
+}

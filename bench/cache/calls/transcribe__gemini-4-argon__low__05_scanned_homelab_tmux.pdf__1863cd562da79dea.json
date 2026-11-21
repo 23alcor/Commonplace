@@ -1,0 +1,16 @@
+{
+ "key": {
+  "step": "transcribe",
+  "model": "gemini-4-argon",
+  "thinking": "low",
+  "case": "05_scanned_homelab_tmux.pdf"
+ },
+ "output_text": "{\n  \"transcript\": \"Homelab runbook (phone scan)\\nBox: headless Ubuntu\\nReachability: Tailscale + MagicDNS\\nLong jobs: tmux sessions (survive SSH drop)\\nCron: moved off laptop Nov 14\\nChecklist\\n1. tailscale up\\n2. tmux new -s agents\\n3. ACL: only home devices\\nProject note: Homelab Server\\nFollow-ups\\n- document exit nodes\\n- ACL cleanup after Nov 20 session\\n- keep cron on the box, not laptop\\nConcepts: Tailscale, tmux, Cron jobs\",\n  \"summary\": \"A two-page runbook and follow-up list for a headless Ubuntu Homelab Server. It covers network reachability using Tailscale and MagicDNS, running long jobs with tmux, migrating cron jobs off a laptop, and upcoming maintenance tasks like documenting exit nodes and ACL cleanup.\",\n  \"key_terms\": [\n    \"Homelab Server\",\n    \"headless Ubuntu\",\n    \"Tailscale\",\n    \"MagicDNS\",\n    \"tmux\",\n    \"SSH\",\n    \"Cron jobs\",\n    \"ACL\",\n    \"exit nodes\"\n  ],\n  \"action_items\": [\n    \"tailscale up\",\n    \"tmux new -s agents\",\n    \"ACL: only home devices\",\n    \"document exit nodes\",\n    \"ACL cleanup after Nov 20 session\",\n    \"keep cron on the box, not laptop\"\n  ],\n  \"legibility\": 1.0,\n  \"notes\": \"Two-page PDF containing styled phone scans of printed text on lined paper. Text is completely crisp and legible.\"\n}",
+ "latency_s": 8.353,
+ "usage": {
+  "input": 1659,
+  "output": 383,
+  "thought": 0
+ },
+ "error": null
+}

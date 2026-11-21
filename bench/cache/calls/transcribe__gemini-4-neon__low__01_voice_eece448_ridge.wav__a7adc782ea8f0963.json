@@ -1,0 +1,16 @@
+{
+ "key": {
+  "step": "transcribe",
+  "model": "gemini-4-neon",
+  "thinking": "low",
+  "case": "01_voice_eece448_ridge.wav"
+ },
+ "output_text": "{\"transcript\": \"EECS 448 memo.\\nRidge versus Lasso on the housing set.\\nL2 shrinks weights, L1 drives some to zero.\\nTie this back to gradient descent step size and the regularization notes for class.\", \"summary\": \"A brief voice memo for EECS 448 comparing Ridge (L2) and Lasso (L1) regularization on the housing dataset. It notes that L2 shrinks weights while L1 drives some to zero, and reminds to connect this to gradient descent step size and class regularization notes.\", \"key_terms\": [\"EECS 448\", \"Ridge\", \"Lasso\", \"housing set\", \"L2\", \"L1\", \"gradient descent\", \"step size\", \"regularization\"], \"action_items\": [\"Tie Ridge vs. Lasso behavior back to gradient descent step size and the regularization notes for class\"], \"legibility\": 0.95, \"notes\": \"Clear synthetic voice recording; course code pronounced as 'EECS 448'.\"}",
+ "latency_s": 11.004,
+ "usage": {
+  "input": 960,
+  "output": 229,
+  "thought": 678
+ },
+ "error": null
+}
