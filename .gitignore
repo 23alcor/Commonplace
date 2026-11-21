@@ -8,8 +8,10 @@ __pycache__/
 eval/work/
 eval/cases/
 eval/media/
+eval/real/
 # commit only aggregate results
 eval/results/*.jsonl
+eval/results/real/
 private_vault/
 # managed-agent turn logs (may include note titles)
 runs/
