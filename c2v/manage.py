@@ -21,7 +21,7 @@ import re
 from pathlib import Path
 
 from .config import MODEL_IDS
-from .route import NEW, OTHER
+from .route import NEW, OTHER, folder_guide
 from .schemas import Capture, MediaKind, NoteDraft, RoutingDecision, VerifyReport
 from .vault import Vault
 from .verify import ALLOWED_TYPES
@@ -85,7 +85,11 @@ VIDEO_INSTRUCTIONS = f"""This capture is a VIDEO. Write a HUB note:
 
 SYSTEM = """You are the vault manager for an Obsidian vault. You turn one transcribed capture into
 one clean note that fits the vault. Rules:
-- folder MUST be copied exactly from the FOLDERS list.
+- folder MUST be copied exactly from the FOLDERS list. Use the FOLDER GUIDE: decide what kind of note
+  this is, then choose the MOST SPECIFIC folder for it. A short log of one work/study session ("worked on
+  X", what got done, next steps) goes in the sessions folder even if it names a project. Material about a
+  named course or project goes in that course/project's own folder, never its parent/index folder. A note
+  explaining one reusable concept goes in the concepts folder.
 - links MUST be copied exactly from existing note titles (CANDIDATES or NOTES list). Link only notes
   that are genuinely related. Never invent a title.
 - title must not already exist in the vault unless you set merge_into to that note.
@@ -182,6 +186,7 @@ def build_prompt(capture: Capture, routing: RoutingDecision, vault: Vault) -> st
         *([video_context(capture)] if capture.segments else []),
         f"ROUTER (calibrated probabilities):\n{_routing_context(routing)}",
         f"VAULT MAP:\n{vault_map(vault)}",
+        f"FOLDER GUIDE (what belongs in each folder):\n{folder_guide(vault)}",
         f"CANDIDATES (full text of the most related notes):\n{cand_text or '(none)'}",
         "Write the NoteDraft.",
     ])
