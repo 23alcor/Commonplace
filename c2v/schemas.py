@@ -75,7 +75,7 @@ class NoteDraft(BaseModel):
 
 
 class VerifyIssue(BaseModel):
-    code: str  # broken_link | missing_folder | duplicate_title | bad_frontmatter | empty_body
+    code: str  # broken_link | missing_folder | duplicate_title | bad_frontmatter | empty_body | bad_title
     detail: str
 
 

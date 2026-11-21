@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -16,6 +17,18 @@ from .vault import Vault
 
 REQUIRED_FRONTMATTER = ("type", "created")
 ALLOWED_TYPES = {"idea", "task", "meeting", "class", "project-update", "reference", "journal", "other"}
+BAD_TITLE = re.compile(r'[\\/:*?"<>|#^\[\]\x00-\x1f]')
+
+
+def title_problem(title: str) -> str | None:
+    """Why this title can't be a note filename, or None. Blocks path traversal (../) and subfolders."""
+    if not title.strip():
+        return "title is empty"
+    if BAD_TITLE.search(title):
+        return f"title '{title}' contains a character not allowed in note filenames"
+    if title.strip(" .") != title:
+        return f"title '{title}' starts or ends with a space or dot"
+    return None
 
 
 def has_escaped_newlines(text: str) -> bool:
@@ -29,6 +42,9 @@ def verify_draft(draft: NoteDraft, vault: Vault) -> VerifyReport:
 
     if draft.folder not in vault.folders:
         issues.append(VerifyIssue(code="missing_folder", detail=f"folder '{draft.folder}' not in vault"))
+
+    if not draft.merge_into and (problem := title_problem(draft.title)):
+        issues.append(VerifyIssue(code="bad_title", detail=problem))
 
     if draft.merge_into:
         if vault.resolve(draft.merge_into) is None:
@@ -77,7 +93,9 @@ def write_draft(draft: NoteDraft, vault: Vault) -> Path:
         with path.open("a", encoding="utf-8") as f:
             f.write(addition)
     else:
-        path = vault.root / draft.folder / f"{draft.title}.md"
+        path = (vault.root / draft.folder / f"{draft.title}.md").resolve()
+        if vault.root not in path.parents:  # defense in depth: never write outside the vault
+            raise ValueError(f"refusing to write outside the vault: {path}")
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(render_markdown(draft), encoding="utf-8")
     vault.reload()
