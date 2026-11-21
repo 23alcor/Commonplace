@@ -1,0 +1,66 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>cards</title>
+<style>
+:root{--bg:#0b0d12;--ink:#e8ebf2;--dim:#8a93a6;--hy:#4fc3f7;--de:#ffb74d;--ne:#ba68c8;--ag:#81c784;--new:#fff176}
+html,body{margin:0;width:1920px;height:1080px;background:var(--bg);color:var(--ink);overflow:hidden;
+font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+.card{position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column}
+.on{display:flex}
+@keyframes up{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes fly{0%{opacity:0;transform:translate(var(--fx),var(--fy)) rotate(var(--r)) scale(.9)}
+ 15%{opacity:1}75%{opacity:1;transform:translate(0,0) rotate(0) scale(.25)}100%{opacity:0;transform:translate(0,0) scale(.05)}}
+@keyframes pop{0%{transform:scale(0)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
+@keyframes grow{from{width:0}}
+h1{font-size:132px;letter-spacing:-.04em;margin:0;font-weight:800;animation:up .9s cubic-bezier(.2,.8,.2,1) both}
+h1 span{color:var(--new)}
+.sub{font-size:40px;color:var(--dim);margin-top:18px;animation:up .9s .35s cubic-bezier(.2,.8,.2,1) both}
+.dots{display:flex;gap:22px;margin-top:56px}
+.dots i{width:22px;height:22px;border-radius:50%;animation:pop .5s cubic-bezier(.2,.8,.2,1) both}
+.thumb{position:absolute;left:50%;top:50%;width:300px;margin:-110px 0 0 -150px;border-radius:14px;
+ box-shadow:0 20px 60px #000a;animation:fly 3.2s cubic-bezier(.5,0,.2,1) both}
+.core{position:absolute;left:50%;top:50%;width:40px;height:40px;margin:-20px;border-radius:50%;background:var(--new);
+ box-shadow:0 0 80px 20px #fff17655;animation:pop .6s 2.6s cubic-bezier(.2,.8,.2,1) both,fade .4s 3.1s reverse forwards}
+#title .text{animation:fade .1s 3.1s both;display:flex;flex-direction:column;align-items:center}
+#title h1{animation-delay:3.1s}#title .sub{animation-delay:3.45s}
+table{border-collapse:collapse;font-size:44px;margin-top:40px;animation:up .8s .3s both}
+td,th{padding:18px 40px;text-align:left}th{color:var(--dim);font-weight:500;font-size:30px}
+tr.us td{color:var(--new);font-weight:700}tr+tr td{border-top:1px solid #262c3a}
+.h2{font-size:64px;font-weight:800;letter-spacing:-.03em;animation:up .8s both}
+.bar{height:16px;border-radius:8px;background:var(--c);animation:grow 1.2s .9s cubic-bezier(.2,.8,.2,1) both}
+.note{font-size:26px;color:var(--dim);margin-top:30px;animation:fade 1s 1.4s both}
+.roles{display:grid;grid-template-columns:repeat(4,auto);gap:16px 60px;margin-top:60px;font-size:34px}
+.roles div{animation:up .6s both}.roles b{display:block;font-size:24px;color:var(--dim);font-weight:500}
+.url{margin-top:70px;font-size:36px;color:var(--dim);animation:fade 1s 1.6s both}
+</style></head>
+<body>
+<div class="card" id="title">
+  <img class="thumb" src="t1.jpg" style="--fx:-760px;--fy:-330px;--r:-12deg;animation-delay:0s">
+  <img class="thumb" src="t2.jpg" style="--fx:700px;--fy:-300px;--r:10deg;animation-delay:.35s">
+  <img class="thumb" src="t3.jpg" style="--fx:-700px;--fy:320px;--r:8deg;animation-delay:.7s">
+  <img class="thumb" src="t4.jpg" style="--fx:740px;--fy:330px;--r:-9deg;animation-delay:1.05s">
+  <div class="core"></div>
+  <div class="text"><h1>capture <span>→</span> vault</h1>
+  <div class="sub">messy media in, a filed and linked note out</div></div>
+</div>
+<div class="card" id="results">
+  <div class="h2">Held-out notes, re-captured as noisy media</div>
+  <table>
+    <tr><th></th><th>Folder accuracy</th><th>Link F1</th><th>Verify pass</th></tr>
+    <tr><td>Single-call baseline</td><td>__B_FOLDER__</td><td>__B_LINK__</td><td>__B_VERIFY__</td></tr>
+    <tr class="us"><td>capture → vault</td><td>__P_FOLDER__</td><td>__P_LINK__</td><td>__P_VERIFY__</td></tr>
+  </table>
+  <div class="note">__NOTE__</div>
+</div>
+<div class="card" id="end">
+  <div class="h2">One model, one job.</div>
+  <div class="roles">
+    <div style="color:var(--hy);animation-delay:.3s"><b>transcriber</b>Hydrogen</div>
+    <div style="color:var(--de);animation-delay:.5s"><b>router</b>Decision 1</div>
+    <div style="color:var(--ne);animation-delay:.7s"><b>vault manager</b>Neon</div>
+    <div style="color:var(--ag);animation-delay:.9s"><b>verifier</b>Managed Agent</div>
+  </div>
+  <div class="url">github.com/23alcor/Commonplace</div>
+</div>
+<script>document.getElementById(location.hash.slice(1)||'title').classList.add('on')</script>
+</body></html>
