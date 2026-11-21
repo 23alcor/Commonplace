@@ -65,6 +65,9 @@ def _work(job: Job, path: Path, agent_verify: bool) -> None:
 _SAFE = re.compile(r"[^A-Za-z0-9._-]+")
 
 
+latest: dict[str, str | None] = {"job": None}
+
+
 @app.post("/capture")
 async def capture(file: UploadFile = File(...), agent_verify: bool = Form(True)):
     job = Job()
@@ -72,6 +75,7 @@ async def capture(file: UploadFile = File(...), agent_verify: bool = Form(True))
     dest = UPLOADS / f"{job.id}-{name}"
     dest.write_bytes(await file.read())
     jobs[job.id] = {"job": job}
+    latest["job"] = job.id
     threading.Thread(target=_work, args=(job, dest, agent_verify), daemon=True).start()
     return {"job": job.id}
 
@@ -115,6 +119,40 @@ def note(path: str | None = None, title: str | None = None):
     fm, body = split_frontmatter(text)
     return {"path": path, "title": p.stem, "frontmatter": fm, "markdown": text,
             "html": render_note(body, vault)}
+
+
+@app.get("/graph")
+def graph():
+    """Vault as nodes + edges for the stage view."""
+    vault.reload()
+    nodes = [{"id": t, "folder": n.folder, "type": str(n.frontmatter.get("type", ""))}
+             for t, n in vault.notes.items()]
+    edges = []
+    for t, n in vault.notes.items():
+        for link in n.links:
+            r = vault.resolve(link)
+            if r and r != t:
+                edges.append({"source": t, "target": r})
+    return {"nodes": nodes, "edges": edges}
+
+
+@app.get("/jobs/latest")
+def latest_job():
+    """Lets the stage screen follow captures taken on a phone."""
+    return {"job": latest["job"]}
+
+
+@app.get("/stage")
+def stage():
+    return FileResponse(STATIC / "stage.html")
+
+
+@app.get("/static/{name}")
+def static_file(name: str):
+    p = (STATIC / name).resolve()
+    if p.parent != STATIC.resolve() or not p.exists():
+        raise HTTPException(404)
+    return FileResponse(p)
 
 
 @app.get("/health")
