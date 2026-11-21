@@ -11,3 +11,5 @@ eval/media/
 # commit only aggregate results
 eval/results/*.jsonl
 private_vault/
+# managed-agent turn logs (may include note titles)
+runs/

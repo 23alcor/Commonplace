@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Capture to Vault</title>
+<script src="/static/d3.min.js"></script>
+<style>
+:root{--bg:#0b0d12;--panel:#141821;--line:#262c3a;--ink:#e8ebf2;--dim:#8a93a6;
+--hy:#4fc3f7;--de:#ffb74d;--ne:#ba68c8;--ag:#81c784;--bad:#ef5350;--new:#fff176}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);
+font:16px/1.4 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden}
+#wrap{display:grid;grid-template-columns:1fr 440px;height:100vh}
+#graph{position:relative}
+#graph svg{width:100%;height:100%}
+#title{position:absolute;top:18px;left:24px}
+#title h1{margin:0;font-size:28px;letter-spacing:-.02em}
+#title p{margin:2px 0 0;color:var(--dim)}
+#legend{position:absolute;bottom:18px;left:24px;background:#0b0d12cc;padding:6px 10px;border-radius:8px;color:var(--dim);font-size:13px;display:flex;gap:14px;flex-wrap:wrap}
+#legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+aside{background:var(--panel);border-left:1px solid var(--line);padding:22px;display:flex;flex-direction:column;gap:12px;overflow:auto}
+.step{border:1px solid var(--line);border-radius:12px;padding:12px 14px;opacity:.35;transition:all .3s}
+.step.on{opacity:1;border-color:var(--c);box-shadow:0 0 0 1px var(--c),0 0 24px -6px var(--c)}
+.step.done{opacity:1}
+.step .h{display:flex;justify-content:space-between;align-items:baseline}
+.step b{color:var(--c);font-size:18px}.step small{color:var(--dim)}
+.step .t{margin-top:6px;font-size:14px;color:#c9cfdb;min-height:1.2em;word-break:break-word}
+.bar{height:8px;background:#222838;border-radius:4px;margin-top:6px;position:relative;overflow:hidden}
+.bar span{position:absolute;inset:0 auto 0 0;background:var(--c);transition:width .6s}
+.bar em{position:absolute;top:-2px;bottom:-2px;width:2px;background:#fff8}
+.checks{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.chk{font-size:12px;padding:2px 8px;border-radius:10px;background:#222838}
+.chk.ok{background:#1f3a24;color:var(--ag)}.chk.no{background:#3a1f1f;color:var(--bad)}
+#result{margin-top:auto;border-top:1px solid var(--line);padding-top:12px;font-size:14px;color:var(--dim)}
+#result strong{color:var(--new);font-size:18px;display:block}
+#idle{color:var(--dim);font-size:14px}
+.pulse{animation:p 1.2s ease-in-out infinite}@keyframes p{50%{opacity:.5}}
+@media (max-width:900px){#wrap{grid-template-columns:1fr;grid-template-rows:55vh auto}body{overflow:auto}}
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="graph">
+    <div id="title"><h1>capture → vault</h1><p id="sub">messy media in, a filed and linked note out</p></div>
+    <div id="legend"></div>
+  </div>
+  <aside>
+    <div id="idle">Waiting for a capture. Snap a photo or record a memo on the capture page.</div>
+    <div class="step" id="s-transcribe" style="--c:var(--hy)"><div class="h"><b>Transcribe</b><small>Gemini 4 Hydrogen</small></div><div class="t"></div></div>
+    <div class="step" id="s-route" style="--c:var(--de)"><div class="h"><b>Route</b><small>Gemini Decision 1</small></div><div class="t"></div>
+      <div class="bars"></div></div>
+    <div class="step" id="s-manage" style="--c:var(--ne)"><div class="h"><b>Manage</b><small>Gemini 4 Neon</small></div><div class="t"></div></div>
+    <div class="step" id="s-verify" style="--c:var(--ag)"><div class="h"><b>Verify</b><small>Managed Agent</small></div><div class="t"></div><div class="checks"></div></div>
+    <div id="result"></div>
+  </aside>
+</div>
+<script>
+const FOLDER_COLORS = d3.scaleOrdinal(["#4fc3f7","#ffb74d","#ba68c8","#81c784","#f06292","#4db6ac","#9575cd","#e57373"]);
+const topFolder = f => (f || "/").split("/")[0];
+const svg = d3.select("#graph").append("svg"), g = svg.append("g");
+svg.call(d3.zoom().scaleExtent([.3,4]).on("zoom", e => g.attr("transform", e.transform)));
+let nodes = [], links = [], sim, linkSel, nodeSel, labelSel;
+const byId = new Map();
+
+function size(){ const r = svg.node().getBoundingClientRect(); return [r.width, r.height]; }
+
+async function loadGraph(){
+  const data = await (await fetch("/graph")).json();
+  const old = new Map(nodes.map(n => [n.id, n]));
+  nodes = data.nodes.map(n => Object.assign(old.get(n.id) || {}, n));
+  byId.clear(); nodes.forEach(n => byId.set(n.id, n));
+  links = data.edges.filter(e => byId.has(e.source) && byId.has(e.target));
+  const deg = d3.rollup(links.flatMap(l => [l.source, l.target]), v => v.length, d => d);
+  nodes.forEach(n => n.r = 4 + Math.sqrt(deg.get(n.id) || 0) * 2.2);
+  const folders = [...new Set(nodes.map(n => topFolder(n.folder)))].sort();
+  d3.select("#legend").html(folders.map(f => `<span><i style="background:${FOLDER_COLORS(f)}"></i>${f}</span>`).join(""));
+  draw();
+}
+
+function draw(){
+  const [w,h] = size();
+  linkSel = g.selectAll("line").data(links, d => (d.source.id||d.source)+">"+(d.target.id||d.target))
+    .join(enter => enter.insert("line", "circle").attr("stroke", "#2c3446").attr("stroke-width", 1));
+  nodeSel = g.selectAll("circle").data(nodes, d => d.id)
+    .join(enter => enter.append("circle").attr("stroke", "#0b0d12").attr("stroke-width", 1.5)
+      .call(d3.drag().on("start", (e,d) => { if(!e.active) sim.alphaTarget(.3).restart(); d.fx=d.x; d.fy=d.y; })
+        .on("drag", (e,d) => { d.fx=e.x; d.fy=e.y; })
+        .on("end", (e,d) => { if(!e.active) sim.alphaTarget(0); d.fx=d.fy=null; })))
+    .attr("r", d => d.r).attr("fill", d => d.isNew ? "var(--new)" : FOLDER_COLORS(topFolder(d.folder)));
+  labelSel = g.selectAll("text").data(nodes.filter(n => ["course","project","hub","home"].includes(n.type) || n.isNew || n.hot), d => d.id)
+    .join("text").text(d => d.isNew ? d.id : d.id.replace(/^\d{4}-\d\d-\d\d [^-]+ - /, "")).attr("font-size", d => d.isNew ? 15 : 11)
+    .attr("fill", d => d.isNew ? "var(--new)" : "#aab3c5").attr("dx", d => d.r + 3).attr("dy", 4)
+    .style("pointer-events","none").style("font-weight", d => d.isNew ? 700 : 400);
+  sim = (sim || d3.forceSimulation()).nodes(nodes)
+    .force("link", d3.forceLink(links).id(d => d.id).distance(45).strength(.4))
+    .force("charge", d3.forceManyBody().strength(-90))
+    .force("center", d3.forceCenter(w/2 - 20, h/2))
+    .force("collide", d3.forceCollide(d => d.r + 3))
+    .on("tick", () => {
+      linkSel.attr("x1", d=>d.source.x).attr("y1", d=>d.source.y).attr("x2", d=>d.target.x).attr("y2", d=>d.target.y);
+      nodeSel.attr("cx", d=>d.x).attr("cy", d=>d.y);
+      labelSel.attr("x", d=>d.x).attr("y", d=>d.y);
+    });
+  sim.alpha(.6).restart();
+}
+
+function highlight(titles, color){
+  const set = new Set(titles);
+  nodes.forEach(n => n.hot = set.has(n.id));
+  g.selectAll("circle").transition().duration(400)
+    .attr("opacity", d => !set.size || set.has(d.id) || d.isNew ? 1 : .25)
+    .attr("stroke", d => set.has(d.id) ? color : "#0b0d12").attr("stroke-width", d => set.has(d.id) ? 3 : 1.5);
+  g.selectAll("line").transition().duration(400).attr("opacity", set.size ? .2 : 1);
+  draw();
+}
+
+function addDraftNode(draft){
+  // preview the new note before it is written: a glowing node pulled toward its links
+  const id = draft.title, [w,h] = size();
+  if (!byId.has(id)) { const n = {id, folder: draft.folder, isNew: true, r: 13, x: w-80, y: 60}; nodes.push(n); byId.set(id, n); }
+  for (const l of draft.links || []) if (byId.has(l)) links.push({source: id, target: l});
+  draw();
+  g.selectAll("line").filter(d => d.source.id === id).attr("stroke", "var(--new)").attr("stroke-width", 2.5).attr("opacity", 1);
+}
+
+// ---- live pipeline -------------------------------------------------------------
+const el = id => document.getElementById(id);
+function reset(){
+  document.querySelectorAll(".step").forEach(s => { s.className = "step"; s.querySelector(".t").textContent = ""; });
+  el("s-route").querySelector(".bars").innerHTML = ""; el("s-verify").querySelector(".checks").innerHTML = "";
+  el("result").innerHTML = ""; el("idle").style.display = "none";
+  nodes = nodes.filter(n => !n.isNew); highlight([], "");
+}
+const STEP = {transcribe:"s-transcribe", route:"s-route", manage:"s-manage", verify:"s-verify", agent:"s-verify", repair:"s-manage"};
+
+function onStep(ev){
+  const box = el(STEP[ev.step] || ""), t = box && box.querySelector(".t");
+  if (box) {
+    if (ev.status === "start") { document.querySelectorAll(".step.on").forEach(s => s.classList.replace("on","done")); box.className = "step on pulse"; }
+    if (ev.status === "done" || ev.status === "warn") box.className = "step on";
+    if (ev.text) t.textContent = ev.text;
+  }
+  if (ev.step === "transcribe" && ev.capture) {
+    const terms = (ev.capture.key_terms || []).join(", ");
+    t.textContent = `“${(ev.capture.transcript || "").slice(0, 140)}…”` + (terms ? `  ·  ${terms}` : "");
+  }
+  if (ev.step === "route" && ev.routing) {
+    const r = ev.routing, rows = [["type", r.note_type], ["folder", r.folder]];
+    if (r.merge) rows.push(["merge", r.merge]);
+    box.querySelector(".bars").innerHTML = rows.map(([k, a]) => `<div style="margin-top:8px;font-size:13px">${k}: <b style="color:#fff;font-size:13px">${a.choice}</b> ${(a.confidence*100).toFixed(0)}%</div>
+      <div class="bar"><span style="width:${a.confidence*100}%"></span><em style="left:75%"></em></div>`).join("")
+      + (r.escalate ? `<div style="margin-top:8px;color:var(--de);font-size:13px">below threshold → escalate to Neon</div>` : "");
+    highlight(nodes.filter(n => n.folder === r.folder.choice).map(n => n.id), "var(--de)");
+  }
+  if (ev.step === "manage" && ev.draft) { highlight(ev.draft.links || [], "var(--ne)"); addDraftNode(ev.draft); }
+  if ((ev.step === "verify" || ev.step === "agent" || ev.step === "repair") && ev.report) {
+    const issues = ev.report.issues || [];
+    box.querySelector(".checks").innerHTML = issues.length
+      ? issues.map(i => `<span class="chk no">✗ ${i.code || i.check || i.message || i}</span>`).join("")
+      : `<span class="chk ok">✓ links resolve</span><span class="chk ok">✓ frontmatter</span><span class="chk ok">✓ no duplicate</span><span class="chk ok">✓ folder exists</span>`;
+  }
+  if (ev.step === "write" && ev.status === "done") {
+    document.querySelectorAll(".step").forEach(s => s.className = "step done");
+    el("result").innerHTML = `<strong>Filed ✓</strong>${ev.path}`;
+  }
+  if (ev.step === "result" && ev.latency_s) el("result").innerHTML += `<div>${ev.text} · ${ev.latency_s}s</div>`;
+  if (ev.status === "error") el("result").innerHTML = `<strong style="color:var(--bad)">${ev.text}</strong>`;
+}
+
+let watching = null;
+function follow(job){
+  if (job === watching) return; watching = job; reset();
+  const es = new EventSource(`/events/${job}`);
+  es.addEventListener("step", m => onStep(JSON.parse(m.data)));
+  es.addEventListener("end", () => { es.close(); setTimeout(async () => { await loadGraph(); highlight([], ""); }, 1500); });
+}
+async function poll(){
+  try { const {job} = await (await fetch("/jobs/latest")).json(); if (job) follow(job); } catch {}
+  setTimeout(poll, 1000);
+}
+const q = new URLSearchParams(location.search).get("job");
+loadGraph().then(() => q ? follow(q) : poll());
+window.addEventListener("resize", () => sim && sim.force("center", d3.forceCenter(size()[0]/2 - 20, size()[1]/2)).alpha(.3).restart());
+</script>
+</body>
+</html>
