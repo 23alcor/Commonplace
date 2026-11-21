@@ -56,6 +56,8 @@ one clean note that fits the vault. Rules:
   that are genuinely related. Never invent a title.
 - title must not already exist in the vault unless you set merge_into to that note.
 - merge_into: an existing note title only when this capture is an update to that exact note; else "".
+  A merged body is appended under an "## Update" heading, so start it with a dated line, not a heading,
+  and use ### for any sub-headings.
 - frontmatter.type is one of: """ + ", ".join(sorted(ALLOWED_TYPES)) + """.
 - body: clean markdown. Keep the transcript's facts, names and numbers; fix obvious transcription
   noise; turn action items into "- [ ]" checkboxes. Do not add a Related/links section (added later).
@@ -164,7 +166,6 @@ def _neon(input_, client, previous_id: str | None = None):
         system_instruction=SYSTEM,
         generation_config={"thinking_level": "medium"},
         response_format={"type": "text", "mime_type": "application/json", "schema": DRAFT_SCHEMA},
-        response_mime_type="application/json",
     )
     if previous_id:
         kw["previous_interaction_id"] = previous_id

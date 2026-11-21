@@ -33,6 +33,7 @@ INLINE_MAX_BYTES = 15 * 1024 * 1024  # above this, go through the Files API
 PROMPT = """You transcribe a personal capture (voice memo, whiteboard photo, handwritten page,
 screenshot, PDF or short video) for an Obsidian vault. Be faithful: write what is actually said or
 shown, keep names/course codes/project names exactly, mark unreadable parts as [illegible].
+Keep the original layout in the transcript: one line per written line or spoken sentence, using \n.
 Return: transcript, summary (1-3 sentences), key_terms, action_items, legibility (0-1), notes.
 legibility is your honest read of input quality: 1.0 = crisp and complete, 0.5 = you guessed at a
 lot, below 0.3 = mostly unreadable or inaudible."""
@@ -104,6 +105,5 @@ def transcribe(path: str | Path, client=None) -> Capture:
         input=[{"type": "text", "text": PROMPT}, media_part(path, client)],
         generation_config={"thinking_level": "low"},
         response_format={"type": "text", "mime_type": "application/json", "schema": CAPTURE_SCHEMA},
-        response_mime_type="application/json",
     )
     return parse_capture(r.output_text, path, kind)
